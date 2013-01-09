@@ -23,8 +23,20 @@ public class MainActivity extends Activity {
         
         
         
-        Button btn_RandomRecord = (Button) findViewById(R.id.btn_RandomRecord);
+        Button btn_RandomRecord = (Button) findViewById(R.id.btn_random_record);
+        Button btn_soundBattle = (Button) findViewById(R.id.btn_sound_battle);
+        
         btn_RandomRecord.setOnClickListener(new OnClickListener() {
+        	
+        	@Override
+        	public void onClick(View arg0){
+//        		onPause();
+        		Intent i = new Intent(getApplicationContext(), RandomRecordActivity.class);
+        		startActivity(i);
+        	}
+        });
+        
+        btn_soundBattle.setOnClickListener(new OnClickListener() {
         	
         	@Override
         	public void onClick(View arg0){

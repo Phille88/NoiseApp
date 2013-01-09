@@ -4,7 +4,11 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">NoiseApp</string>
     <string name="txt_btn_RandomRecord">Random Record</string>
-    <string name="txt_randomRecordFunction">Select for Random Record</string>
+    <string name="txt_content_random_record">Select for Random Record</string>
     <string name="title_activity_random_record">Random Record</string>
+    <string name="txt_btn_random_record">Random Record</string>
+    <string name="txt_content_sound_battle">Select for Sound Battle</string>
+    <string name="title_activity_sound_battle">Sound Battle</string>
+    <string name="txt_btn_sound_battle">Sound Battle</string>
 
 </resources>

@@ -19,6 +19,7 @@ public class RandomRecordActivity extends Activity {
 		actionBar.setTitle(R.string.title_activity_random_record);
 	}
 
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intentHome = new Intent(this, MainActivity.class);
 		switch (item.getItemId()) {

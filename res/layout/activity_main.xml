@@ -1,15 +1,33 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent" >
 
    <Button
-       android:id="@+id/btn_RandomRecord"
+       android:id="@+id/btn_random_record"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:background="@drawable/template"
-       android:contentDescription="@string/txt_randomRecordFunction"
-       android:text="Random Record"
+       android:layout_gravity="center_vertical|center_horizontal"
+       android:layout_margin="10dp"
+       android:layout_weight="300"
+       android:background="@drawable/img_btn_random_record_states"
+       android:contentDescription="@string/txt_content_random_record"
+       android:text="@string/txt_btn_random_record"
        android:textStyle="bold" />
 
-</RelativeLayout>
+<!--         -->
+
+   <Button
+       android:id="@+id/btn_sound_battle"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center_vertical|center_horizontal"
+       android:layout_margin="10dp"
+       android:layout_weight="500"
+       android:background="@drawable/img_btn_sound_battle_states"
+       android:contentDescription="@string/txt_content_sound_battle"
+       android:text="@string/txt_btn_sound_battle"
+       android:textStyle="bold" />
+
+</LinearLayout>
