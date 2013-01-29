@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
@@ -15,8 +16,6 @@
        android:contentDescription="@string/txt_content_random_record"
        android:text="@string/txt_btn_random_record"
        android:textStyle="bold" />
-
-<!--         -->
 
    <Button
        android:id="@+id/btn_sound_battle"
