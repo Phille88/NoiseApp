@@ -10,5 +10,6 @@
     <string name="txt_content_sound_battle">Select for Sound Battle</string>
     <string name="title_activity_sound_battle">Sound Battle</string>
     <string name="txt_btn_sound_battle">Sound Battle</string>
+    <string name="txt_map_not_ready">Map is not ready yet.</string>
 
 </resources>
