@@ -15,7 +15,8 @@
        android:background="@drawable/img_btn_random_record_states"
        android:contentDescription="@string/txt_content_random_record"
        android:text="@string/txt_btn_random_record"
-       android:textStyle="bold" />
+       android:textStyle="bold" 
+       android:textColor="#000000"/>
 
    <Button
        android:id="@+id/btn_sound_battle"
@@ -27,6 +28,7 @@
        android:background="@drawable/img_btn_sound_battle_states"
        android:contentDescription="@string/txt_content_sound_battle"
        android:text="@string/txt_btn_sound_battle"
-       android:textStyle="bold" />
+       android:textStyle="bold" 
+       android:textColor="#000000" />
 
 </LinearLayout>

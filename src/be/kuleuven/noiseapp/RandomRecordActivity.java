@@ -2,15 +2,24 @@ package be.kuleuven.noiseapp;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.NavUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -28,16 +37,26 @@ public class RandomRecordActivity extends
 	private LocationManager locationManager;
     private String provider;
 	private LatLng currentCoordinate;
+	
+	Button btn_record;
+	
+	ProgressDialog progressBar;
+	private int progressBarStatus = 0;
+	private Handler progressBarHandler = new Handler();
 
 	@TargetApi(17)
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_random_record);
+		
+		setupActionBar();
+		
+		addListenerToRecordButton();
+				
+		
+		//map initialization
 		setUpMapIfNeeded();
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setTitle(R.string.title_activity_random_record);
 		LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
         boolean enabledGPS = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
        // boolean enabledWiFi = service.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -66,20 +85,146 @@ public class RandomRecordActivity extends
         }
 	}
 
+	/**
+	 * Set up the {@link android.app.ActionBar}, if the API is available.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setupActionBar() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+			getActionBar().setTitle(R.string.title_activity_random_record);
+		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		//getMenuInflater().inflate(R.menu.random_record_points, menu);
+		return true;
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intentHome = new Intent(this, MainActivity.class);
 		switch (item.getItemId()) {
-
 		case android.R.id.home:
-			// app icon in action bar clicked; go home
-			this.finish();
-			startActivity(intentHome);
+			// This ID represents the Home or Up button. In the case of this
+			// activity, the Up button is shown. Use NavUtils to allow users
+			// to navigate up one level in the application structure. For
+			// more details, see the Navigation pattern on Android Design:
+			//
+			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+			//
+			Intent homeIntent = new Intent(this, MainActivity.class);
+			NavUtils.navigateUpTo(this, homeIntent);
 			return true;
-
-		default:
-			return super.onOptionsItemSelected(item);
 		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	public void addListenerToRecordButton() {
+		btn_record = (Button) findViewById(R.id.btn_record);
+		btn_record.setOnClickListener(new OnClickListener() {
+			
+			private Thread t;
+
+			@Override
+			public void onClick(View v) {	
+			
+				//prepare for a progress bar dialog
+				progressBar = new ProgressDialog(v.getContext()){
+					@Override
+					public void onBackPressed(){
+						this.dismiss();
+						t.interrupt();
+						t = null;
+						return;
+					}
+				};
+				progressBar.setCancelable(true);
+				progressBar.setMessage("Recording...");
+				progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				progressBar.setProgress(0);
+				progressBar.setMax(100);
+				progressBar.show();
+
+				//reset progress bar status
+				progressBarStatus = 0;
+				
+				//create the progress dialog thread
+				t = new Thread(new Runnable() {
+					
+					public void run() {
+						Thread thisThread = Thread.currentThread();
+						while (progressBarStatus < 100 && thisThread == t) {
+
+							// process some tasks
+							progressBarStatus = doSomeTasks();
+
+							// comp is too fast, sleep 1 second
+							try {
+								Thread.sleep(1000);
+
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+								progressBarStatus = 0;
+							}
+
+							// Update the progress bar
+							progressBarHandler.post(new Runnable() {
+								public void run() {
+									progressBar.setProgress(progressBarStatus);
+								}
+							});
+						}
+
+						// ok, task is done
+						if (progressBarStatus >= 100) {
+
+							// sleep 2 seconds, so that you can see the 100%
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+
+							// close the progress bar dialog
+							progressBar.dismiss();
+							Thread.currentThread().interrupt();
+							Intent i = new Intent(getApplicationContext(),
+									RandomRecordPointsActivity.class);
+							startActivity(i);
+						}
+					}
+				});
+	t.start();
+			}
+		});
+		
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private int doSomeTasks() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e){
+			e.printStackTrace();
+		}
+		 switch (progressBarStatus) {
+		 case 0: return 10;
+		 case 10: return 20;
+		 case 20: return 30;
+		 case 30: return 40;
+		 case 40: return 50;
+		 case 50: return 60;
+		 case 60: return 70;
+		 case 70: return 80;
+		 case 80: return 90;
+		 case 90: return 100;
+		 }
+		 return 100;
 	}
 
 	@Override

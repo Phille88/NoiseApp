@@ -1,6 +1,7 @@
 package be.kuleuven.noiseapp;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,10 +10,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class MainActivity extends android.support.v4.app.FragmentActivity {
-
+public class MainActivity extends Activity {
 	public MainActivity() {
-
 	}
 
 	@Override
@@ -54,10 +53,10 @@ public class MainActivity extends android.support.v4.app.FragmentActivity {
 		// inflater.inflate(R.menu.activity_main, menu);
 		super.onCreateOptionsMenu(menu);
 		MenuItem profile = menu.add(0, 1, 0, "Profile"); // groupID,itemID,order,title
-		profile.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		profile.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		profile.setIcon(R.drawable.social_person);
 		MenuItem map = menu.add(0, 2, 1, "Map");
-		map.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		map.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		map.setIcon(R.drawable.location_map);
 		return true;
 	}
