@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class SoundBattleActivity extends Activity {
 
@@ -16,6 +19,23 @@ public class SoundBattleActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sound_battle);
 		setupActionBar();
+		
+		Button btn_FacebookFriend = (Button) findViewById(R.id.btn_challenge_facebook_friend);
+		btn_FacebookFriend.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+			}
+		});
+		
+
+		Button btn_Random = (Button) findViewById(R.id.btn_challenge_random);
+		btn_Random.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(),SoundBattleRecordActivity.class);
+				startActivity(i);
+			}
+		});
 	}
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)

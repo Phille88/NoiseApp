@@ -5,7 +5,7 @@
     <string name="app_name">NoiseApp</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">NoiseApp</string>
-    
+
     <!-- Random Record Activity -->
     <string name="txt_btn_RandomRecord">Random Record</string>
     <string name="txt_content_random_record">Select for Random Record</string>
@@ -14,7 +14,7 @@
     <string name="txt_map_not_ready">Map is not ready yet.</string>
     <string name="txt_content_record">Push this button to record a sound.</string>
     <string name="action_settings">Settings</string>
-    
+
     <!-- Random Record Points Screen -->
     <string name="txt_well_done">Well done! You\'ve earned:</string>
     <string name="txt_example_newbie_badge">Newbie badge</string>
@@ -22,19 +22,32 @@
     <string name="txt_example_first_of_friends">First of your friends to be here</string>
     <string name="txt_example_quality">Quality was OK!</string>
     <string name="txt_example_total">Total:</string>
-    <string name="title_activity_random_record_points">Points</string>
+    <string name="txt_example_newbie_badge_points">+5</string>
+    <string name="txt_example_first_time_street_points">+3</string>
+    <string name="txt_example_first_of_friends_points">+2</string>
+    <string name="txt_example_quality_points">+2</string>
+    <string name="txt_example_total_points">+12</string>
+    <string name="title_activity_random_record_points">Random Record</string>
     <string name="txt_btn_share_on_facebook">Share on Facebook</string>
     <string name="txt_content_share_on_facebook">Share on Facebook</string>
-    
+
     <!-- Badge names -->
     <string name="txt_badge_newbie">Newbie</string>
     <string name="txt_content_badge_newbie">Newbie badge</string>
-    
+
     <!-- Sound Battle Activity -->
     <string name="txt_content_sound_battle">Select for Sound Battle</string>
     <string name="title_activity_sound_battle">Sound Battle</string>
     <string name="txt_btn_sound_battle">Sound Battle</string>
-    
+    <!-- - Who to challenge -->
+    <string name="txt_challenge">Who would you like to challenge?</string>
+    <string name="txt_btn_challenge_facebook_friend">Facebook Friend</string>
+    <string name="txt_content_challenge_facebook_friend">Challenge a Facebook Friend.</string>
+    <string name="txt_btn_challenge_random">Random Person</string>
+    <string name="txt_content_challenge_random">Challenge a random person.</string>
+    <!-- - Sound Battle Record Activity -->
+    <string name="title_activity_sound_battle_record">Sound Battle</string>
+
     <!-- Hello World -->
     <string name="hello_world">Hello, World!</string>
 

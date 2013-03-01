@@ -1,13 +1,9 @@
 package be.kuleuven.noiseapp;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -31,20 +27,24 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class RandomRecordActivity extends
 		android.support.v4.app.FragmentActivity implements LocationListener {
+	
+	//fields for Google Maps API
 	private GoogleMap mMap;
 	private UiSettings mUiSettings;
 	
+	//fields for Android location
 	private LocationManager locationManager;
-    private String provider;
+    private static String provider;
+    private boolean providerFixed;
 	private LatLng currentCoordinate;
 	
 	Button btn_record;
 	
+	//fields for progress bar
 	ProgressDialog progressBar;
 	private int progressBarStatus = 0;
 	private Handler progressBarHandler = new Handler();
 
-	@TargetApi(17)
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,37 +52,27 @@ public class RandomRecordActivity extends
 		
 		setupActionBar();
 		
-		addListenerToRecordButton();
-				
+		addListenerToRecordButton();	
 		
 		//map initialization
 		setUpMapIfNeeded();
 		LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
         boolean enabledGPS = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
-       // boolean enabledWiFi = service.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        //boolean enabledWiFi = service.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         // Check if enabled and if not send user to the GSP settings
         // Better solution would be to display a dialog and suggesting to 
         // go to the settings
         if (!enabledGPS) {
-            Toast.makeText(this, "GPS signal not found", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please, enable GPS to use this application.", Toast.LENGTH_LONG).show();
         }
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         // Define the criteria how to select the locatioin provider -> use
         // default
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
+        provider = LocationManager.GPS_PROVIDER;
         Location location = locationManager.getLastKnownLocation(provider);
-
-        // Initialize the location fields
-        if (location != null) {
-            Toast.makeText(this, "Selected Provider " + provider, Toast.LENGTH_SHORT).show();
-            onLocationChanged(location);
-        } else {
-
-            //do something
-        }
+        zoomTo(location);
 	}
 
 	/**
@@ -129,74 +119,78 @@ public class RandomRecordActivity extends
 
 			@Override
 			public void onClick(View v) {	
+				if(isProviderFixed()){
 			
-				//prepare for a progress bar dialog
-				progressBar = new ProgressDialog(v.getContext()){
-					@Override
-					public void onBackPressed(){
-						this.dismiss();
-						t.interrupt();
-						t = null;
-						return;
-					}
-				};
-				progressBar.setCancelable(true);
-				progressBar.setMessage("Recording...");
-				progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-				progressBar.setProgress(0);
-				progressBar.setMax(100);
-				progressBar.show();
-
-				//reset progress bar status
-				progressBarStatus = 0;
-				
-				//create the progress dialog thread
-				t = new Thread(new Runnable() {
+					//prepare for a progress bar dialog
+					progressBar = new ProgressDialog(v.getContext()){
+						@Override
+						public void onBackPressed(){
+							this.dismiss();
+							t.interrupt();
+							t = null;
+							return;
+						}
+					};
+					progressBar.setCancelable(true);
+					progressBar.setMessage("Recording...");
+					progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+					progressBar.setProgress(0);
+					progressBar.setMax(100);
+					progressBar.show();
+	
+					//reset progress bar status
+					progressBarStatus = 0;
 					
-					public void run() {
-						Thread thisThread = Thread.currentThread();
-						while (progressBarStatus < 100 && thisThread == t) {
-
-							// process some tasks
-							progressBarStatus = doSomeTasks();
-
-							// comp is too fast, sleep 1 second
-							try {
-								Thread.sleep(1000);
-
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-								progressBarStatus = 0;
-							}
-
-							// Update the progress bar
-							progressBarHandler.post(new Runnable() {
-								public void run() {
-									progressBar.setProgress(progressBarStatus);
+					//create the progress dialog thread
+					t = new Thread(new Runnable() {
+						
+						public void run() {
+							Thread thisThread = Thread.currentThread();
+							while (progressBarStatus < 100 && thisThread == t) {
+	
+								// process some tasks
+								progressBarStatus = doSomeTasks();
+	
+								// comp is too fast, sleep 1 second
+								try {
+									Thread.sleep(1000);
+	
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+									progressBarStatus = 0;
 								}
-							});
-						}
-
-						// ok, task is done
-						if (progressBarStatus >= 100) {
-
-							// sleep 2 seconds, so that you can see the 100%
-							try {
-								Thread.sleep(2000);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
+	
+								// Update the progress bar
+								progressBarHandler.post(new Runnable() {
+									public void run() {
+										progressBar.setProgress(progressBarStatus);
+									}
+								});
 							}
-
-							// close the progress bar dialog
-							progressBar.dismiss();
-							Thread.currentThread().interrupt();
-							Intent i = new Intent(getApplicationContext(),
-									RandomRecordPointsActivity.class);
-							startActivity(i);
+	
+							// ok, task is done
+							if (progressBarStatus >= 100) {
+	
+								// sleep 2 seconds, so that you can see the 100%
+								try {
+									Thread.sleep(2000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+	
+								// close the progress bar dialog
+								progressBar.dismiss();
+								Thread.currentThread().interrupt();
+								Intent i = new Intent(getApplicationContext(),
+										RandomRecordPointsActivity.class);
+								startActivity(i);
+							}
 						}
-					}
-				});
-	t.start();
+					});
+					t.start();
+				}
+				else
+					Toast.makeText(getApplicationContext(), "Wait for the GPS to have a fixed location", Toast.LENGTH_SHORT).show();
 			}
 		});
 		
@@ -230,7 +224,7 @@ public class RandomRecordActivity extends
 	@Override
 	protected void onResume() {
 		super.onResume();
-        locationManager.requestLocationUpdates(provider, 400, 1, this);
+        locationManager.requestLocationUpdates(provider, 400, 3, this);
 		setUpMapIfNeeded();
 	}
 
@@ -372,6 +366,11 @@ public class RandomRecordActivity extends
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
+		setProviderFixed(true);
+		zoomTo(location);
+	}
+
+	private void zoomTo(Location location) {
 		double lat =  location.getLatitude();
         double lng = location.getLongitude();
         currentCoordinate = new LatLng(lat, lng);
@@ -381,8 +380,7 @@ public class RandomRecordActivity extends
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-		
+		setProviderFixed(false);
 	}
 
 	@Override
@@ -393,7 +391,14 @@ public class RandomRecordActivity extends
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
 		
+	}
+
+	public void setProviderFixed(boolean providerFixed) {
+		this.providerFixed = providerFixed;
+	}
+
+	public boolean isProviderFixed() {
+		return providerFixed;
 	}
 }

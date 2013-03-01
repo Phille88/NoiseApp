@@ -1,16 +1,12 @@
 package be.kuleuven.noiseapp;
 
-import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.support.v4.app.NavUtils;
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.os.Build;
 
 public class RandomRecordPointsActivity extends Activity {
 
@@ -21,15 +17,6 @@ public class RandomRecordPointsActivity extends Activity {
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
-		
-		Button btn_RandomRecord = (Button) findViewById(R.id.btn_random_record);
-		btn_RandomRecord.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				
-			}
-		});
 	}
 
 	/**

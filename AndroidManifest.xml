@@ -61,6 +61,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.kuleuven.noiseapp.RandomRecordActivity" />
         </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.SoundBattleRecordActivity"
+            android:label="@string/title_activity_sound_battle_record"
+            android:parentActivityName="be.kuleuven.noiseapp.SoundBattleActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.SoundBattleActivity" />
+        </activity>
     </application>
 
 </manifest>

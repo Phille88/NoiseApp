@@ -65,7 +65,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="+5" />
+                android:text="@string/txt_example_newbie_badge_points" />
         </TableRow>
 
         <TableRow
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="+3" />
+                android:text="@string/txt_example_first_time_street_points" />
         </TableRow>
 
         <TableRow
@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="+2" />
+                android:text="@string/txt_example_first_of_friends_points" />
         </TableRow>
 
         <TableRow
@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="+2" />
+                android:text="@string/txt_example_quality_points" />
         </TableRow>
         
 
@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="+12" 
+                android:text="@string/txt_example_total_points" 
 		        android:textSize="20sp"
 		        android:textStyle="bold"/>
         </TableRow>
