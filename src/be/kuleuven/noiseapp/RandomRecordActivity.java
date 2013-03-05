@@ -1,5 +1,7 @@
 package be.kuleuven.noiseapp;
 
+import java.util.Date;
+
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,10 +25,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
-public class RandomRecordActivity extends
-		android.support.v4.app.FragmentActivity implements LocationListener {
+public class RandomRecordActivity extends android.support.v4.app.FragmentActivity implements LocationListener {
 	
 	//fields for Google Maps API
 	private GoogleMap mMap;
@@ -36,11 +39,17 @@ public class RandomRecordActivity extends
 	private LocationManager locationManager;
     private static String provider;
     private boolean providerFixed;
-	private LatLng currentCoordinate;
+	private Location currentLocation;
+	private static final int THREE_SECONDS = 1000 * 2;
+//	private LatLng currentCoordinate;
+    private float currentZoomLevel = 16;
+	private Date lastTouchTime = new Date(System.currentTimeMillis()-15000);
+	private static Location LEUVEN_CENTER;
 	
-	Button btn_record;
+	private Button btn_record;
 	
 	//fields for progress bar
+//	RecorderDialog recorderDialog = new RecorderDialog();//TODO
 	ProgressDialog progressBar;
 	private int progressBarStatus = 0;
 	private Handler progressBarHandler = new Handler();
@@ -48,7 +57,10 @@ public class RandomRecordActivity extends
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_random_record);
+		setContentView(R.layout.activity_map_record);
+		LEUVEN_CENTER = new Location("GPS");
+	    LEUVEN_CENTER.setLatitude(50.877571);
+		LEUVEN_CENTER.setLongitude(4.704328);
 		
 		setupActionBar();
 		
@@ -71,8 +83,13 @@ public class RandomRecordActivity extends
         // Define the criteria how to select the locatioin provider -> use
         // default
         provider = LocationManager.GPS_PROVIDER;
-        Location location = locationManager.getLastKnownLocation(provider);
-        zoomTo(location);
+//        Location location = locationManager.getLastKnownLocation(provider);
+//        zoomTo(location);
+        currentLocation = locationManager.getLastKnownLocation(provider);
+        if(currentLocation == null)
+        	currentLocation = LEUVEN_CENTER;
+//        initializeBattleLocations();
+        zoomTo(currentLocation);
 	}
 
 	/**
@@ -106,9 +123,23 @@ public class RandomRecordActivity extends
 			//
 			Intent homeIntent = new Intent(this, MainActivity.class);
 			NavUtils.navigateUpTo(this, homeIntent);
+	        locationManager.removeUpdates(this);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		locationManager.removeUpdates(this);
+	}
+	
+	@Override
+	public void onStop(){
+		super.onStop();
+		locationManager.removeUpdates(this);
 	}
 
 	public void addListenerToRecordButton() {
@@ -201,11 +232,11 @@ public class RandomRecordActivity extends
 	 * @return
 	 */
 	private int doSomeTasks() {
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e){
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e){
+//			e.printStackTrace();
+//		}
 		 switch (progressBarStatus) {
 		 case 0: return 10;
 		 case 10: return 20;
@@ -270,6 +301,16 @@ public class RandomRecordActivity extends
 	private void setUpMap() {
 		mMap.setMyLocationEnabled(true);
 		mUiSettings = mMap.getUiSettings();
+		mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
+
+			@Override
+		    public void onCameraChange(CameraPosition pos) {
+		        if (pos.zoom != currentZoomLevel){
+		            currentZoomLevel = pos.zoom;
+		            lastTouchTime = new Date(System.currentTimeMillis());
+		        }
+		    }
+		});
 	}
 
 	/**
@@ -366,16 +407,84 @@ public class RandomRecordActivity extends
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-		setProviderFixed(true);
-		zoomTo(location);
+		if(isBetterLocation(location,currentLocation)){
+			setProviderFixed(true);
+			currentLocation = location;
+//			updateMarkers();
+			if(timeout()){
+				zoomTo(currentLocation);
+			}
+		}
+	}
+	
+	/** Determines whether one Location reading is better than the current Location fix
+	  * @param location  The new Location that you want to evaluate
+	  * @param currentBestLocation  The current Location fix, to which you want to compare the new one
+	  */
+	protected boolean isBetterLocation(Location location, Location currentBestLocation) {
+	    if (currentBestLocation == null) {
+	        // A new location is always better than no location
+	        return true;
+	    }
+
+	    // Check whether the new location fix is newer or older
+	    long timeDelta = location.getTime() - currentBestLocation.getTime();
+	    boolean isSignificantlyNewer = timeDelta > THREE_SECONDS;
+	    boolean isSignificantlyOlder = timeDelta < -THREE_SECONDS;
+	    boolean isNewer = timeDelta > 0;
+
+	    // If it's been more than two minutes since the current location, use the new location
+	    // because the user has likely moved
+	    if (isSignificantlyNewer) {
+	        return true;
+	    // If the new location is more than two minutes older, it must be worse
+	    } else if (isSignificantlyOlder) {
+	        return false;
+	    }
+
+	    // Check whether the new location fix is more or less accurate
+	    int accuracyDelta = (int) (location.getAccuracy() - currentBestLocation.getAccuracy());
+	    boolean isLessAccurate = accuracyDelta > 0;
+	    boolean isMoreAccurate = accuracyDelta < 0;
+	    boolean isSignificantlyLessAccurate = accuracyDelta > 200;
+
+	    // Check if the old and new location are from the same provider
+	    boolean isFromSameProvider = isSameProvider(location.getProvider(),
+	            currentBestLocation.getProvider());
+
+	    // Determine location quality using a combination of timeliness and accuracy
+	    if (isMoreAccurate) {
+	        return true;
+	    } else if (isNewer && !isLessAccurate) {
+	        return true;
+	    } else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
+	        return true;
+	    }
+	    return false;
+	}
+	
+	/** Checks whether two providers are the same */
+	private boolean isSameProvider(String provider1, String provider2) {
+	    if (provider1 == null) {
+	      return provider2 == null;
+	    }
+	    return provider1.equals(provider2);
+	}
+	
+	private boolean timeout() { 
+		Date curDateTime = new Date(System.currentTimeMillis());  
+		return curDateTime.getTime() - lastTouchTime.getTime() >= 15000;
 	}
 
 	private void zoomTo(Location location) {
-		double lat =  location.getLatitude();
+		double lat = location.getLatitude();
         double lng = location.getLongitude();
-        currentCoordinate = new LatLng(lat, lng);
-		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinate, 10));
-		mMap.moveCamera(CameraUpdateFactory.zoomTo(16));
+        LatLng latLng = new LatLng(lat, lng);
+		zoomTo(latLng);
+	}
+	
+	private void zoomTo(LatLng latlng){
+		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, currentZoomLevel));
 	}
 
 	@Override

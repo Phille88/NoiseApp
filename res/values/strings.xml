@@ -4,18 +4,28 @@
     <!-- Main Activity -->
     <string name="app_name">NoiseApp</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">NoiseApp</string>
+    <string name="txt_title_activity_main">NoiseApp</string>
+    <string name="txt_title_menu_profile">Profile</string>
+    <string name="txt_btn_RandomRecord">Random Record</string>
+    <string name="txt_content_random_record">Select to go recording randomly</string>
+    <string name="txt_btn_sound_battle">Sound Battle</string>
+    <string name="txt_content_sound_battle">Select to play the Sound Battle</string>
+    <string name="txt_btn_noise_hunt">Noise Hunt</string>
+    <string name="txt_content_noise_hunt">Select to play the Noise Hunt</string>
+    <string name="txt_btn_sound_checkin">Sound Check-In</string>
+    <string name="txt_content_sound_checkin">Select to check-in</string>
+    <string name="txt_btn_view_map">View Map</string>
+    <string name="txt_content_view_map">Select to view the map</string>
+    <string name="txt_btn_view_profile">View Profile</string>
+    <string name="txt_content_view_profile">Select to view your profile</string>
 
     <!-- Random Record Activity -->
-    <string name="txt_btn_RandomRecord">Random Record</string>
-    <string name="txt_content_random_record">Select for Random Record</string>
     <string name="title_activity_random_record">Random Record</string>
     <string name="txt_btn_random_record">Random Record</string>
     <string name="txt_map_not_ready">Map is not ready yet.</string>
     <string name="txt_content_record">Push this button to record a sound.</string>
     <string name="action_settings">Settings</string>
-
-    <!-- Random Record Points Screen -->
+    <!-- - Random Record Points Activity -->
     <string name="txt_well_done">Well done! You\'ve earned:</string>
     <string name="txt_example_newbie_badge">Newbie badge</string>
     <string name="txt_example_first_time_street">First time in this street</string>
@@ -34,21 +44,46 @@
     <!-- Badge names -->
     <string name="txt_badge_newbie">Newbie</string>
     <string name="txt_content_badge_newbie">Newbie badge</string>
+    <string name="txt_badge_first_sound_battle_description">You\'ve won your first Sound Battle!</string>
+    <string name="txt_badge_first_sound_battle">First Sound Battle Won</string>
+    <string name="txt_content_badge_first_sound_battle">First Sound Battle Won Badge</string>
 
     <!-- Sound Battle Activity -->
-    <string name="txt_content_sound_battle">Select for Sound Battle</string>
     <string name="title_activity_sound_battle">Sound Battle</string>
-    <string name="txt_btn_sound_battle">Sound Battle</string>
     <!-- - Who to challenge -->
     <string name="txt_challenge">Who would you like to challenge?</string>
     <string name="txt_btn_challenge_facebook_friend">Facebook Friend</string>
     <string name="txt_content_challenge_facebook_friend">Challenge a Facebook Friend.</string>
     <string name="txt_btn_challenge_random">Random Person</string>
     <string name="txt_content_challenge_random">Challenge a random person.</string>
+    <!-- - Sound Battle Explanation Popup -->
+    <string name="txt_sound_battle_explanation">On the map 3 locations are pinpointed with markers. It\'s your job to go to these locations and record the sound over there. The closer you get to the location, the more points you score. Also, try to hold your device as still as possible while recording. What are you waiting for?</string>
     <!-- - Sound Battle Record Activity -->
     <string name="title_activity_sound_battle_record">Sound Battle</string>
+    <!-- - Sound Battle Points Activity -->
+    <string name="txt_youve_won">You\'ve won!</string>
+    <string name="txt_sound_quality">Sound quality</string>
+    <string name="txt_sound_quality_help">The sound recorded is being assessed by its quality. To improve quality, the smart phone should be held as still as possible.</string>
+    <string name="txt_sound_quality_score_player">50</string>
+    <string name="txt_sound_quality_score_opponent">150</string>
+    <string name="txt_location_accuracy">Location Accuracy</string>
+    <string name="txt_location_accuracy_help">The closer you get to the asked location, the more points you earn!</string>
+    <string name="txt_location_accuracy_score_player">170</string>
+    <string name="txt_location_accuracy_score_opponent">30</string>
+    <string name="txt_speed">Speed</string>
+    <string name="txt_speed_help">The faster you record all locations, the more points you earn!</string>
+    <string name="txt_speed_score_player">120</string>
+    <string name="txt_speed_score_opponent">80</string>
+    <string name="txt_total">Total</string>
+    <string name="txt_total_score_player">340</string>
+    <string name="txt_total_score_opponent">260</string>
 
     <!-- Hello World -->
     <string name="hello_world">Hello, World!</string>
+    <string name="title_activity_sound_battle_points">SoundBattlePointsActivity</string>
+
+    <!-- General -->
+    <string name="txt_content_ok">Click OK to proceed.</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>

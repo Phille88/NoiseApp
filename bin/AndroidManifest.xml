@@ -38,7 +38,8 @@
 
         <activity
             android:name="be.kuleuven.noiseapp.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/txt_title_activity_main"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,16 +48,19 @@
         </activity>
         <activity
             android:name="be.kuleuven.noiseapp.RandomRecordActivity"
-            android:label="@string/title_activity_random_record" >
+            android:label="@string/title_activity_random_record"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="be.kuleuven.noiseapp.SoundBattleActivity"
-            android:label="@string/title_activity_sound_battle" >
+            android:label="@string/title_activity_sound_battle"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="be.kuleuven.noiseapp.RandomRecordPointsActivity"
             android:label="@string/title_activity_random_record_points"
-            android:parentActivityName="be.kuleuven.noiseapp.RandomRecordActivity" >
+            android:parentActivityName="be.kuleuven.noiseapp.RandomRecordActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.kuleuven.noiseapp.RandomRecordActivity" />
@@ -64,10 +68,24 @@
         <activity
             android:name="be.kuleuven.noiseapp.SoundBattleRecordActivity"
             android:label="@string/title_activity_sound_battle_record"
-            android:parentActivityName="be.kuleuven.noiseapp.SoundBattleActivity" >
+            android:parentActivityName="be.kuleuven.noiseapp.SoundBattleActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.kuleuven.noiseapp.SoundBattleActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.SoundBattlePointsActivity"
+            android:label="@string/title_activity_sound_battle_points"
+            android:parentActivityName="be.kuleuven.noiseapp.SoundBattleRecordActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.SoundBattleRecordActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.maps.MapsActivity"
+            android:label="@string/title_activity_maps" >
         </activity>
     </application>
 

@@ -2,6 +2,7 @@ package be.kuleuven.noiseapp;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -48,7 +49,10 @@ public class RandomRecordPointsActivity extends Activity {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpFromSameTask(this);
+			//NavUtils.navigateUpFromSameTask(this);
+			Intent homeIntent = new Intent(this, MainActivity.class);
+			NavUtils.navigateUpTo(this, homeIntent);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
