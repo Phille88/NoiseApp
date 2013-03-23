@@ -42,6 +42,52 @@ public class MainActivity extends Activity {
 				startActivity(i);
 			}
 		});
+		
+		ImageButton btn_soundCheckin = (ImageButton) findViewById(R.id.btn_sound_checkin);
+		btn_soundCheckin.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(), SoundCheckinActivity.class);
+				startActivity(i);
+			}
+		});
+
+		ImageButton btn_noiseHunt = (ImageButton) findViewById(R.id.btn_noise_hunt);
+		btn_noiseHunt.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// onPause();
+				Intent i = new Intent(getApplicationContext(),
+						NoiseHuntActivity.class);
+				startActivity(i);
+			}
+		});
+
+		ImageButton btn_viewProfile = (ImageButton) findViewById(R.id.btn_view_profile);
+		btn_viewProfile.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// onPause();
+				Intent i = new Intent(getApplicationContext(),
+						ViewProfileTabActivity.class);
+				startActivity(i);
+			}
+		});
+		
+		ImageButton btn_showMap = (ImageButton) findViewById(R.id.btn_show_map);
+		btn_showMap.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// onPause();
+				Intent i = new Intent(getApplicationContext(),
+						ShowMapActivity.class);
+				startActivity(i);
+			}
+		});
 	}
 
 	@TargetApi(14)

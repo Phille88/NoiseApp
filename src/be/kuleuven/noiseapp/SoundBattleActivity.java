@@ -42,7 +42,7 @@ public class SoundBattleActivity extends Activity {
 	private void setupActionBar() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
-			getActionBar().setTitle(R.string.title_activity_sound_battle);
+			getActionBar().setTitle(R.string.txt_sound_battle_name);
 		}
 	}
 	

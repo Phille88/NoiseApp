@@ -16,9 +16,9 @@
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textSize="20sp"
+        android:textSize="@dimen/size_txt_title"
         android:textStyle="bold"
-        android:text="@string/txt_challenge" />
+        android:text="@string/txt_sound_battle_challenge" />
 
     <Button
         android:id="@+id/btn_challenge_facebook_friend"

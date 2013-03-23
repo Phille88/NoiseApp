@@ -136,148 +136,220 @@ containing a value of this type.
          */
         public static final int activity_horizontal_margin=0x7f060000;
         public static final int activity_vertical_margin=0x7f060001;
+        public static final int size_txt_btn_hunt=0x7f060003;
         public static final int size_txt_btn_main=0x7f060002;
-        public static final int size_txt_btn_ok=0x7f060003;
-        public static final int size_txt_popup_text=0x7f060005;
-        public static final int size_txt_popup_title=0x7f060004;
+        public static final int size_txt_btn_ok=0x7f060004;
+        public static final int size_txt_normal=0x7f060007;
+        public static final int size_txt_popup_text=0x7f060006;
+        public static final int size_txt_popup_title=0x7f060005;
+        public static final int size_txt_title=0x7f060008;
+        public static final int size_txt_username=0x7f060009;
     }
     public static final class drawable {
         public static final int ic_action_search=0x7f020000;
         public static final int ic_launcher=0x7f020001;
         public static final int img_badge_first_sound_battle=0x7f020002;
         public static final int img_badge_newbie=0x7f020003;
-        public static final int img_btn_challenge_facebook_friend=0x7f020004;
-        public static final int img_btn_challenge_facebook_friend_clicked=0x7f020005;
-        public static final int img_btn_challenge_facebook_friend_states=0x7f020006;
-        public static final int img_btn_challenge_random=0x7f020007;
-        public static final int img_btn_challenge_random_clicked=0x7f020008;
-        public static final int img_btn_challenge_random_states=0x7f020009;
-        public static final int img_btn_noise_hunt=0x7f02000a;
-        public static final int img_btn_noise_hunt_clicked=0x7f02000b;
-        public static final int img_btn_noise_hunt_states=0x7f02000c;
-        public static final int img_btn_ok=0x7f02000d;
-        public static final int img_btn_ok_clicked=0x7f02000e;
-        public static final int img_btn_ok_states=0x7f02000f;
-        public static final int img_btn_random_record=0x7f020010;
-        public static final int img_btn_random_record_clicked=0x7f020011;
-        public static final int img_btn_random_record_states=0x7f020012;
-        public static final int img_btn_record=0x7f020013;
-        public static final int img_btn_record_clicked=0x7f020014;
-        public static final int img_btn_record_states=0x7f020015;
-        public static final int img_btn_share_on_facebook=0x7f020016;
-        public static final int img_btn_share_on_facebook_clicked=0x7f020017;
-        public static final int img_btn_share_on_facebook_states=0x7f020018;
-        public static final int img_btn_sound_battle=0x7f020019;
-        public static final int img_btn_sound_battle_clicked=0x7f02001a;
-        public static final int img_btn_sound_battle_states=0x7f02001b;
-        public static final int img_btn_sound_checkin=0x7f02001c;
-        public static final int img_btn_sound_checkin_clicked=0x7f02001d;
-        public static final int img_btn_sound_checkin_states=0x7f02001e;
-        public static final int img_btn_view_map=0x7f02001f;
-        public static final int img_btn_view_map_clicked=0x7f020020;
-        public static final int img_btn_view_map_states=0x7f020021;
-        public static final int img_btn_view_profile=0x7f020022;
-        public static final int img_btn_view_profile_clicked=0x7f020023;
-        public static final int img_btn_view_profile_states=0x7f020024;
-        public static final int img_score_opponent=0x7f020025;
-        public static final int img_score_player=0x7f020026;
-        public static final int location_map=0x7f020027;
-        public static final int recorder=0x7f020028;
-        public static final int social_person=0x7f020029;
+        public static final int img_btn_badges=0x7f020004;
+        public static final int img_btn_badges_clicked=0x7f020005;
+        public static final int img_btn_badges_states=0x7f020006;
+        public static final int img_btn_challenge_facebook_friend=0x7f020007;
+        public static final int img_btn_challenge_facebook_friend_clicked=0x7f020008;
+        public static final int img_btn_challenge_facebook_friend_states=0x7f020009;
+        public static final int img_btn_challenge_random=0x7f02000a;
+        public static final int img_btn_challenge_random_clicked=0x7f02000b;
+        public static final int img_btn_challenge_random_states=0x7f02000c;
+        public static final int img_btn_go=0x7f02000d;
+        public static final int img_btn_go_clicked=0x7f02000e;
+        public static final int img_btn_go_states=0x7f02000f;
+        public static final int img_btn_hunt_active=0x7f020010;
+        public static final int img_btn_hunt_done=0x7f020011;
+        public static final int img_btn_hunt_inactive=0x7f020012;
+        public static final int img_btn_noise_hunt=0x7f020013;
+        public static final int img_btn_noise_hunt_clicked=0x7f020014;
+        public static final int img_btn_noise_hunt_states=0x7f020015;
+        public static final int img_btn_ok=0x7f020016;
+        public static final int img_btn_ok_clicked=0x7f020017;
+        public static final int img_btn_ok_states=0x7f020018;
+        public static final int img_btn_random_record=0x7f020019;
+        public static final int img_btn_random_record_clicked=0x7f02001a;
+        public static final int img_btn_random_record_states=0x7f02001b;
+        public static final int img_btn_record=0x7f02001c;
+        public static final int img_btn_record_clicked=0x7f02001d;
+        public static final int img_btn_record_states=0x7f02001e;
+        public static final int img_btn_share_on_facebook=0x7f02001f;
+        public static final int img_btn_share_on_facebook_clicked=0x7f020020;
+        public static final int img_btn_share_on_facebook_states=0x7f020021;
+        public static final int img_btn_show_map=0x7f020022;
+        public static final int img_btn_show_map_clicked=0x7f020023;
+        public static final int img_btn_show_map_states=0x7f020024;
+        public static final int img_btn_sound_battle=0x7f020025;
+        public static final int img_btn_sound_battle_clicked=0x7f020026;
+        public static final int img_btn_sound_battle_states=0x7f020027;
+        public static final int img_btn_sound_checkin=0x7f020028;
+        public static final int img_btn_sound_checkin_clicked=0x7f020029;
+        public static final int img_btn_sound_checkin_states=0x7f02002a;
+        public static final int img_btn_stats=0x7f02002b;
+        public static final int img_btn_stats_clicked=0x7f02002c;
+        public static final int img_btn_stats_states=0x7f02002d;
+        public static final int img_btn_view_profile=0x7f02002e;
+        public static final int img_btn_view_profile_clicked=0x7f02002f;
+        public static final int img_btn_view_profile_states=0x7f020030;
+        public static final int img_profile=0x7f020031;
+        public static final int img_score_opponent=0x7f020032;
+        public static final int img_score_player=0x7f020033;
+        public static final int location_map=0x7f020034;
+        public static final int recorder=0x7f020035;
+        public static final int social_person=0x7f020036;
     }
     public static final class id {
-        public static final int action_settings=0x7f040045;
-        public static final int btn_challenge_facebook_friend=0x7f040027;
-        public static final int btn_challenge_random=0x7f040028;
+        public static final int action_settings=0x7f04006a;
+        public static final int btn_blitzkrieg=0x7f040018;
+        public static final int btn_challenge_facebook_friend=0x7f040030;
+        public static final int btn_challenge_random=0x7f040031;
+        public static final int btn_morningglory=0x7f04001c;
         public static final int btn_noise_hunt=0x7f04000d;
-        public static final int btn_popup_sound_battle_explanation_ok=0x7f040043;
-        public static final int btn_popup_sound_battle_points_ok=0x7f04003f;
+        public static final int btn_noise_hunt_explanation_go=0x7f04001f;
+        public static final int btn_partytime=0x7f040019;
+        public static final int btn_popup_explanation_ok=0x7f04004c;
+        public static final int btn_popup_sound_battle_points_ok=0x7f040051;
         public static final int btn_random_record=0x7f040006;
         public static final int btn_record=0x7f040015;
-        public static final int btn_share_on_facebook=0x7f040025;
+        public static final int btn_riverside=0x7f04001a;
+        public static final int btn_share_on_facebook=0x7f04002f;
+        public static final int btn_show_map=0x7f040012;
         public static final int btn_sound_battle=0x7f040008;
         public static final int btn_sound_checkin=0x7f04000b;
-        public static final int btn_view_map=0x7f040012;
+        public static final int btn_trainspotting=0x7f04001b;
         public static final int btn_view_profile=0x7f040010;
-        public static final int img_badge_first_sound_battle=0x7f04003d;
-        public static final int img_badge_newbie=0x7f040016;
-        public static final int layout_location_accuracy_scores=0x7f040030;
+        public static final int btn_walkinthepark=0x7f040017;
+        public static final int img_badge_first_sound_battle=0x7f04004f;
+        public static final int img_badge_newbie=0x7f040020;
+        public static final int img_btn_checkin=0x7f040048;
+        public static final int layout_location_accuracy_scores=0x7f040039;
         public static final int layout_map_record=0x7f040013;
-        public static final int layout_sound_battle_points=0x7f040029;
-        public static final int layout_sound_quality_scores=0x7f04002c;
-        public static final int layout_speed_scores=0x7f040034;
-        public static final int layout_total_scores=0x7f040038;
+        public static final int layout_sound_battle_points=0x7f040032;
+        public static final int layout_sound_quality_scores=0x7f040035;
+        public static final int layout_speed_scores=0x7f04003d;
+        public static final int layout_total_scores=0x7f040041;
+        public static final int list_places=0x7f040045;
         public static final int map=0x7f040014;
-        public static final int menu_settings=0x7f040044;
+        public static final int menu_settings=0x7f040069;
         public static final int none=0x7f040000;
         public static final int normal=0x7f040001;
-        public static final int popup_sound_battle_explanation=0x7f040040;
-        public static final int popup_sound_battle_points=0x7f04003b;
+        public static final int pager=0x7f040046;
+        public static final int popup_sound_battle_explanation=0x7f040049;
+        public static final int popup_sound_battle_points=0x7f04004d;
+        public static final int quickContactBadge1=0x7f040052;
         public static final int satellite=0x7f040002;
         public static final int tableRow1=0x7f040004;
         public static final int tableRow2=0x7f040009;
         public static final int tableRow3=0x7f04000e;
-        public static final int tableRow4=0x7f040020;
-        public static final int tbl_points=0x7f040019;
+        public static final int tableRow4=0x7f04002a;
+        public static final int tableRow5=0x7f04005b;
+        public static final int tbl_badges_row1=0x7f04005d;
+        public static final int tbl_leaderboard=0x7f04005f;
+        public static final int tbl_points=0x7f040023;
         public static final int terrain=0x7f040003;
-        public static final int txt_badge_first_sound_battle=0x7f04003e;
-        public static final int txt_badge_first_sound_battle_description=0x7f04003c;
-        public static final int txt_badge_newbie=0x7f040017;
-        public static final int txt_challenge=0x7f040026;
-        public static final int txt_example_first_of_friends=0x7f04001e;
-        public static final int txt_example_first_of_friends_points=0x7f04001f;
-        public static final int txt_example_first_time_street=0x7f04001c;
-        public static final int txt_example_first_time_street_points=0x7f04001d;
-        public static final int txt_example_newbie_badge=0x7f04001a;
-        public static final int txt_example_newbie_badge_points=0x7f04001b;
-        public static final int txt_example_quality=0x7f040021;
-        public static final int txt_example_quality_points=0x7f040022;
-        public static final int txt_example_total=0x7f040023;
-        public static final int txt_example_total_points=0x7f040024;
-        public static final int txt_location_accuracy=0x7f04002f;
-        public static final int txt_location_accuracy_score_opponent=0x7f040032;
-        public static final int txt_location_accuracy_score_player=0x7f040031;
+        public static final int txt_badge_first_sound_battle=0x7f040050;
+        public static final int txt_badge_first_sound_battle_description=0x7f04004e;
+        public static final int txt_badge_newbie=0x7f040021;
+        public static final int txt_badges_earned=0x7f04005c;
+        public static final int txt_battles_won=0x7f040056;
+        public static final int txt_battles_won_username=0x7f040057;
+        public static final int txt_challenge=0x7f040016;
+        public static final int txt_desc_noise_hunt=0x7f04001e;
+        public static final int txt_example_first_of_friends=0x7f040028;
+        public static final int txt_example_first_of_friends_points=0x7f040029;
+        public static final int txt_example_first_time_street=0x7f040026;
+        public static final int txt_example_first_time_street_points=0x7f040027;
+        public static final int txt_example_newbie_badge=0x7f040024;
+        public static final int txt_example_newbie_badge_points=0x7f040025;
+        public static final int txt_example_quality=0x7f04002b;
+        public static final int txt_example_quality_points=0x7f04002c;
+        public static final int txt_example_total=0x7f04002d;
+        public static final int txt_example_total_points=0x7f04002e;
+        public static final int txt_explanation=0x7f04004b;
+        public static final int txt_explanation_title=0x7f04004a;
+        public static final int txt_item_name=0x7f040047;
+        public static final int txt_leaderboard=0x7f04005e;
+        public static final int txt_location_accuracy=0x7f040038;
+        public static final int txt_location_accuracy_score_opponent=0x7f04003b;
+        public static final int txt_location_accuracy_score_player=0x7f04003a;
+        public static final int txt_mayorships=0x7f040058;
+        public static final int txt_mayorships_amount_username=0x7f040059;
+        public static final int txt_mayorships_username=0x7f04005a;
+        public static final int txt_name1=0x7f040060;
+        public static final int txt_name2=0x7f040062;
+        public static final int txt_name3=0x7f040065;
+        public static final int txt_name4=0x7f040067;
         public static final int txt_noise_hunt=0x7f04000c;
+        public static final int txt_noise_hunt_title=0x7f04001d;
+        public static final int txt_points_earned=0x7f040054;
+        public static final int txt_points_earned_username=0x7f040055;
+        public static final int txt_points_name1=0x7f040061;
+        public static final int txt_points_name2=0x7f040063;
+        public static final int txt_points_name3=0x7f040066;
+        public static final int txt_points_name4=0x7f040068;
+        public static final int txt_points_username=0x7f040064;
         public static final int txt_random_record=0x7f040005;
+        public static final int txt_show_map=0x7f040011;
         public static final int txt_sound_battle=0x7f040007;
-        public static final int txt_sound_battle_explanation=0x7f040042;
-        public static final int txt_sound_battle_explanation_title=0x7f040041;
         public static final int txt_sound_checkin=0x7f04000a;
-        public static final int txt_sound_quality=0x7f04002b;
-        public static final int txt_sound_quality_score_opponent=0x7f04002e;
-        public static final int txt_sound_quality_score_player=0x7f04002d;
-        public static final int txt_speed=0x7f040033;
-        public static final int txt_speed_score_opponent=0x7f040036;
-        public static final int txt_speed_score_player=0x7f040035;
-        public static final int txt_total=0x7f040037;
-        public static final int txt_total_score_opponent=0x7f04003a;
-        public static final int txt_total_score_player=0x7f040039;
-        public static final int txt_view_map=0x7f040011;
+        public static final int txt_sound_checkin_whatplace=0x7f040044;
+        public static final int txt_sound_quality=0x7f040034;
+        public static final int txt_sound_quality_score_opponent=0x7f040037;
+        public static final int txt_sound_quality_score_player=0x7f040036;
+        public static final int txt_speed=0x7f04003c;
+        public static final int txt_speed_score_opponent=0x7f04003f;
+        public static final int txt_speed_score_player=0x7f04003e;
+        public static final int txt_total=0x7f040040;
+        public static final int txt_total_score_opponent=0x7f040043;
+        public static final int txt_total_score_player=0x7f040042;
+        public static final int txt_username=0x7f040053;
         public static final int txt_view_profile=0x7f04000f;
-        public static final int txt_well_done=0x7f040018;
-        public static final int txt_youve_won=0x7f04002a;
+        public static final int txt_well_done=0x7f040022;
+        public static final int txt_youve_won=0x7f040033;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_map_record=0x7f030001;
-        public static final int activity_random_record_points=0x7f030002;
-        public static final int activity_sound_battle=0x7f030003;
-        public static final int activity_sound_battle_points=0x7f030004;
-        public static final int popup_sound_battle_badge=0x7f030005;
-        public static final int popup_sound_battle_explanation=0x7f030006;
+        public static final int activity_noise_hunt=0x7f030002;
+        public static final int activity_noise_hunt_explanation=0x7f030003;
+        public static final int activity_random_record_points=0x7f030004;
+        public static final int activity_show_map=0x7f030005;
+        public static final int activity_sound_battle=0x7f030006;
+        public static final int activity_sound_battle_points=0x7f030007;
+        public static final int activity_sound_checkin=0x7f030008;
+        public static final int activity_view_profile_tab=0x7f030009;
+        public static final int activity_walk_in_the_park=0x7f03000a;
+        public static final int activity_walk_in_the_park_points=0x7f03000b;
+        public static final int list_item_places=0x7f03000c;
+        public static final int popup_explanation=0x7f03000d;
+        public static final int popup_sound_battle_badge=0x7f03000e;
+        public static final int tab1_view_profile_me=0x7f03000f;
+        public static final int tab2_view_profile_friends=0x7f030010;
     }
     public static final class menu {
         public static final int activity_main=0x7f080000;
         public static final int activity_random_record=0x7f080001;
         public static final int maps=0x7f080002;
-        public static final int random_record_points=0x7f080003;
-        public static final int sound_battle=0x7f080004;
-        public static final int sound_battle_points=0x7f080005;
-        public static final int sound_battle_record=0x7f080006;
+        public static final int noise_hunt=0x7f080003;
+        public static final int noise_hunt_explanation=0x7f080004;
+        public static final int random_record_points=0x7f080005;
+        public static final int show_map=0x7f080006;
+        public static final int sound_battle=0x7f080007;
+        public static final int sound_battle_points=0x7f080008;
+        public static final int sound_battle_record=0x7f080009;
+        public static final int sound_checkin=0x7f08000a;
+        public static final int view_profile=0x7f08000b;
+        public static final int view_profile_tab=0x7f08000c;
+        public static final int walk_in_the_park=0x7f08000d;
+        public static final int walk_in_the_park_points=0x7f08000e;
     }
     public static final class string {
         public static final int action_settings=0x7f05001f;
-        /**  Main Activity 
+        /**  MAIN 
          */
         public static final int app_name=0x7f05000b;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
@@ -325,90 +397,148 @@ containing a value of this type.
         public static final int common_google_play_services_update_title=0x7f050007;
         /**  Hello World 
          */
-        public static final int hello_world=0x7f05004b;
+        public static final int hello_world=0x7f050078;
         public static final int menu_settings=0x7f05000c;
-        public static final int title_activity_maps=0x7f05004e;
-        /**  Random Record Activity 
+        public static final int title_activity_maps=0x7f05007a;
+        /**  NOISE HUNT 
          */
-        public static final int title_activity_random_record=0x7f05001b;
-        public static final int title_activity_random_record_points=0x7f05002b;
-        /**  Sound Battle Activity 
+        public static final int title_activity_noise_hunt=0x7f05004d;
+        public static final int title_activity_random_record_points=0x7f05002c;
+        public static final int title_activity_show_map=0x7f050077;
+        /**  - SOUND BATTLE POINTS 
          */
-        public static final int title_activity_sound_battle=0x7f050033;
-        public static final int title_activity_sound_battle_points=0x7f05004c;
-        /**  - Sound Battle Record Activity 
+        public static final int title_activity_sound_battle_points=0x7f05003c;
+        /**  - SOUND BATTE RECORD 
          */
-        public static final int title_activity_sound_battle_record=0x7f05003a;
-        public static final int txt_badge_first_sound_battle=0x7f050031;
-        public static final int txt_badge_first_sound_battle_description=0x7f050030;
-        /**  Badge names 
+        public static final int title_activity_sound_battle_record=0x7f05003b;
+        /**  SOUND CHECK-IN 
          */
-        public static final int txt_badge_newbie=0x7f05002e;
+        public static final int title_activity_sound_checkin=0x7f05005d;
+        /**  VIEW PROFILE 
+         */
+        public static final int title_activity_view_profile_tab=0x7f050060;
+        public static final int title_activity_walk_in_the_park=0x7f050051;
+        public static final int title_activity_walk_in_the_park_points=0x7f050052;
+        /**  - ME 
+         */
+        public static final int title_section1=0x7f050061;
+        /**  - FRIENDS 
+         */
+        public static final int title_section2=0x7f05006b;
+        public static final int txt_badge_first_sound_battle=0x7f050032;
+        public static final int txt_badge_first_sound_battle_description=0x7f050031;
+        /**  BADGE NAMES 
+         */
+        public static final int txt_badge_newbie=0x7f05002f;
+        public static final int txt_badges_earned=0x7f05006a;
+        public static final int txt_battles_won=0x7f050065;
+        public static final int txt_battles_won_username=0x7f050066;
         public static final int txt_btn_RandomRecord=0x7f05000f;
-        public static final int txt_btn_challenge_facebook_friend=0x7f050035;
-        public static final int txt_btn_challenge_random=0x7f050037;
+        public static final int txt_btn_challenge_facebook_friend=0x7f050036;
+        public static final int txt_btn_challenge_random=0x7f050038;
         public static final int txt_btn_noise_hunt=0x7f050013;
         public static final int txt_btn_random_record=0x7f05001c;
-        public static final int txt_btn_share_on_facebook=0x7f05002c;
+        public static final int txt_btn_share_on_facebook=0x7f05002d;
+        public static final int txt_btn_show_map=0x7f050017;
         public static final int txt_btn_sound_battle=0x7f050011;
         public static final int txt_btn_sound_checkin=0x7f050015;
-        public static final int txt_btn_view_map=0x7f050017;
         public static final int txt_btn_view_profile=0x7f050019;
-        /**  - Who to challenge 
-         */
-        public static final int txt_challenge=0x7f050034;
-        public static final int txt_content_badge_first_sound_battle=0x7f050032;
-        public static final int txt_content_badge_newbie=0x7f05002f;
-        public static final int txt_content_challenge_facebook_friend=0x7f050036;
-        public static final int txt_content_challenge_random=0x7f050038;
+        public static final int txt_content_badge_first_sound_battle=0x7f050033;
+        public static final int txt_content_badge_newbie=0x7f050030;
+        public static final int txt_content_challenge_facebook_friend=0x7f050037;
+        public static final int txt_content_challenge_random=0x7f050039;
         public static final int txt_content_noise_hunt=0x7f050014;
         /**  General 
          */
-        public static final int txt_content_ok=0x7f05004d;
+        public static final int txt_content_ok=0x7f050079;
         public static final int txt_content_random_record=0x7f050010;
         public static final int txt_content_record=0x7f05001e;
-        public static final int txt_content_share_on_facebook=0x7f05002d;
+        public static final int txt_content_share_on_facebook=0x7f05002e;
+        public static final int txt_content_show_map=0x7f050018;
         public static final int txt_content_sound_battle=0x7f050012;
         public static final int txt_content_sound_checkin=0x7f050016;
-        public static final int txt_content_view_map=0x7f050018;
         public static final int txt_content_view_profile=0x7f05001a;
-        public static final int txt_example_first_of_friends=0x7f050023;
-        public static final int txt_example_first_of_friends_points=0x7f050028;
-        public static final int txt_example_first_time_street=0x7f050022;
-        public static final int txt_example_first_time_street_points=0x7f050027;
-        public static final int txt_example_newbie_badge=0x7f050021;
-        public static final int txt_example_newbie_badge_points=0x7f050026;
-        public static final int txt_example_quality=0x7f050024;
-        public static final int txt_example_quality_points=0x7f050029;
-        public static final int txt_example_total=0x7f050025;
-        public static final int txt_example_total_points=0x7f05002a;
-        public static final int txt_location_accuracy=0x7f050040;
-        public static final int txt_location_accuracy_help=0x7f050041;
-        public static final int txt_location_accuracy_score_opponent=0x7f050043;
-        public static final int txt_location_accuracy_score_player=0x7f050042;
+        public static final int txt_desc_noise_hunt_blitzkrieg=0x7f050054;
+        public static final int txt_desc_noise_hunt_morningglory=0x7f05005c;
+        public static final int txt_desc_noise_hunt_partytime=0x7f050056;
+        public static final int txt_desc_noise_hunt_riverside=0x7f050058;
+        public static final int txt_desc_noise_hunt_trainspotting=0x7f05005a;
+        public static final int txt_desc_noise_hunt_walkinthepark=0x7f050050;
+        public static final int txt_example_first_of_friends=0x7f050024;
+        public static final int txt_example_first_of_friends_points=0x7f050029;
+        public static final int txt_example_first_time_street=0x7f050023;
+        public static final int txt_example_first_time_street_points=0x7f050028;
+        public static final int txt_example_newbie_badge=0x7f050022;
+        public static final int txt_example_newbie_badge_points=0x7f050027;
+        public static final int txt_example_quality=0x7f050025;
+        public static final int txt_example_quality_points=0x7f05002a;
+        public static final int txt_example_total=0x7f050026;
+        public static final int txt_example_total_points=0x7f05002b;
+        public static final int txt_leaderboard=0x7f05006c;
+        public static final int txt_location_accuracy=0x7f050042;
+        public static final int txt_location_accuracy_help=0x7f050043;
+        public static final int txt_location_accuracy_score_opponent=0x7f050045;
+        public static final int txt_location_accuracy_score_player=0x7f050044;
         public static final int txt_map_not_ready=0x7f05001d;
-        /**  - Sound Battle Explanation Popup 
+        public static final int txt_mayorships=0x7f050067;
+        public static final int txt_mayorships_amount_username=0x7f050068;
+        public static final int txt_mayorships_username=0x7f050069;
+        public static final int txt_name1=0x7f05006e;
+        public static final int txt_name2=0x7f050070;
+        public static final int txt_name3=0x7f050072;
+        public static final int txt_name4=0x7f050074;
+        public static final int txt_noise_hunt_blitzkrieg=0x7f050053;
+        public static final int txt_noise_hunt_challenge=0x7f05004e;
+        public static final int txt_noise_hunt_morningglory=0x7f05005b;
+        public static final int txt_noise_hunt_partytime=0x7f050055;
+        public static final int txt_noise_hunt_riverside=0x7f050057;
+        public static final int txt_noise_hunt_trainspotting=0x7f050059;
+        public static final int txt_noise_hunt_walkinthepark=0x7f05004f;
+        public static final int txt_points_earned=0x7f050063;
+        public static final int txt_points_earned_username=0x7f050064;
+        public static final int txt_points_name1=0x7f05006f;
+        public static final int txt_points_name2=0x7f050071;
+        public static final int txt_points_name3=0x7f050073;
+        public static final int txt_points_name4=0x7f050075;
+        public static final int txt_points_username=0x7f05006d;
+        /**  - EXPLANATION 
          */
-        public static final int txt_sound_battle_explanation=0x7f050039;
-        public static final int txt_sound_quality=0x7f05003c;
-        public static final int txt_sound_quality_help=0x7f05003d;
-        public static final int txt_sound_quality_score_opponent=0x7f05003f;
-        public static final int txt_sound_quality_score_player=0x7f05003e;
-        public static final int txt_speed=0x7f050044;
-        public static final int txt_speed_help=0x7f050045;
-        public static final int txt_speed_score_opponent=0x7f050047;
-        public static final int txt_speed_score_player=0x7f050046;
+        public static final int txt_random_record_explanation=0x7f050020;
+        /**  RANDOM RECORD 
+         */
+        public static final int txt_random_record_name=0x7f05001b;
+        /**  SHOW MAP 
+         */
+        public static final int txt_show_map_name=0x7f050076;
+        /**  - Who to challenge 
+         */
+        public static final int txt_sound_battle_challenge=0x7f050035;
+        /**  - SOUND BATTLE EXPLANATION 
+         */
+        public static final int txt_sound_battle_explanation=0x7f05003a;
+        /**  SOUND BATTLE 
+         */
+        public static final int txt_sound_battle_name=0x7f050034;
+        public static final int txt_sound_checkin_name=0x7f05005e;
+        public static final int txt_sound_checkin_whatplace=0x7f05005f;
+        public static final int txt_sound_quality=0x7f05003e;
+        public static final int txt_sound_quality_help=0x7f05003f;
+        public static final int txt_sound_quality_score_opponent=0x7f050041;
+        public static final int txt_sound_quality_score_player=0x7f050040;
+        public static final int txt_speed=0x7f050046;
+        public static final int txt_speed_help=0x7f050047;
+        public static final int txt_speed_score_opponent=0x7f050049;
+        public static final int txt_speed_score_player=0x7f050048;
         public static final int txt_title_activity_main=0x7f05000d;
         public static final int txt_title_menu_profile=0x7f05000e;
-        public static final int txt_total=0x7f050048;
-        public static final int txt_total_score_opponent=0x7f05004a;
-        public static final int txt_total_score_player=0x7f050049;
-        /**  - Random Record Points Activity 
+        public static final int txt_total=0x7f05004a;
+        public static final int txt_total_score_opponent=0x7f05004c;
+        public static final int txt_total_score_player=0x7f05004b;
+        public static final int txt_username=0x7f050062;
+        /**  - POINTS 
          */
-        public static final int txt_well_done=0x7f050020;
-        /**  - Sound Battle Points Activity 
-         */
-        public static final int txt_youve_won=0x7f05003b;
+        public static final int txt_well_done=0x7f050021;
+        public static final int txt_youve_won=0x7f05003d;
     }
     public static final class style {
         public static final int AppTheme=0x7f070000;

@@ -1,27 +1,19 @@
 package be.kuleuven.noiseapp.location;
 
+import java.util.ArrayList;
+
 import android.location.Location;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class NoiseLocation{
 	private LatLng latLng;
+	private int dB;
 	private boolean recorded;
-	//colors of the markers
-	private static final BitmapDescriptor FAR = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-	private static final BitmapDescriptor ON_THE_WAY = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
-	private static final BitmapDescriptor CLOSE = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-	private static final BitmapDescriptor RECORDED = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+
 	
-	private static final double TWENTY_METRES = 20;
-	private static final double FIFTY_METERS = 50;
-	
-	public NoiseLocation(double latitude, double longitude){
+	public NoiseLocation(double longitude, double latitude){
 		this.setLatLng(latitude,longitude);
-		this.setRecorded(false);
 	}
 
 	public void setLatLng(double latitude, double longitude) {
@@ -32,49 +24,8 @@ public class NoiseLocation{
 		return latLng;
 	}
 	
-	public MarkerOptions getMarker(Location currentLocation){
-		if (isRecorded())
-			return new MarkerOptions().position(getLatLng())
-					.title("Sound Battle Location")
-					.snippet("You have already recorded this place!")
-					.icon(RECORDED);
-		else if (isClose(currentLocation))
-			return new MarkerOptions().position(getLatLng())
-					.title("Sound Battle Location")
-					.snippet("You are ready to record at this lcoation!")
-					.icon(CLOSE);
-		else if (isOnTheWay(currentLocation))
-			return new MarkerOptions().position(getLatLng())
-					.title("Sound Battle Location")
-					.snippet("You are almost there!").icon(ON_THE_WAY);
-		else
-			return new MarkerOptions().position(getLatLng())
-					.title("Sound Battle Location")
-					.snippet("Come closer to record here!").icon(FAR);
-	}
-
-	public void setRecorded(boolean recorded) {
-		this.recorded = recorded;
-	}
-
-	public boolean isRecorded() {
-		return recorded;
-	}
-	
-	public boolean isClose(Location l){
-	    return getDistance(l) <= TWENTY_METRES && !isRecorded();
-	}
-	
-	public boolean isOnTheWay(Location l){
-	    return getDistance(l) > TWENTY_METRES && getDistance(l) <= FIFTY_METERS && !isRecorded();
-	}
-	
-	public boolean isFar(Location l){
-	    return getDistance(l) > FIFTY_METERS && !isRecorded();
-	}
-	
 	/**
-	 * Returns the distance between two coordinates.
+	 * Returns the distance between two coordinates in metres.
 	 * 
 	 * @param l1
 	 * @param l
@@ -92,6 +43,56 @@ public class NoiseLocation{
 
 	    int meterConversion = 1609;
 	    return dist*meterConversion;
+	}
+	
+	public double getDistance(NoiseLocation other) {
+		double earthRadius = 3958.75;
+	    double dLat = Math.toRadians(other.getLatLng().latitude-getLatLng().latitude);
+	    double dLng = Math.toRadians(other.getLatLng().longitude-getLatLng().longitude);
+	    double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+	               Math.cos(Math.toRadians(getLatLng().latitude)) * Math.cos(Math.toRadians(other.getLatLng().latitude)) *
+	               Math.sin(dLng/2) * Math.sin(dLng/2);
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	    double dist = earthRadius * c;
+
+	    int meterConversion = 1609;
+	    return dist*meterConversion;
+	}
+	
+	@Override
+	public String toString(){
+		return "(" + this.getLatLng().latitude + ", " + this.getLatLng().longitude + ")";
+	}
+	
+	public boolean equals(NoiseLocation other){
+		return (other.getLatLng().latitude == this.getLatLng().latitude) && (other.getLatLng().longitude == this.getLatLng().longitude);
+	}
+
+	public void setdB(int dB) {
+		this.dB = dB;
+	}
+
+	public int getdB() {
+		return dB;
+	}
+	
+	public boolean liesInArea(ArrayList<LatLng> boundary){
+      boolean result = false;
+      for (int i = 0, j = boundary.size() - 1; i < boundary.size(); j = i++) {
+        if ((boundary.get(i).longitude > this.getLatLng().longitude) != (boundary.get(j).longitude > this.getLatLng().longitude) &&
+            (this.getLatLng().latitude < (boundary.get(j).latitude - boundary.get(i).latitude) * (this.getLatLng().longitude - boundary.get(i).longitude) / (boundary.get(j).longitude-boundary.get(i).longitude) + boundary.get(i).latitude)) {
+          result = !result;
+         }
+      }
+      return result;
+	}
+
+	public void setRecorded(boolean recorded) {
+		this.recorded = recorded;
+	}
+
+	public boolean isRecorded() {
+		return recorded;
 	}
 
 }

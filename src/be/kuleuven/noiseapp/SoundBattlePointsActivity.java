@@ -49,7 +49,8 @@ public class SoundBattlePointsActivity extends Activity {
 	    popupWindow.setHeight(metrics.heightPixels);
 	    popupWindow.setWidth(metrics.widthPixels);
 	    findViewById(R.id.layout_sound_battle_points).post(new Runnable() {
-	    	   public void run() {
+	    	   @Override
+			public void run() {
 	    		    popupWindow.showAtLocation(findViewById(R.id.layout_sound_battle_points), Gravity.CENTER_HORIZONTAL, 0, 0);
 	    	   }
 	    	});
@@ -63,7 +64,7 @@ public class SoundBattlePointsActivity extends Activity {
 	private void setupActionBar() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
-			getActionBar().setTitle(R.string.title_activity_sound_battle);
+			getActionBar().setTitle(R.string.txt_sound_battle_name);
 		}
 	}
 

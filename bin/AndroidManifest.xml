@@ -11,7 +11,7 @@
     <uses-permission android:name="com.example.mapdemo.permission.MAPS_RECEIVE" />
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,6 +25,7 @@
         android:required="true" />
 
     <application
+        android:name="be.kuleuven.noiseapp.NoiseHuntState"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
@@ -48,12 +49,12 @@
         </activity>
         <activity
             android:name="be.kuleuven.noiseapp.RandomRecordActivity"
-            android:label="@string/title_activity_random_record"
+            android:label="@string/txt_random_record_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="be.kuleuven.noiseapp.SoundBattleActivity"
-            android:label="@string/title_activity_sound_battle"
+            android:label="@string/txt_sound_battle_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -86,6 +87,58 @@
         <activity
             android:name="be.kuleuven.noiseapp.maps.MapsActivity"
             android:label="@string/title_activity_maps" >
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.NoiseHuntActivity"
+            android:label="@string/title_activity_noise_hunt"
+            android:parentActivityName="be.kuleuven.noiseapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.MainActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.NoiseHuntExplanationActivity"
+            android:label="@string/title_activity_noise_hunt"
+            android:parentActivityName="be.kuleuven.noiseapp.NoiseHuntActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.NoiseHuntActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.WalkInTheParkActivity"
+            android:label="@string/title_activity_walk_in_the_park"
+            android:parentActivityName="be.kuleuven.noiseapp.NoiseHuntActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.NoiseHuntActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.WalkInTheParkPointsActivity"
+            android:label="@string/title_activity_walk_in_the_park_points"
+            android:parentActivityName="be.kuleuven.noiseapp.WalkInTheParkActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.WalkInTheParkActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.ShowMapActivity"
+            android:label="@string/title_activity_show_map"
+            android:parentActivityName="be.kuleuven.noiseapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.MainActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.SoundCheckinActivity"
+            android:label="@string/title_activity_sound_checkin" >
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.ViewProfileTabActivity"
+            android:label="@string/title_activity_view_profile_tab"
+            android:parentActivityName="be.kuleuven.noiseapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.MainActivity" />
         </activity>
     </application>
 
