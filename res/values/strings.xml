@@ -87,8 +87,8 @@
     <string name="txt_noise_hunt_challenge">Choose a challenge</string>
     <string name="txt_noise_hunt_walkinthepark">Walk in the Park</string>
     <string name="txt_desc_noise_hunt_walkinthepark">Nothing is more pieceful than a refreshing walk in the park, don\'t you think? But is it? What\'s the noise like over there? \n\nTry to measure the sound levels at 3 locations in the park. They should be at least 50m away from each other.</string>
-    <string name="title_activity_walk_in_the_park">WalkInTheParkActivity</string>
-    <string name="title_activity_walk_in_the_park_points">WalkInTheParkPointsActivity</string>
+    <string name="title_activity_walk_in_the_park">Walk in the Park</string>
+    <string name="title_activity_walk_in_the_park_points">Walk in the Park</string>
     <string name="txt_noise_hunt_blitzkrieg">Blitzkrieg</string>
     <string name="txt_desc_noise_hunt_blitzkrieg">You have to hurry! There\'s going to be a war very soon. That means a lot of noise! \n\nTry to make as many noise recordings as possible in the next 2 minutes! The counter starts once you have a GPS fix.</string>
     <string name="txt_noise_hunt_partytime">Party Time!</string>

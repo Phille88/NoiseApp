@@ -11,6 +11,7 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -106,6 +107,14 @@ public class SoundCheckinActivity extends RecordActivity {
 						t = null;
 						return;
 					}
+					
+					@Override
+					public boolean onTouchEvent(MotionEvent e){
+						this.dismiss();
+						t.interrupt();
+						t = null;
+						return true;
+					}
 				};
 				progressBar.setCancelable(true);
 				progressBar.setMessage("Recording...");
@@ -167,7 +176,7 @@ public class SoundCheckinActivity extends RecordActivity {
 				t.start();
 			}
 			else
-				Toast.makeText(getApplicationContext(), "Wait for the GPS to have a fixed location", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Wait for the GPS to have a fixed location", Toast.LENGTH_LONG).show();
 		}
 	};
 	}

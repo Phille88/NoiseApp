@@ -9,6 +9,7 @@ import be.kuleuven.noiseapp.location.NoiseLocation;
 
 import android.os.Bundle;
 import android.app.ProgressDialog;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -61,18 +62,18 @@ public class WalkInTheParkActivity extends RecordActivity {
 					if (!isProviderFixed())
 						Toast.makeText(getApplicationContext(),
 								"Wait for the GPS to have a fixed location",
-								Toast.LENGTH_SHORT).show();
+								Toast.LENGTH_LONG).show();
 					else if (!isInPark())
 						Toast.makeText(
 								getApplicationContext(),
 								"You have to get into the city park!",
-								Toast.LENGTH_SHORT).show();
+								Toast.LENGTH_LONG).show();
 					
 					else if(!isFurtherThan50m()){
 						Toast.makeText(
 								getApplicationContext(),
 								"You have to get further away from the last record location!",
-								Toast.LENGTH_SHORT).show();
+								Toast.LENGTH_LONG).show();
 					}
 					else {
 
@@ -84,6 +85,14 @@ public class WalkInTheParkActivity extends RecordActivity {
 								t.interrupt();
 								t = null;
 								return;
+							}
+							
+							@Override
+							public boolean onTouchEvent(MotionEvent e){
+								this.dismiss();
+								t.interrupt();
+								t = null;
+								return true;
 							}
 						};
 						progressBar.setCancelable(true);

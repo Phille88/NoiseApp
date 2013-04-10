@@ -49,7 +49,7 @@ public class WalkInTheParkPointsActivity extends Activity {
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
 			//NavUtils.navigateUpFromSameTask(this);
-			Intent homeIntent = new Intent(this, MainActivity.class);
+			Intent homeIntent = new Intent(this, NoiseHuntActivity.class);
 			NavUtils.navigateUpTo(this, homeIntent);
 			finish();
 			return true;

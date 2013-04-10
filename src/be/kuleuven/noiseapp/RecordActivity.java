@@ -1,6 +1,8 @@
 package be.kuleuven.noiseapp;
 
 import java.util.Date;
+import java.util.Random;
+
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,6 +66,7 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	
 	//fields for database
 	 protected NoiseRecordingsDataSource datasource;
+	private boolean gpsFixedMessageShown = false;
 	 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +86,7 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 		setUpMapIfNeeded();
 		LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
         boolean enabledGPS = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        boolean enabledWiFi = service.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+       // boolean enabledWiFi = service.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         // Check if enabled and if not send user to the GSP settings
         // Better solution would be to display a dialog and suggesting to 
@@ -114,8 +118,10 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	}
 	
 	private void addNoiseRecording(String userid, double lat, double lon, double dB, double acc){
+		Random r = new Random();
+		Double randomDB = (r.nextDouble()*100)+20;
 	    datasource.open();
-		datasource.createNoiseRecording(userid, lat, lon, dB, acc);
+		datasource.createNoiseRecording(userid, lat, lon, randomDB, acc);
 		datasource.close();
 	}
 
@@ -274,7 +280,7 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	 */
 	private boolean checkReady() {
 		if (mMap == null) {
-			Toast.makeText(this, R.string.txt_map_not_ready, Toast.LENGTH_SHORT)
+			Toast.makeText(this, R.string.txt_map_not_ready, Toast.LENGTH_LONG)
 					.show();
 			return false;
 		}
@@ -371,8 +377,6 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 		}
 	}
 	
-
-	
 	/** Determines whether one Location reading is better than the current Location fix
 	  * @param location  The new Location that you want to evaluate
 	  * @param currentBestLocation  The current Location fix, to which you want to compare the new one
@@ -443,8 +447,6 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	/** Checks whether two providers are the same */
@@ -457,7 +459,10 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		
+		if(status == LocationProvider.AVAILABLE && !gpsFixedMessageShown){
+			Toast.makeText(getApplicationContext(), "GPS fixed! You can start recording now!", Toast.LENGTH_LONG).show();
+			gpsFixedMessageShown = true;
+		}
 	}
 
 	public void setProviderFixed(boolean providerFixed) {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -87,8 +88,17 @@ public class RandomRecordActivity extends RecordActivity {
 						t = null;
 						return;
 					}
+					
+					@Override
+					public boolean onTouchEvent(MotionEvent e){
+						this.dismiss();
+						t.interrupt();
+						t = null;
+						return true;
+					}
 				};
 				progressBar.setCancelable(true);
+				progressBar.setCanceledOnTouchOutside(true);
 				progressBar.setMessage("Recording...");
 				progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 				progressBar.setProgress(0);

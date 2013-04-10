@@ -1,5 +1,7 @@
 package be.kuleuven.noiseapp.noisedatabase;
 
+import be.kuleuven.noiseapp.R;
+
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -17,10 +19,10 @@ public class NoiseRecording {
 	  private static final double NINETY_DB = 90; 
 	  private static final double SIXTY_DB = 60; 
 	  
-	  private static final BitmapDescriptor LOUD = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-	  private static final BitmapDescriptor MEDIUMLOUD = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
-	  private static final BitmapDescriptor MEDIUMSTILL = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-	  private static final BitmapDescriptor STILL = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+		private static final BitmapDescriptor LOUD = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_loud);
+		private static final BitmapDescriptor MEDIUMLOUD = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_mediumloud);
+		private static final BitmapDescriptor MEDIUMSTILL = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_mediumstill);
+		private static final BitmapDescriptor STILL = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_still);
 	  
 	  public long getId() {
 	    return id;
@@ -108,19 +110,19 @@ public class NoiseRecording {
 	public MarkerOptions getMarker() {
 		if(getDB() > HUNDRED_DB)
 			return new MarkerOptions().position(new LatLng(getLatitude(),getLongitude()))
-			.title("Location: " + getLatitude() + ", " + getLongitude() + "\ndB: " + getDB())
+			.title("dB: " + getDB())
 			.icon(LOUD);
 		else if (getDB() > NINETY_DB)
 			return new MarkerOptions().position(new LatLng(getLatitude(),getLongitude()))
-			.title("Location: " + getLatitude() + ", " + getLongitude() + "\ndB: " + getDB())
+			.title("dB: " + getDB())
 			.icon(MEDIUMLOUD);
 		else if (getDB() > SIXTY_DB)
 			return new MarkerOptions().position(new LatLng(getLatitude(),getLongitude()))
-			.title("Location: " + getLatitude() + ", " + getLongitude() + "\ndB: " + getDB())
+			.title("dB: " + getDB())
 			.icon(MEDIUMSTILL);
 		else 
 			return new MarkerOptions().position(new LatLng(getLatitude(),getLongitude()))
-			.title("Location: " + getLatitude() + ", " + getLongitude() + "\ndB: " + getDB())
+			.title("dB: " + getDB())
 			.icon(STILL);
 	}
 }

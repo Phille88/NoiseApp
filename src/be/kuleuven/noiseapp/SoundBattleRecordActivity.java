@@ -11,6 +11,7 @@ import android.support.v4.app.NavUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -83,13 +84,13 @@ public class SoundBattleRecordActivity extends RecordActivity {
 					if (!isProviderFixed())
 						Toast.makeText(getApplicationContext(),
 								"Wait for the GPS to have a fixed location",
-								Toast.LENGTH_SHORT).show();
+								Toast.LENGTH_LONG).show();
 					else if (!getClosestNoiseLocationToRecord().isClose(
 							currentLocation))
 						Toast.makeText(
 								getApplicationContext(),
 								"You have to get closer to a Sound Battle Location",
-								Toast.LENGTH_SHORT).show();
+								Toast.LENGTH_LONG).show();
 					else {
 
 						// prepare for a progress bar dialog
@@ -100,6 +101,14 @@ public class SoundBattleRecordActivity extends RecordActivity {
 								t.interrupt();
 								t = null;
 								return;
+							}
+							
+							@Override
+							public boolean onTouchEvent(MotionEvent e){
+								this.dismiss();
+								t.interrupt();
+								t = null;
+								return true;
 							}
 						};
 						progressBar.setCancelable(true);
@@ -187,7 +196,7 @@ public class SoundBattleRecordActivity extends RecordActivity {
 			e.printStackTrace();
 			Toast.makeText(getApplicationContext(),
 					"You are not near Leuven. Restart the application when you are there.",
-					Toast.LENGTH_SHORT).show();
+					Toast.LENGTH_LONG).show();
 			try {
 				Thread.sleep(8000);//TODO testen in Antwerpen!
 			} catch (InterruptedException e1) {

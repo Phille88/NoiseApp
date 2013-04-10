@@ -195,12 +195,20 @@ containing a value of this type.
         public static final int img_btn_view_profile=0x7f02002e;
         public static final int img_btn_view_profile_clicked=0x7f02002f;
         public static final int img_btn_view_profile_states=0x7f020030;
-        public static final int img_profile=0x7f020031;
-        public static final int img_score_opponent=0x7f020032;
-        public static final int img_score_player=0x7f020033;
-        public static final int location_map=0x7f020034;
-        public static final int recorder=0x7f020035;
-        public static final int social_person=0x7f020036;
+        public static final int img_marker_close=0x7f020031;
+        public static final int img_marker_far=0x7f020032;
+        public static final int img_marker_loud=0x7f020033;
+        public static final int img_marker_mediumloud=0x7f020034;
+        public static final int img_marker_mediumstill=0x7f020035;
+        public static final int img_marker_ontheway=0x7f020036;
+        public static final int img_marker_recorded=0x7f020037;
+        public static final int img_marker_still=0x7f020038;
+        public static final int img_profile=0x7f020039;
+        public static final int img_score_opponent=0x7f02003a;
+        public static final int img_score_player=0x7f02003b;
+        public static final int location_map=0x7f02003c;
+        public static final int recorder=0x7f02003d;
+        public static final int social_person=0x7f02003e;
     }
     public static final class id {
         public static final int action_settings=0x7f04006a;
