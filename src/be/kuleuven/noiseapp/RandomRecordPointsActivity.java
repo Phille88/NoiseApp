@@ -1,5 +1,7 @@
 package be.kuleuven.noiseapp;
 
+import java.text.DecimalFormat;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +10,8 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class RandomRecordPointsActivity extends Activity {
 
@@ -17,6 +21,9 @@ public class RandomRecordPointsActivity extends Activity {
 		setContentView(R.layout.activity_random_record_points);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		TextView txt_dblevel = (TextView) findViewById(R.id.txt_dblevel);
+		String dbLevel = new DecimalFormat("#.##").format(getIntent().getExtras().getDouble("dBlevel"));
+		txt_dblevel.setText(dbLevel);
 	}
 
 	/**

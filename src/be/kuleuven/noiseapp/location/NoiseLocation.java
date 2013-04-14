@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class NoiseLocation{
 	private LatLng latLng;
-	private int dB;
+	private double dB;
 	private boolean recorded;
 
 	
@@ -72,7 +72,7 @@ public class NoiseLocation{
 		this.dB = dB;
 	}
 
-	public int getdB() {
+	public double getdB() {
 		return dB;
 	}
 	

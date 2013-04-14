@@ -65,7 +65,7 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	private static final int THREE_SECONDS = 1000 * 3;
 	
 	//fields for database
-	 protected NoiseRecordingsDataSource datasource;
+	protected NoiseRecordingsDataSource datasource;
 	private boolean gpsFixedMessageShown = false;
 	 
 	@Override
@@ -117,11 +117,9 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 		datasource = new NoiseRecordingsDataSource(this);
 	}
 	
-	private void addNoiseRecording(String userid, double lat, double lon, double dB, double acc){
-		Random r = new Random();
-		Double randomDB = (r.nextDouble()*100)+20;
+	void addNoiseRecording(String userid, double lat, double lon, double dB, double acc){
 	    datasource.open();
-		datasource.createNoiseRecording(userid, lat, lon, randomDB, acc);
+		datasource.createNoiseRecording(userid, lat, lon, dB, acc);
 		datasource.close();
 	}
 
@@ -152,9 +150,7 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 			 case 60: return 70;
 			 case 70: return 80;
 			 case 80: return 90;
-			 case 90: 
-				 addNoiseRecording("demo", currentLocation.getLatitude(), currentLocation.getLongitude(), 50, 10);
-				 return 100;
+			 case 90: return 100;
 		 }
 		 return 100;
 	}

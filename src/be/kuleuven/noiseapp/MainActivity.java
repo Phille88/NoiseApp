@@ -27,6 +27,8 @@ public class MainActivity extends Activity {
 				// onPause();
 				Intent i = new Intent(getApplicationContext(),
 						RandomRecordActivity.class);
+//				Intent i = new Intent(getApplicationContext(),
+//						TestRecordActivity.class);
 				startActivity(i);
 			}
 		});

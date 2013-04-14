@@ -113,8 +113,7 @@ public class SoundBattleRecordActivity extends RecordActivity {
 						};
 						progressBar.setCancelable(true);
 						progressBar.setMessage("Recording...");
-						progressBar
-								.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+						progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 						progressBar.setProgress(0);
 						progressBar.setMax(100);
 						progressBar.show();

@@ -1,11 +1,17 @@
 package be.kuleuven.noiseapp;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,7 +21,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class RandomRecordActivity extends RecordActivity {
 	
@@ -77,7 +82,7 @@ public class RandomRecordActivity extends RecordActivity {
 
 		@Override
 		public void onClick(View v) {	
-			if(isProviderFixed()){
+			//if(isProviderFixed()){
 		
 				//prepare for a progress bar dialog
 				progressBar = new ProgressDialog(v.getContext()){
@@ -111,19 +116,42 @@ public class RandomRecordActivity extends RecordActivity {
 				//create the progress dialog thread
 				t = new Thread(new Runnable() {
 					
+					private String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/audiorecordsample.3gp";
+
 					@Override
 					public void run() {
 						Thread thisThread = Thread.currentThread();
+						ArrayList<Double> dBs =new ArrayList<Double>();
+						//ArrayList<Double> amps =new ArrayList<Double>();
+						double amp = 0;
+						MediaRecorder mRecorder = new MediaRecorder();
+						mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+						mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+						mRecorder.setAudioChannels(2);
+						mRecorder.setAudioEncodingBitRate(44100);
+						mRecorder.setOutputFile(mFileName); 
+						mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);
+						try {
+				            mRecorder.prepare();
+				        } catch (IOException e) {
+				            Log.e("AudioRecordTest", "prepare() failed");
+				        }
+						mRecorder.start();
+						mRecorder.getMaxAmplitude();
+						
 						while (progressBarStatus < 100 && thisThread == t) {
-								// comp is too fast, sleep 1 second
+							for(int i = 0; i<4;i++){
 							try {
-								Thread.sleep(1000);
+								Thread.sleep(250);
 
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 								progressBarStatus = 0;
 							}
-
+							amp = mRecorder.getMaxAmplitude();
+							dBs.add(20 * Math.log10(amp / 1f));
+							//amps.add(amp);
+							}
 							// process some tasks
 							progressBarStatus = doSomeTasks();
 
@@ -138,6 +166,22 @@ public class RandomRecordActivity extends RecordActivity {
 
 						// ok, task is done
 						if (progressBarStatus >= 100) {
+							mRecorder.stop();
+							mRecorder.reset();
+							mRecorder.release();
+							mRecorder=null;
+							double avgDB = 0;
+							//double avgAmp = 0;
+							int size = 0;
+							for(int i = 0; i < dBs.size(); i++){
+								if(!dBs.get(i).isNaN() && !dBs.get(i).isInfinite() && dBs.get(i) != 0){
+									avgDB += dBs.get(i);
+									//avgAmp += amps.get(i);
+									size++;
+								}
+							}
+							avgDB = avgDB/size;
+							//avgAmp = avgAmp/size;
 
 							// sleep 2 seconds, so that you can see the 100%
 							try {
@@ -148,17 +192,22 @@ public class RandomRecordActivity extends RecordActivity {
 
 							// close the progress bar dialog
 							progressBar.dismiss();
+							addNoiseRecording("demo", currentLocation.getLatitude(), currentLocation.getLongitude(), avgDB, 10);
+							
 							Thread.currentThread().interrupt();
+							Bundle b = new Bundle();
+							b.putDouble("dBlevel", avgDB);
 							Intent i = new Intent(getApplicationContext(),
 									RandomRecordPointsActivity.class);
+							i.putExtras(b);
 							startActivity(i);
 						}
 					}
 				});
 				t.start();
-			}
-			else
-				Toast.makeText(getApplicationContext(), "Wait for the GPS to have a fixed location", Toast.LENGTH_SHORT).show();
+//			}
+//			else
+//				Toast.makeText(getApplicationContext(), "Wait for the GPS to have a fixed location", Toast.LENGTH_SHORT).show();
 		}
 	};
 	}

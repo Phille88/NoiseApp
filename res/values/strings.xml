@@ -104,7 +104,7 @@
     <string name="title_activity_sound_checkin">Sound Check-in</string>
     <string name="txt_sound_checkin_name">Sound Checkin</string>
     <string name="txt_sound_checkin_whatplace">Where are you?</string>
-    
+
     <!-- VIEW PROFILE -->
     <string name="title_activity_view_profile_tab">Profile</string>
     <!-- - ME -->
@@ -140,5 +140,7 @@
 
     <!-- General -->
     <string name="txt_content_ok">Click OK to proceed.</string>
-	<string name="title_activity_maps">Record</string>
+    <string name="title_activity_maps">Record</string>
+    <string name="title_activity_test_record">TestRecordActivity</string>
+
 </resources>

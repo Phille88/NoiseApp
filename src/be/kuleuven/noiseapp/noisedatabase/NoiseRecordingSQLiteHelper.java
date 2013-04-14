@@ -16,7 +16,7 @@ public class NoiseRecordingSQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_ACCURACY = "_accuracy";
 
 	private static final String DATABASE_NAME = "commments.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = "create table "
@@ -46,5 +46,4 @@ public class NoiseRecordingSQLiteHelper extends SQLiteOpenHelper {
 	    db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOISERECORDINGS);
 	    onCreate(db);
 	  }
-
 }

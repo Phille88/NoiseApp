@@ -52,6 +52,13 @@ public class NoiseRecordingsDataSource {
 	    database.delete(NoiseRecordingSQLiteHelper.TABLE_NOISERECORDINGS, NoiseRecordingSQLiteHelper.COLUMN_ID
 	    + " = " + id, null);
 	  }
+	 
+	 public void deleteAllNoiseRecordings(){
+		 ArrayList<NoiseRecording> noiseRecordings = getAllNoiseRecordings();
+		 for(NoiseRecording nr : noiseRecordings) {
+			 deleteNoiseRecording(nr);
+		 }
+	 }
 	
 	  public ArrayList<NoiseRecording> getAllNoiseRecordings() {
 		  ArrayList<NoiseRecording> noiseRecordings = new ArrayList<NoiseRecording>();
