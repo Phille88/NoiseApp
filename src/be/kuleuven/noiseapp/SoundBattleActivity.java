@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class SoundBattleActivity extends Activity {
 
@@ -24,6 +25,7 @@ public class SoundBattleActivity extends Activity {
 		btn_FacebookFriend.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
+				Toast.makeText(getApplicationContext(), "This function will be available later.", Toast.LENGTH_LONG).show();
 			}
 		});
 		

@@ -84,7 +84,7 @@
 
     <!-- NOISE HUNT -->
     <string name="title_activity_noise_hunt">Noise Hunt</string>
-    <string name="txt_noise_hunt_challenge">Choose a challenge</string>
+    <string name="txt_noise_hunt_challenge">Noise hunts:</string>
     <string name="txt_noise_hunt_walkinthepark">Walk in the Park</string>
     <string name="txt_desc_noise_hunt_walkinthepark">Nothing is more pieceful than a refreshing walk in the park, don\'t you think? But is it? What\'s the noise like over there? \n\nTry to measure the sound levels at 3 locations in the park. They should be at least 50m away from each other.</string>
     <string name="title_activity_walk_in_the_park">Walk in the Park</string>
@@ -109,6 +109,7 @@
     <string name="title_activity_view_profile_tab">Profile</string>
     <!-- - ME -->
     <string name="title_section1">Me</string>
+    <string name="txt_desc_img_profile_picture">Profile picture</string>
     <string name="txt_username">Philippe De Croock</string>
     <string name="txt_points_earned">Points earned:</string>
     <string name="txt_points_earned_username">62</string>
@@ -134,6 +135,9 @@
     <!-- SHOW MAP -->
     <string name="txt_show_map_name">All Recorded Noise</string>
     <string name="title_activity_show_map">Show Map</string>
+    
+    <!-- POPUP -->
+    <string name="txt_checkbox_dont_show_again">Don\'t show this again</string>
 
     <!-- Hello World -->
     <string name="hello_world">Hello, World!</string>

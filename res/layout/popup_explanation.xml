@@ -45,9 +45,19 @@
           android:layout_height="wrap_content"
           android:layout_alignParentRight="true"
           android:layout_below="@+id/txt_explanation"
-          android:layout_marginTop="10dp"
+          android:layout_marginTop="15dp"
           android:background="@drawable/img_btn_ok_states"
           android:contentDescription="@string/txt_content_ok"/>
+
+      <CheckBox
+          android:id="@+id/checkBox_dont_show_again"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:layout_below="@+id/txt_explanation"
+          android:layout_marginTop="15dp"
+          android:text="@string/txt_checkbox_dont_show_again" />
+
     </RelativeLayout>
 
 </RelativeLayout>

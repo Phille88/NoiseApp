@@ -62,4 +62,9 @@ public class ShowMapActivity extends RecordActivity {
 		datasource.close();
 	}
 
+	@Override
+	protected String getPopupDontShowAgainName() {
+		return null;
+	}
+
 }

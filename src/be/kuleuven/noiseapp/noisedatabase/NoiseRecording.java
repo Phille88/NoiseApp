@@ -1,49 +1,70 @@
 package be.kuleuven.noiseapp.noisedatabase;
 
+import java.io.Serializable;
+import java.math.BigInteger;
+
+import android.graphics.Color;
 import be.kuleuven.noiseapp.R;
+import be.kuleuven.noiseapp.points.RecordingPoints;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class NoiseRecording {
-	  private long id;
-	  private long userId;
-	  private double latitude;
-	  private double longitude;
-	  private double dB;
-	  private double accuracy;
+public class NoiseRecording implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	private long id;
+	private BigInteger userID;
+	private double latitude;
+	private double longitude;
+	private double dB;
+	private double accuracy;
+	private double quality;
+	private RecordingPoints recordingPoints;
 	  
-	  private static final double HUNDRED_DB = 100;
-	  private static final double NINETY_DB = 90; 
-	  private static final double SIXTY_DB = 60; 
+	private static final double EIGHTY_DB = 80;
+	private static final double SIXTY_DB = 60; 
+	private static final double FORTY_DB = 40; 
 	  
-		private static final BitmapDescriptor LOUD = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_loud);
-		private static final BitmapDescriptor MEDIUMLOUD = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_mediumloud);
-		private static final BitmapDescriptor MEDIUMSTILL = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_mediumstill);
-		private static final BitmapDescriptor STILL = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_still);
+	private static final BitmapDescriptor LOUD = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_loud);
+	private static final BitmapDescriptor MEDIUMLOUD = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_mediumloud);
+	private static final BitmapDescriptor MEDIUMSTILL = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_mediumstill);
+	private static final BitmapDescriptor STILL = BitmapDescriptorFactory.fromResource(R.drawable.img_marker_still);
 	  
-	  public long getId() {
-	    return id;
-	  }
+	public NoiseRecording(){
+	}
+	
+	public NoiseRecording(BigInteger userID, double latitude, double longitude, double dB, double accuracy, double quality){
+		this.userID = userID;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.dB = dB;
+		this.accuracy = accuracy;
+		this.setQuality(quality);
+	}
+	
+	public long getId() {
+		return id;
+	}
 
-	  public void setId(long id) {
+	public void setId(long id) {
 	    this.id = id;
-	  }
+	}
 
 	/**
 	 * @return the userId
 	 */
-	public long getUserId() {
-		return userId;
+	public BigInteger getUserId() {
+		return userID;
 	}
 
 	/**
 	 * @param string the userId to set
 	 */
-	public void setUserId(long string) {
-		this.userId = string;
+	public void setUserID(BigInteger userID) {
+		this.userID = userID;
 	}
 
 	/**
@@ -108,15 +129,15 @@ public class NoiseRecording {
 	}
 
 	public MarkerOptions getMarker() {
-		if(getDB() > HUNDRED_DB)
+		if(getDB() > EIGHTY_DB)
 			return new MarkerOptions().position(new LatLng(getLatitude(),getLongitude()))
 			.title("dB: " + getDB())
 			.icon(LOUD);
-		else if (getDB() > NINETY_DB)
+		else if (getDB() > SIXTY_DB)
 			return new MarkerOptions().position(new LatLng(getLatitude(),getLongitude()))
 			.title("dB: " + getDB())
 			.icon(MEDIUMLOUD);
-		else if (getDB() > SIXTY_DB)
+		else if (getDB() > FORTY_DB)
 			return new MarkerOptions().position(new LatLng(getLatitude(),getLongitude()))
 			.title("dB: " + getDB())
 			.icon(MEDIUMSTILL);
@@ -125,4 +146,33 @@ public class NoiseRecording {
 			.title("dB: " + getDB())
 			.icon(STILL);
 	}
+	
+	public int getLoudnessColor(){
+		if(getDB() > EIGHTY_DB)
+			return Color.rgb(255, 7, 24);
+		else if (getDB() > SIXTY_DB)
+			return Color.rgb(255, 96, 5);
+		else if (getDB() > FORTY_DB)
+			return Color.rgb(255, 216, 0);
+		else
+			return Color.rgb(0, 255, 33);
+	}
+
+	public void setQuality(double quality) {
+		this.quality = quality;
+	}
+
+	public double getQuality() {
+		return quality;
+	}
+
+	public void setRecordingPoints(RecordingPoints recordingPoints) {
+		this.recordingPoints = recordingPoints;
+	}
+
+	public RecordingPoints getRecordingPoints() {
+		return recordingPoints;
+	}
 }
+
+

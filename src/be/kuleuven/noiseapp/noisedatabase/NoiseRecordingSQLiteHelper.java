@@ -15,8 +15,8 @@ public class NoiseRecordingSQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_DB = "_db";
 	public static final String COLUMN_ACCURACY = "_accuracy";
 
-	private static final String DATABASE_NAME = "commments.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final String DATABASE_NAME = "noiserecordings.db";
+	private static final int DATABASE_VERSION = 1;
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = "create table "

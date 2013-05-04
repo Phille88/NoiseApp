@@ -219,5 +219,10 @@ public class WalkInTheParkActivity extends RecordActivity {
 		((NoiseHuntState) this.getApplication()).setWalkInTheParkDone(true);
 	}
 
+	@Override
+	protected String getPopupDontShowAgainName() {
+		return "WITP_DSA";
+	}
+
 	
 }

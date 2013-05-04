@@ -17,32 +17,11 @@
         android:textColor="#ffcc00"
         android:textSize="80sp"/>
 
-    <ImageView
-        android:id="@+id/img_badge_newbie"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_below="@+id/txt_dblevel"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:contentDescription="@string/txt_content_badge_newbie"
-        android:src="@drawable/img_badge_newbie" />
-
-    <TextView
-        android:id="@+id/txt_badge_newbie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/img_badge_newbie"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:text="@string/txt_badge_newbie"
-        android:textColor="#ffcc00"
-        android:textSize="20sp" />
-
     <TextView
         android:id="@+id/txt_well_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_badge_newbie"
+        android:layout_below="@+id/txt_dblevel"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="@string/txt_well_done"
@@ -58,117 +37,14 @@
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:stretchColumns="*" >
+    
 
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/txt_example_newbie_badge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_example_newbie_badge" />
-
-            <TextView
-                android:id="@+id/txt_example_newbie_badge_points"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/txt_example_newbie_badge_points" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/txt_example_first_time_street"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_example_first_time_street" />
-
-            <TextView
-                android:id="@+id/txt_example_first_time_street_points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/txt_example_first_time_street_points" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/txt_example_first_of_friends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_example_first_of_friends" />
-
-            <TextView
-                android:id="@+id/txt_example_first_of_friends_points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/txt_example_first_of_friends_points" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/txt_example_quality"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_example_quality" />
-
-            <TextView
-                android:id="@+id/txt_example_quality_points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/txt_example_quality_points" />
-        </TableRow>
-        
-
-        <TableRow
+       	<TableRow
             android:id="@+id/tableRow4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
             android:layout_marginTop="15dp">
 
-            <TextView
-		        android:id="@+id/txt_example_total"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/txt_example_total"
-		        android:textSize="20sp" 
-		        android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/txt_example_total_points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/txt_example_total_points" 
-		        android:textSize="20sp"
-		        android:textStyle="bold"/>
         </TableRow>
     </TableLayout>
-    <Button
-       android:id="@+id/btn_share_on_facebook"
-       android:layout_width="50dp"
-       android:layout_height="50dp"
-       android:layout_below="@+id/tbl_points"
-       android:layout_marginTop="10dp"
-       android:layout_centerHorizontal="true"
-       android:background="@drawable/img_btn_share_on_facebook"
-       android:contentDescription="@string/txt_content_share_on_facebook"
-       android:textStyle="bold" 
-       android:textColor="#000000" />
 </RelativeLayout>

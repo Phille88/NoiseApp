@@ -1,16 +1,31 @@
 package be.kuleuven.noiseapp;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import be.kuleuven.noiseapp.auth.AbstractGetInfoTask;
+import be.kuleuven.noiseapp.auth.GetInfoInForeground;
+
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends Activity {
+    private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
+	private static final int REQUEST_CODE_RECOVER_FROM_AUTH_ERROR = 1001;
+    private static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1002;
+    private TextView txt_userName;
+    
 	public MainActivity() {
 	}
 
@@ -18,6 +33,27 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+		
+//		sp.edit().clear();
+//		sp.edit().commit();
+		
+		String firstName = sp.getString("firstName", null);
+		
+		if(firstName == null){
+			//Account Manager for Google Login
+			AccountManager am = AccountManager.get(this); // "this" references the current Context
+			Account[] accounts = am.getAccountsByType("com.google");
+	
+			getTask(MainActivity.this, accounts[0].name, SCOPE, REQUEST_CODE_RECOVER_FROM_AUTH_ERROR)
+	        .execute();
+		}
+		else {
+			TextView txt_userName = (TextView) this.findViewById(R.id.txt_userName);
+			txt_userName.setText("Hello, " + firstName);
+		}
 
 		ImageButton btn_RandomRecord = (ImageButton) findViewById(R.id.btn_random_record);
 		btn_RandomRecord.setOnClickListener(new OnClickListener() {
@@ -91,6 +127,14 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
+	
+    /**
+     * Note: This approach is for demo purposes only. Clients would normally not get tokens in the
+     * background from a Foreground activity.
+     */
+    private AbstractGetInfoTask getTask(MainActivity activity, String email, String scope, int requestCode) {
+    	return new GetInfoInForeground(activity, email, scope, requestCode);
+    }
 
 	@TargetApi(14)
 	@Override
@@ -106,4 +150,31 @@ public class MainActivity extends Activity {
 //		map.setIcon(R.drawable.location_map);
 		return true;
 	}
+
+	public void showFirstName(final String message) {
+		runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+            	txt_userName = (TextView) findViewById(R.id.txt_userName);
+            	txt_userName.setText("Hello, " + message + "!");
+            }
+        });
+	}
+	
+    /**
+     * This method is a hook for background threads and async tasks that need to launch a dialog.
+     * It does this by launching a runnable under the UI thread.
+     */
+    public void showErrorDialog(final int code) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              Dialog d = GooglePlayServicesUtil.getErrorDialog(
+                  code,
+                  MainActivity.this,
+                  REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR);
+              d.show();
+            }
+        });
+    }
 }

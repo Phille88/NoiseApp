@@ -1,12 +1,13 @@
 package be.kuleuven.noiseapp;
 
 import java.util.Date;
-import java.util.Random;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,6 +15,7 @@ import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -25,6 +27,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -43,7 +47,9 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 
 	// fields for Google Maps API
 	protected GoogleMap mMap;
-	private UiSettings mUiSettings;
+	private UiSettings mUiSettings;    
+	private float currentZoomLevel = 18;
+	private static Location LEUVEN_CENTER;
 
 	// fields for Android location
 	protected LocationManager locationManager;
@@ -51,9 +57,7 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	private boolean providerFixed;
 	protected Location currentLocation;
 	
-    private float currentZoomLevel = 16;
 	private Date lastTouchTime = new Date(System.currentTimeMillis()-15000);
-	private static Location LEUVEN_CENTER;
 	
 	protected Button btn_record;
 	
@@ -77,7 +81,8 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 		LEUVEN_CENTER.setLongitude(4.704328);
 		
 		setupActionBar();
-		if(popupNeeded())
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+		if(popupNeeded() && !sp.getBoolean(getPopupDontShowAgainName(), false))
 			showPopup();
 		
 		addListenerToRecordButton();	
@@ -94,7 +99,6 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
         if (!enabledGPS) {
             Toast.makeText(this, "Please, enable GPS to use this application.", Toast.LENGTH_LONG).show();
         }
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         // Define the criteria how to select the locatioin provider -> use
         // default
@@ -492,6 +496,23 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 				popupWindow.dismiss();
 			}
 		});
+		
+		final CheckBox checkbox = (CheckBox) popupView.findViewById(R.id.checkBox_dont_show_again);
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			@Override
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(RecordActivity.this);
+				Editor edit = sp.edit();
+				if(checkbox.isChecked())
+					edit.putBoolean(getPopupDontShowAgainName(), true);
+				else
+					edit.putBoolean(getPopupDontShowAgainName(), false);
+				edit.commit();
+			}
+		}
+		);
+		
 		DisplayMetrics metrics = getApplicationContext().getResources()
 				.getDisplayMetrics();
 		popupWindow.setHeight(metrics.heightPixels);
@@ -506,7 +527,7 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 		});
 	}
 
-	abstract protected int getActivityTitle();
-	abstract protected int getPopupExplanation();
-
+	protected abstract int getActivityTitle();
+	protected abstract int getPopupExplanation();
+	protected abstract String getPopupDontShowAgainName();
 }

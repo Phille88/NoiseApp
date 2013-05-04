@@ -8,6 +8,22 @@
     android:gravity="center_horizontal|center_vertical"
     android:stretchColumns="2" >
 
+	<TableRow 
+	    android:id = "@+id/tableRow0"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:weightSum="100">
+	    
+	    <TextView 
+	        android:id="@+id/txt_userName"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="#FFFFFF"
+	        android:textSize="20sp"
+	        android:textStyle="bold"
+	        />
+	    
+	</TableRow>
         <TableRow
             android:id="@+id/tableRow1"
             android:layout_width="fill_parent"

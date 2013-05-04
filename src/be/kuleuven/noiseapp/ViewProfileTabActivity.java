@@ -1,27 +1,32 @@
 package be.kuleuven.noiseapp;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import be.kuleuven.noiseapp.tools.Constants;
 
 public class ViewProfileTabActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -136,7 +141,6 @@ public class ViewProfileTabActivity extends FragmentActivity implements
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			//TODO logica voor het kiezen van de tabs
 			Fragment fragment = null;
 			switch(position){
 			case 0: fragment = new MeFragment();
@@ -144,9 +148,6 @@ public class ViewProfileTabActivity extends FragmentActivity implements
 			case 1: fragment = new FriendsFragment();
 					break;
 			}
-//			Bundle args = new Bundle();
-//			args.putInt(MeFragment.ARG_SECTION_NUMBER, position + 1);
-//			fragment.setArguments(args);
 			return fragment;
 		}
 
@@ -174,11 +175,6 @@ public class ViewProfileTabActivity extends FragmentActivity implements
 	 * displays dummy text.
 	 */
 	public static class MeFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-//		public static final String ARG_SECTION_NUMBER = "section_number";
 
 		public MeFragment() {
 			this.setRetainInstance(true);
@@ -187,8 +183,28 @@ public class ViewProfileTabActivity extends FragmentActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 			RelativeLayout rootView = (RelativeLayout) inflater.inflate(R.layout.tab1_view_profile_me, container, false);
-//			TextView dummyTextView = (TextView) rootView.findViewById(R.id.txt_tab1_title);
-//			dummyTextView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+			TextView txt_userName = (TextView) rootView.findViewById(R.id.txt_username);
+			txt_userName.setText(sp.getString("firstName", "") + " " + sp.getString("lastName", ""));
+			ImageView img_profilePicture = (ImageView) rootView.findViewById(R.id.img_profile_picture);
+			
+			Bitmap bm = null;
+			try {
+				FileInputStream fis = getActivity().openFileInput(Constants.FILENAME_PROFILE_PICTURE);
+				bm = BitmapFactory.decodeStream(fis);
+				fis.close();
+			} 	
+			catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}	
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			if(bm != null){
+				img_profilePicture.setImageBitmap(bm);
+			}
+			
 			return rootView;
 		}
 	}
@@ -198,11 +214,6 @@ public class ViewProfileTabActivity extends FragmentActivity implements
 	 * displays dummy text.
 	 */
 	public static class FriendsFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-//		public static final String ARG_SECTION_NUMBER = "section_number";
 
 		public FriendsFragment() {
 		}
@@ -210,8 +221,6 @@ public class ViewProfileTabActivity extends FragmentActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.tab2_view_profile_friends, container, false);
-//			TextView dummyTextView = (TextView) rootView.findViewById(R.id.txt_tab1_title);
-//			dummyTextView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 			return rootView;
 		}
 	}

@@ -4,17 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <QuickContactBadge
-        android:id="@+id/quickContactBadge1"
+    <ImageView
+        android:id="@+id/img_profile_picture"
+        android:contentDescription="@string/txt_desc_img_profile_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/img_profile" />
+        />
 
     <TextView
         android:id="@+id/txt_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/quickContactBadge1"
+        android:layout_toRightOf="@+id/img_profile_picture"
         android:text="@string/txt_username"
         android:textSize="@dimen/size_txt_username"
         android:textStyle="bold" />
@@ -23,7 +24,7 @@
         android:id="@+id/tbl_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/quickContactBadge1"
+        android:layout_below="@+id/img_profile_picture"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="40dp"
