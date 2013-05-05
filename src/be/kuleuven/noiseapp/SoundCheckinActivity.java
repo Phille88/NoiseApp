@@ -245,7 +245,7 @@ public class SoundCheckinActivity extends RecordActivity implements LocationList
 
 							// close the progress bar dialog
 							progressBar.dismiss();
-							addNoiseRecording("demo", currentLocation.getLatitude(), currentLocation.getLongitude(), avgDB, 10);
+//							addNoiseRecording("demo", currentLocation.getLatitude(), currentLocation.getLongitude(), avgDB, 10);
 							
 							Thread.currentThread().interrupt();
 							Bundle b = new Bundle();

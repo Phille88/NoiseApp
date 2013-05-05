@@ -37,9 +37,6 @@ public class MainActivity extends Activity {
 		
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 		
-//		sp.edit().clear();
-//		sp.edit().commit();
-		
 		String firstName = sp.getString("firstName", null);
 		
 		if(firstName == null){

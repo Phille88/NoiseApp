@@ -1,7 +1,6 @@
 package be.kuleuven.noiseapp.recording;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 import android.app.ProgressDialog;
@@ -15,6 +14,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import be.kuleuven.noiseapp.RecordActivity;
+import be.kuleuven.noiseapp.noisedatabase.CreateNoiseRecordingTask;
 import be.kuleuven.noiseapp.noisedatabase.NoiseRecording;
 
 public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRecording> {
@@ -137,7 +137,7 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 				e.printStackTrace();
 			}
 			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(v.getContext());
-			BigInteger userID = new BigInteger(sp.getString("userID", null));
+			long userID = sp.getLong("userID", 0L);
 			recordedNoise = new NoiseRecording(userID, currentLocation.getLatitude(), currentLocation.getLongitude(), avgDB, 10, 10);
 			
 		}
@@ -180,6 +180,6 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 	}
 	
 	protected void saveNoiseRecording(NoiseRecording nr){
-		new CreateNoiseRecording(nr).execute();
+		new CreateNoiseRecordingTask(nr).execute();
 	}	
 }

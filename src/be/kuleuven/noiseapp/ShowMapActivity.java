@@ -1,7 +1,9 @@
 package be.kuleuven.noiseapp;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
+import be.kuleuven.noiseapp.noisedatabase.GetAllNoiseRecordingsTask;
 import be.kuleuven.noiseapp.noisedatabase.NoiseRecording;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +17,6 @@ public class ShowMapActivity extends RecordActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_show_map);
 		showNoiseRecordings();
 		
 		Button btn_record = (Button) findViewById(R.id.btn_record);
@@ -53,13 +54,20 @@ public class ShowMapActivity extends RecordActivity {
 	}
 	
 	private void showNoiseRecordings(){
-		datasource.read();
 		super.mMap.clear();
-		ArrayList<NoiseRecording> recordings = super.datasource.getAllNoiseRecordings();
-		for (NoiseRecording nr : recordings){
-			super.mMap.addMarker(nr.getMarker());
+		ArrayList<NoiseRecording> recordings;
+		try {
+			recordings = new GetAllNoiseRecordingsTask().execute().get();
+			for (NoiseRecording nr : recordings){
+				super.mMap.addMarker(nr.getMarker());
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		datasource.close();
 	}
 
 	@Override

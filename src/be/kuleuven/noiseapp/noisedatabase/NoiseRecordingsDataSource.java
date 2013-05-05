@@ -1,7 +1,7 @@
 package be.kuleuven.noiseapp.noisedatabase;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -81,7 +81,7 @@ public class NoiseRecordingsDataSource {
 	  private NoiseRecording cursorToNoiseRecording(Cursor cursor) {
 		NoiseRecording noiseRecording = new NoiseRecording();
 	    noiseRecording.setId(cursor.getLong(0));
-	    noiseRecording.setUserID(new BigInteger(cursor.getString(1)));
+	    noiseRecording.setUserID(cursor.getLong(1));
 	    noiseRecording.setLatitude(Double.parseDouble(cursor.getString(2)));
 	    noiseRecording.setLongitude(Double.parseDouble(cursor.getString(3)));
 	    noiseRecording.setDB(Double.parseDouble(cursor.getString(4)));

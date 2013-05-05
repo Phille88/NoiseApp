@@ -33,7 +33,6 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import be.kuleuven.noiseapp.noisedatabase.NoiseRecordingsDataSource;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -69,7 +68,7 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	private static final int THREE_SECONDS = 1000 * 3;
 	
 	//fields for database
-	protected NoiseRecordingsDataSource datasource;
+	//protected NoiseRecordingsDataSource datasource;
 	private boolean gpsFixedMessageShown = false;
 	 
 	@Override
@@ -108,23 +107,11 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
         currentLocation = locationManager.getLastKnownLocation(provider);
         if(currentLocation == null)
         	currentLocation = LEUVEN_CENTER;
-//        initializeBattleLocations();
         zoomTo(currentLocation);
-        initializeNoiseRecordingDatabase();
 	}
 	
 	protected void setView() {
 		setContentView(R.layout.activity_map_record);
-	}
-
-	private void initializeNoiseRecordingDatabase() {
-		datasource = new NoiseRecordingsDataSource(this);
-	}
-	
-	void addNoiseRecording(String userid, double lat, double lon, double dB, double acc){
-	    datasource.open();
-		datasource.createNoiseRecording(userid, lat, lon, dB, acc);
-		datasource.close();
 	}
 
 	protected void addListenerToRecordButton() {

@@ -44,7 +44,7 @@ import com.google.android.gms.auth.GoogleAuthUtil;
  */
 public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, Void>{
     private static final String TAG = "TokenInfoTask";
-	private static final String USERID_KEY = "id";
+	private static final String GOOGLEID_KEY = "id";
     private static final String NAME_KEY = "given_name";
     private static final String FAMILY_NAME_KEY = "family_name";
 	private static final String PICTURE_KEY = "picture";
@@ -113,13 +113,13 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, Void>{
           InputStream is = con.getInputStream();
           String response = readResponse(is);
           JSONObject profile = new JSONObject(response);
-          BigInteger userID = getUserID(profile);
+          BigInteger googleID = getGoogleID(profile);
           String firstName = getFirstName(profile);
           String lastName = getLastName(profile);
           mActivity.showFirstName(firstName);
           String pictureURL = getPicture(profile);
-          saveUserProfileServer(userID, firstName, lastName, mEmail, pictureURL);
-          saveUserProfileLocal(userID, firstName, lastName, mEmail, pictureURL);
+          saveUserProfileServer(googleID, firstName, lastName, mEmail, pictureURL);
+          saveUserProfileLocal(googleID, firstName, lastName, mEmail, pictureURL);
           is.close();
           return;
         } else if (sc == 401) {
@@ -146,31 +146,23 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, Void>{
         return new String(bos.toByteArray(), "UTF-8");
     }
     
-//    private void initializeUserProfileDatabase(Context context) {
-//		datasource = new UserProfileDataSource(context);
-//	}
-    
-    private void saveUserProfileLocal(BigInteger userID, String firstName, String lastName, String email, String pictureURL){
+    private void saveUserProfileLocal(BigInteger googleID, String firstName, String lastName, String email, String pictureURL){
     	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		Editor edit = sp.edit();
-		edit.putString("userID",userID.toString());
+		edit.putString("googleID",googleID.toString());
 		edit.putString("firstName", firstName);
 		edit.putString("lastName", lastName);
 		edit.putString("email", email);
 		edit.commit();
-		new ImageDownloader(mActivity, userID, Constants.FILENAME_PROFILE_PICTURE).execute(pictureURL + "?size=" + PICTURE_SIZE);
-		//TODO Size of the picture!
-//		    datasource.open();
-//			datasource.createUserProfile(userID, firstName,lastName,0);
-//			datasource.close();
+		new ImageDownloader(mActivity, Constants.FILENAME_PROFILE_PICTURE).execute(pictureURL + "?size=" + PICTURE_SIZE);
     }
     
-    private void saveUserProfileServer(BigInteger userID, String firstName, String lastName, String email, String pictureURL){
-    	new CreateUserProfile(userID, firstName, lastName, email, pictureURL).execute();
+    private void saveUserProfileServer(BigInteger googleID, String firstName, String lastName, String email, String pictureURL){
+    	new CreateUserProfile(googleID, firstName, lastName, email, pictureURL, mActivity).execute();
     }
 
-    private BigInteger getUserID(JSONObject profile) throws JSONException {
-    	String toReturnString = profile.getString(USERID_KEY);
+    private BigInteger getGoogleID(JSONObject profile) throws JSONException {
+    	String toReturnString = profile.getString(GOOGLEID_KEY);
     	BigInteger toReturn = new BigInteger(toReturnString);
 		return toReturn;
 	}

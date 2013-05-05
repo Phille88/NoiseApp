@@ -1,7 +1,6 @@
 package be.kuleuven.noiseapp.noisedatabase;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 import android.graphics.Color;
 import be.kuleuven.noiseapp.R;
@@ -16,7 +15,7 @@ public class NoiseRecording implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private long id;
-	private BigInteger userID;
+	private long userID;
 	private double latitude;
 	private double longitude;
 	private double dB;
@@ -36,7 +35,7 @@ public class NoiseRecording implements Serializable{
 	public NoiseRecording(){
 	}
 	
-	public NoiseRecording(BigInteger userID, double latitude, double longitude, double dB, double accuracy, double quality){
+	public NoiseRecording(long userID, double latitude, double longitude, double dB, double accuracy, double quality){
 		this.userID = userID;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -56,14 +55,14 @@ public class NoiseRecording implements Serializable{
 	/**
 	 * @return the userId
 	 */
-	public BigInteger getUserId() {
+	public long getUserId() {
 		return userID;
 	}
 
 	/**
 	 * @param string the userId to set
 	 */
-	public void setUserID(BigInteger userID) {
+	public void setUserID(long userID) {
 		this.userID = userID;
 	}
 
