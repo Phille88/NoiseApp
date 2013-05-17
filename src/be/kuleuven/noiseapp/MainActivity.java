@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import be.kuleuven.noiseapp.auth.AbstractGetInfoTask;
 import be.kuleuven.noiseapp.auth.GetInfoInForeground;
 
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -34,17 +33,21 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		
+		//TODO Check for every record, otherwise sync!
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		String firstName = sp.getString("firstName", null);
-		
-		if(firstName == null){
+		String lastName = sp.getString("lastName", null);
+		String googleID = sp.getString("googleID", null);
+		String email = sp.getString("email", null);
+		String pictureURL = sp.getString("pictureURL", null);
+		long id = sp.getLong("userID", 0L);
+		if(firstName == null || lastName == null || googleID == null || email == null || pictureURL == null || id == 0){
 			//Account Manager for Google Login
 			AccountManager am = AccountManager.get(this); // "this" references the current Context
 			Account[] accounts = am.getAccountsByType("com.google");
 	
-			getTask(MainActivity.this, accounts[0].name, SCOPE, REQUEST_CODE_RECOVER_FROM_AUTH_ERROR)
+			new GetInfoInForeground(MainActivity.this, accounts[0].name, SCOPE, REQUEST_CODE_RECOVER_FROM_AUTH_ERROR)
 	        .execute();
 		}
 		else {
@@ -124,14 +127,6 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
-	
-    /**
-     * Note: This approach is for demo purposes only. Clients would normally not get tokens in the
-     * background from a Foreground activity.
-     */
-    private AbstractGetInfoTask getTask(MainActivity activity, String email, String scope, int requestCode) {
-    	return new GetInfoInForeground(activity, email, scope, requestCode);
-    }
 
 	@TargetApi(14)
 	@Override

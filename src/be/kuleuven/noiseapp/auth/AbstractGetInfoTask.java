@@ -153,6 +153,7 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, Void>{
 		edit.putString("firstName", firstName);
 		edit.putString("lastName", lastName);
 		edit.putString("email", email);
+		edit.putString("pictureURL", pictureURL);
 		edit.commit();
 		new ImageDownloader(mActivity, Constants.FILENAME_PROFILE_PICTURE).execute(pictureURL + "?size=" + PICTURE_SIZE);
     }
@@ -183,7 +184,14 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, Void>{
       return profile.getString(FAMILY_NAME_KEY);
     }
     
-	private String getPicture(JSONObject profile) throws JSONException {
-		return profile.getString(PICTURE_KEY);
+	private String getPicture(JSONObject profile) {
+		String toReturn;
+		try {
+			toReturn = profile.getString(PICTURE_KEY);
+		} catch (JSONException e) {
+			return "http://i.stack.imgur.com/WmvM0.png";
+		}
+		
+		return toReturn;
 	}
 }

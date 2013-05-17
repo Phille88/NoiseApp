@@ -20,10 +20,19 @@ public class SoundBattleLocation extends NoiseLocation {
 	
 	private static final double TEN_METRES = 10;
 	private static final double FIFTY_METERS = 50;
+	private long sblID;
 
 	public SoundBattleLocation(double longitude, double latitude) {
 		super(longitude, latitude);
 		this.setRecorded(false);
+	}
+	
+	public long getSoundBattleLocationID(){
+		return sblID;
+	}
+	
+	public void setSoundBattleLocationID(long sblID){
+		this.sblID = sblID;
 	}
 	
 	public MarkerOptions getMarker(Location currentLocation){
@@ -48,7 +57,9 @@ public class SoundBattleLocation extends NoiseLocation {
 	}
 	
 	public boolean isClose(Location l){
-	    return getDistance(l) <= TEN_METRES && !isRecorded();
+//	    return getDistance(l) <= TEN_METRES && !isRecorded();
+		//TODO uncomment VALENCIA!
+	    return true;
 	}
 	
 	public boolean isOnTheWay(Location l){

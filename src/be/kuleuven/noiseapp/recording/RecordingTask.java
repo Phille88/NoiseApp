@@ -180,6 +180,6 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 	}
 	
 	protected void saveNoiseRecording(NoiseRecording nr){
-		new CreateNoiseRecordingTask(nr).execute();
+		new CreateNoiseRecordingTask().execute(nr);
 	}	
 }

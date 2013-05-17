@@ -1,10 +1,10 @@
 package be.kuleuven.noiseapp;
 
-import android.os.Build;
-import android.os.Bundle;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+import be.kuleuven.noiseapp.soundbattle.GetRandomSoundBattleTask;
 
 public class SoundBattleActivity extends Activity {
 
@@ -34,8 +35,9 @@ public class SoundBattleActivity extends Activity {
 		btn_Random.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(),SoundBattleRecordActivity.class);
-				startActivity(i);
+				new GetRandomSoundBattleTask(getApplicationContext()).execute();
+//				Intent i = new Intent(getApplicationContext(),SoundBattleRecordActivity.class);
+//				startActivity(i);
 			}
 		});
 	}

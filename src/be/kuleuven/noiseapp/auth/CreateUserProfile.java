@@ -73,7 +73,11 @@ public class CreateUserProfile extends AsyncTask<String, String, Long> {
 
             if (success == 1) {
             	return json.getLong(TAG_USERID);
-            } else {
+            } 
+            else {
+            	long userID = json.getLong(TAG_USERID);
+            	if(userID != 0)
+            		return json.getLong(TAG_USERID);
             }
         } catch (JSONException e) {
             e.printStackTrace();

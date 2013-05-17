@@ -48,7 +48,7 @@ public class NoiseRecordingsDataSource {
 	  }
 	
 	 public void deleteNoiseRecording(NoiseRecording noiseRecording) {
-	    long id = noiseRecording.getId();
+	    long id = noiseRecording.getID();
 	    System.out.println("Comment deleted with id: " + id);
 	    database.delete(NoiseRecordingSQLiteHelper.TABLE_NOISERECORDINGS, NoiseRecordingSQLiteHelper.COLUMN_ID
 	    + " = " + id, null);

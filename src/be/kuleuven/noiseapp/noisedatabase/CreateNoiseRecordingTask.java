@@ -13,42 +13,27 @@ import android.util.Log;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.JSONParser;
 
-public class CreateNoiseRecordingTask  extends AsyncTask<String, String, String>{
-
-
-	private long userID;
-	private double latitude;
-	private double longitude;
-	private double dB;
-	private double accuracy;
-	private double quality;
+public class CreateNoiseRecordingTask  extends AsyncTask<NoiseRecording, Void, Void>{
 	
 	private JSONParser jsonParser = new JSONParser();
 	private static String url_create_noiserecording = Constants.BASE_URL_MYSQL + "create_noiserecording.php";
     private static final String TAG_SUCCESS = "success";
-		
-	public CreateNoiseRecordingTask(NoiseRecording nr){
-		this.userID = nr.getUserId();
-		this.latitude = nr.getLatitude();
-		this.longitude = nr.getLongitude();
-		this.dB = nr.getDB();
-		this.accuracy = nr.getAccuracy();
-		this.quality = nr.getQuality();
-	}
+	private static final String TAG_NOISERECORDING_ID = "noiseID";
 
     /**
      * Creating profile
      * */
-    protected String doInBackground(String... args) {
-
+    protected Void doInBackground(NoiseRecording... args) {
+    	NoiseRecording nr = args[0];
+    	
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("userID", Long.toString(userID)));
-        params.add(new BasicNameValuePair("latitude", Double.toString(latitude)));
-        params.add(new BasicNameValuePair("longitude", Double.toString(longitude)));
-        params.add(new BasicNameValuePair("dB",Double.toString(dB)));
-        params.add(new BasicNameValuePair("accuracy",Double.toString(accuracy)));
-        params.add(new BasicNameValuePair("quality",Double.toString(quality)));
+        params.add(new BasicNameValuePair("userID", Long.toString(nr.getUserID())));
+        params.add(new BasicNameValuePair("latitude", Double.toString(nr.getLatitude())));
+        params.add(new BasicNameValuePair("longitude", Double.toString(nr.getLongitude())));
+        params.add(new BasicNameValuePair("dB",Double.toString(nr.getDB())));
+        params.add(new BasicNameValuePair("accuracy",Double.toString(nr.getAccuracy())));
+        params.add(new BasicNameValuePair("quality",Double.toString(nr.getQuality())));
 
         // getting JSON Object
         // Note that create product url accepts POST method
@@ -63,9 +48,8 @@ public class CreateNoiseRecordingTask  extends AsyncTask<String, String, String>
             int success = json.getInt(TAG_SUCCESS);
 
             if (success == 1) {
-                //mActivity.showFirstName(firstName);
-                // closing this screen
-//	                finish();
+            	int nrID = json.getInt(TAG_NOISERECORDING_ID);
+            	nr.setId(nrID);
             } else {
             }
         } catch (JSONException e) {

@@ -44,7 +44,7 @@ public class NoiseRecording implements Serializable{
 		this.setQuality(quality);
 	}
 	
-	public long getId() {
+	public long getID() {
 		return id;
 	}
 
@@ -55,7 +55,7 @@ public class NoiseRecording implements Serializable{
 	/**
 	 * @return the userId
 	 */
-	public long getUserId() {
+	public long getUserID() {
 		return userID;
 	}
 
@@ -124,7 +124,7 @@ public class NoiseRecording implements Serializable{
 	
 	@Override
 	public String toString(){
-		return "User: " + getUserId() + "\nLocation: " + getLongitude() + ", " + getLatitude() + "\nNoise Level: " + getDB() + "dB\nAccuracy: " + getAccuracy();
+		return "User: " + getUserID() + "\nLocation: " + getLongitude() + ", " + getLatitude() + "\nNoise Level: " + getDB() + "dB\nAccuracy: " + getAccuracy();
 	}
 
 	public MarkerOptions getMarker() {
