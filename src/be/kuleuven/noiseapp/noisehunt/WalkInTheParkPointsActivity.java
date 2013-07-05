@@ -1,13 +1,14 @@
-package be.kuleuven.noiseapp;
+package be.kuleuven.noiseapp.noisehunt;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.view.Menu;
+import android.view.MenuItem;
+import be.kuleuven.noiseapp.R;
 
 public class WalkInTheParkPointsActivity extends Activity {
 

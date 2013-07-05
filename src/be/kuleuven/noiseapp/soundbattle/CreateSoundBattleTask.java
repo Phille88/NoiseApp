@@ -12,24 +12,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import be.kuleuven.noiseapp.SoundBattleActivity;
 import be.kuleuven.noiseapp.SoundBattleRecordActivity;
 import be.kuleuven.noiseapp.tools.Constants;
+import be.kuleuven.noiseapp.tools.ImageDownloader;
 import be.kuleuven.noiseapp.tools.JSONParser;
 
-public class CreateSoundBattleTask extends AsyncTask<Long, Void, Long> {
+public class CreateSoundBattleTask extends AsyncTask<Long, Void, JSONObject> {
 
-	private Context context;
+	private SoundBattleActivity sba;
 	private JSONParser jsonParser = new JSONParser();
 	private static final String TAG_SUCCESS = "success";
 	private static final String TAG_SOUNDBATTLE_ID = "soundBattleID";
 	private static final String url_create_soundbattle = Constants.BASE_URL_MYSQL + "create_soundbattle.php";
+	private static final String TAG_OPPONENT_PROFILE = "opponentDetails";
 	
-	public CreateSoundBattleTask(Context context){
-		this.context = context;
+	public CreateSoundBattleTask(SoundBattleActivity sba){
+		this.sba = sba;
 	}
 
 	@Override
-	protected Long doInBackground(Long... args) {
+	protected JSONObject doInBackground(Long... args) {
 		long userID = args[0];
 		long opponentID = args[1];
 		
@@ -51,8 +54,7 @@ public class CreateSoundBattleTask extends AsyncTask<Long, Void, Long> {
             int success = json.getInt(TAG_SUCCESS);
 
             if (success == 1) {
-            	return json.getLong(TAG_SOUNDBATTLE_ID);
-            
+            	return json;
             } else {
             	
             }
@@ -63,11 +65,27 @@ public class CreateSoundBattleTask extends AsyncTask<Long, Void, Long> {
 	}
 	
 	@Override
-	protected void onPostExecute(Long soundBattleID){
-		Intent i = new Intent(context,SoundBattleRecordActivity.class);
+	protected void onPostExecute(JSONObject jso){
+		String fName = "";
+		String lName = "";
+		String pictureURL = "";
+		Long soundBattleID = null;
+		try {
+			fName = jso.getJSONArray(TAG_OPPONENT_PROFILE).getJSONObject(0).getString("firstName");
+			lName = jso.getJSONArray(TAG_OPPONENT_PROFILE).getJSONObject(0).getString("lastName");
+			pictureURL = jso.getJSONArray(TAG_OPPONENT_PROFILE).getJSONObject(0).getString("pictureURL");
+			soundBattleID = jso.getLong(TAG_SOUNDBATTLE_ID);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Intent i = new Intent(sba.getApplicationContext(),SoundBattleRecordActivity.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		i.putExtra("SoundBattleID", soundBattleID);
-		context.startActivity(i);
+		i.putExtra("soundBattleID", soundBattleID);
+		i.putExtra("opponentFirstName", fName);
+		i.putExtra("opponentLastName", lName);
+		new ImageDownloader(sba, Constants.FILENAME_OPPONENT_PROFILE_PICTURE).execute(pictureURL);// + "?size=" + Constants.SIZE_OPPONENT_PRROFILE_PICTURE);
+		//TODO add opponentinfo!
+		sba.startActivity(i);
 	}
-
 }

@@ -1,11 +1,13 @@
 package be.kuleuven.noiseapp.soundbattle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import be.kuleuven.noiseapp.location.SoundBattleLocation;
 
-public class ActiveSoundBattle {
+public class ActiveSoundBattle implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private long soundBattleID;
 	private long opponentID;
 	private ArrayList<SoundBattleLocation> SBLs;
@@ -47,7 +49,7 @@ public class ActiveSoundBattle {
 	 */
 	public void setSBLs(ArrayList<SoundBattleLocation> sBLs) {
 		SBLs = sBLs;
-		new SaveSoundBattleLocations().execute(this);
+//		new SaveSoundBattleLocations().execute(this);
 	}
 
 }

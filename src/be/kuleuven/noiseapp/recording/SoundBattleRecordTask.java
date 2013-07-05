@@ -13,9 +13,12 @@ import be.kuleuven.noiseapp.points.RecordingPoints;
 import be.kuleuven.noiseapp.soundbattle.SaveSoundBattleRecordingTask;
 
 public class SoundBattleRecordTask extends RecordingTask {
+	
+	SoundBattleRecordActivity rActivity;
 
 	public SoundBattleRecordTask(View v, SoundBattleRecordActivity rActivity) {
 		super(v, rActivity);
+		this.rActivity = rActivity;
 	}
 	
 	@Override
@@ -27,35 +30,25 @@ public class SoundBattleRecordTask extends RecordingTask {
 		try {
 			rr = new CalculateRecordingPoints().execute(result).get();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		result.setRecordingPoints(rr);
 		
-		SoundBattleLocation sbl = ((SoundBattleRecordActivity) rActivity).getClosestSoundBattleLocationToRecord();
+		SoundBattleLocation sbl = rActivity.getClosestSoundBattleLocationToRecord();
 		sbl.setRecorded(true);
+		rActivity.updateMarkers();
 
 		//store state
 		new SaveSoundBattleRecordingTask(sbl).execute(result);
 
-		if (((SoundBattleRecordActivity) rActivity).isEverythingRecorded()) {
+		if (rActivity.isEverythingRecorded()) {
 			Intent i = new Intent(rActivity.getApplicationContext(),
 					SoundBattlePointsActivity.class);
 			rActivity.startActivity(i);
 			rActivity.finish();
 		}
-		
-
-//		Bundle b = new Bundle();
-//		b.putSerializable("noiseRecording",result);
-//		Intent i = new Intent(rActivity.getApplicationContext(),
-//				RandomRecordPointsActivity.class);
-//		i.putExtras(b);
-//		rActivity.startActivity(i);
-//		rActivity.finish();
 		finish();
 	}
 }

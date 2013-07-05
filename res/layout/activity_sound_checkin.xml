@@ -19,12 +19,12 @@
       android:text="@string/txt_sound_checkin_whatplace"
       android:textSize="@dimen/size_txt_title"
       />
+  
   <ListView
       android:id="@+id/list_places"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_alignParentLeft="true"
-      android:layout_below="@+id/txt_sound_checkin_whatplace" >
-  </ListView>
+      android:layout_below="@+id/txt_sound_checkin_whatplace" />
 
 </RelativeLayout>

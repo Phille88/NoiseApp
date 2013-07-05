@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.media.MediaRecorder;
@@ -13,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 import be.kuleuven.noiseapp.RecordActivity;
 import be.kuleuven.noiseapp.noisedatabase.CreateNoiseRecordingTask;
 import be.kuleuven.noiseapp.noisedatabase.NoiseRecording;
@@ -27,10 +30,12 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 	private int progressBarStatus;
 	private ArrayList<Double> dBs =new ArrayList<Double>();
 	private double avgDB = 0;
+	private RecordingTask recordingTask;
 	
 	public RecordingTask(View v, RecordActivity rActivity){
 		this.v = v;
 		this.rActivity = rActivity;
+		this.recordingTask = this;
 	}
 
 	/* (non-Javadoc)
@@ -59,7 +64,7 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 			@Override
 			public void onBackPressed(){
 				this.dismiss();
-				RecordingTask.this.cancel(true);
+				recordingTask.cancel(true);
 				progressBarStatus = 0;
 				return;
 			}
@@ -67,13 +72,22 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 			@Override
 			public boolean onTouchEvent(MotionEvent e){
 				this.dismiss();
-				RecordingTask.this.cancel(true);
+				recordingTask.cancel(true);
 				progressBarStatus = 0;
 				return true;
 			}
 		};
 		progressBar.setCancelable(true);
 		progressBar.setCanceledOnTouchOutside(true);
+		progressBar.setOnCancelListener(new OnCancelListener(){
+
+			@Override
+			public void onCancel(DialogInterface arg0) {
+				progressBar.dismiss();
+				recordingTask.cancel(true);
+				progressBarStatus = 0;
+				return;
+			}});
 		progressBar.setMessage("Recording...");
 		progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressBar.setProgress(0);
@@ -147,10 +161,13 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 	@Override
 	protected void onCancelled() {
 		super.onCancelled();
-		
-		mRecorder.stop();
-		mRecorder.reset();
-		mRecorder.release();
+		 if(mRecorder != null){
+			mRecorder.stop();
+			mRecorder.reset();
+			mRecorder.release();
+		 }
+
+		 Toast.makeText(rActivity.getApplicationContext(), "Recording cancelled", Toast.LENGTH_SHORT).show();
 		finish();
 	}
 	

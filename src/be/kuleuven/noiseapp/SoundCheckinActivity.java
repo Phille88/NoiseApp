@@ -142,7 +142,7 @@ public class SoundCheckinActivity extends RecordActivity implements LocationList
 //			if(isProviderFixed()){
 		
 				//prepare for a progress bar dialog
-				progressBar = new ProgressDialog(v.getContext()){
+				setProgressBar(new ProgressDialog(v.getContext()){
 					@Override
 					public void onBackPressed(){
 						this.dismiss();
@@ -158,13 +158,13 @@ public class SoundCheckinActivity extends RecordActivity implements LocationList
 						t = null;
 						return true;
 					}
-				};
-				progressBar.setCancelable(true);
-				progressBar.setMessage("Recording...");
-				progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-				progressBar.setProgress(0);
-				progressBar.setMax(100);
-				progressBar.show();
+				});
+				getProgressBar().setCancelable(true);
+				getProgressBar().setMessage("Recording...");
+				getProgressBar().setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				getProgressBar().setProgress(0);
+				getProgressBar().setMax(100);
+				getProgressBar().show();
 
 				//reset progress bar status
 				progressBarStatus = 0;
@@ -212,7 +212,7 @@ public class SoundCheckinActivity extends RecordActivity implements LocationList
 							progressBarHandler.post(new Runnable() {
 								@Override
 								public void run() {
-									progressBar.setProgress(progressBarStatus);
+									getProgressBar().setProgress(progressBarStatus);
 								}
 							});
 						}
@@ -244,7 +244,7 @@ public class SoundCheckinActivity extends RecordActivity implements LocationList
 							}
 
 							// close the progress bar dialog
-							progressBar.dismiss();
+							getProgressBar().dismiss();
 //							addNoiseRecording("demo", currentLocation.getLatitude(), currentLocation.getLongitude(), avgDB, 10);
 							
 							Thread.currentThread().interrupt();

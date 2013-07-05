@@ -13,20 +13,21 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import be.kuleuven.noiseapp.SoundBattleActivity;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.JSONParser;
 
 public class GetRandomSoundBattleTask extends AsyncTask<Void, Void, Long> {
-	private Context context;
+	private SoundBattleActivity sba;
 	private long userID;
 	private JSONParser jsonParser = new JSONParser();
 	private static String url_get_random_player = Constants.BASE_URL_MYSQL + "get_random_player.php";
     private static final String TAG_SUCCESS = "success";
 	private static final String TAG_OPPONENT_ID = "opponentID";
 		
-	public GetRandomSoundBattleTask(Context context){
-		this.context = context;
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+	public GetRandomSoundBattleTask(SoundBattleActivity sba){
+		this.sba = sba;
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(sba.getApplicationContext());
 		this.userID = sp.getLong("userID", 0L);
 	}
 
@@ -44,7 +45,7 @@ public class GetRandomSoundBattleTask extends AsyncTask<Void, Void, Long> {
         JSONObject json = jsonParser.makeHttpRequest(url_get_random_player,
                 "POST", params);
 
-        // check log cat fro response
+        // check log cat for response
         Log.d("GetRandomSoundBattle Response", json.toString());
 
         // check for success tag
@@ -61,7 +62,7 @@ public class GetRandomSoundBattleTask extends AsyncTask<Void, Void, Long> {
         return null;
     }
     
-    protected void onPostExecute(Long result){
-    	new CreateSoundBattleTask(context).execute(userID, result);
+    protected void onPostExecute(Long opponentID){
+    	new CreateSoundBattleTask(sba).execute(userID, opponentID);
     }
 }

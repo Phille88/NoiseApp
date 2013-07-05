@@ -16,6 +16,8 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import be.kuleuven.noiseapp.auth.GetInfoInForeground;
+import be.kuleuven.noiseapp.noisehunt.GetNoiseHuntStateTask;
+import be.kuleuven.noiseapp.noisehunt.NoiseHuntActivity;
 
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -23,6 +25,7 @@ public class MainActivity extends Activity {
     private static final String SCOPE = "oauth2:https://www.googleapis.com/auth/userinfo.profile";
 	private static final int REQUEST_CODE_RECOVER_FROM_AUTH_ERROR = 1001;
     private static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1002;
+    private SharedPreferences sp;
     private TextView txt_userName;
     
 	public MainActivity() {
@@ -32,29 +35,11 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		sp = PreferenceManager.getDefaultSharedPreferences(this);
 		
-		//TODO Check for every record, otherwise sync!
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+		getAccountInfo();
+		getNoiseHuntState();
 		
-		String firstName = sp.getString("firstName", null);
-		String lastName = sp.getString("lastName", null);
-		String googleID = sp.getString("googleID", null);
-		String email = sp.getString("email", null);
-		String pictureURL = sp.getString("pictureURL", null);
-		long id = sp.getLong("userID", 0L);
-		if(firstName == null || lastName == null || googleID == null || email == null || pictureURL == null || id == 0){
-			//Account Manager for Google Login
-			AccountManager am = AccountManager.get(this); // "this" references the current Context
-			Account[] accounts = am.getAccountsByType("com.google");
-	
-			new GetInfoInForeground(MainActivity.this, accounts[0].name, SCOPE, REQUEST_CODE_RECOVER_FROM_AUTH_ERROR)
-	        .execute();
-		}
-		else {
-			TextView txt_userName = (TextView) this.findViewById(R.id.txt_userName);
-			txt_userName.setText("Hello, " + firstName);
-		}
-
 		ImageButton btn_RandomRecord = (ImageButton) findViewById(R.id.btn_random_record);
 		btn_RandomRecord.setOnClickListener(new OnClickListener() {
 
@@ -126,6 +111,32 @@ public class MainActivity extends Activity {
 				startActivity(i);
 			}
 		});
+	}
+
+	private void getNoiseHuntState() {
+		new GetNoiseHuntStateTask(this).execute();
+	}
+
+	private void getAccountInfo() {
+		//TODO Check for every record, otherwise sync!
+		String firstName = sp.getString("firstName", null);
+		String lastName = sp.getString("lastName", null);
+		String googleID = sp.getString("googleID", null);
+		String email = sp.getString("email", null);
+		String pictureURL = sp.getString("pictureURL", null);
+		long id = sp.getLong("userID", 0L);
+		if(firstName == null || lastName == null || googleID == null || email == null || pictureURL == null || id == 0){
+			//Account Manager for Google Login
+			AccountManager am = AccountManager.get(this); // "this" references the current Context
+			Account[] accounts = am.getAccountsByType("com.google");
+	
+			new GetInfoInForeground(MainActivity.this, accounts[0].name, SCOPE, REQUEST_CODE_RECOVER_FROM_AUTH_ERROR)
+	        .execute();
+		}
+		else {
+			TextView txt_userName = (TextView) this.findViewById(R.id.txt_userName);
+			txt_userName.setText("Hello, " + firstName);
+		}
 	}
 
 	@TargetApi(14)

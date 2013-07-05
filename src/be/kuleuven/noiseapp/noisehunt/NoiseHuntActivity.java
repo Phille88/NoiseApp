@@ -1,16 +1,21 @@
-package be.kuleuven.noiseapp;
+package be.kuleuven.noiseapp.noisehunt;
 
-import android.os.Bundle;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.support.v4.app.NavUtils;
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.os.Build;
+import android.widget.Toast;
+import be.kuleuven.noiseapp.R;
+import be.kuleuven.noiseapp.tools.Constants;
 
 public class NoiseHuntActivity extends Activity {
 
@@ -19,17 +24,20 @@ public class NoiseHuntActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_noise_hunt);
 		setupActionBar();
+
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		int lastFinishedNoiseHunt = sp.getInt("lastFinishedNoiseHunt", 0);
 		
 		/**
 		 * Walk in the Park
 		 */
 		Button btn_walkinthepark = (Button) findViewById(R.id.btn_walkinthepark);
-		if(!((NoiseHuntState) this.getApplication()).isWalkInTheParkDone()){
+		if(lastFinishedNoiseHunt < Constants.WALKINTHEPARK_ID){
 			btn_walkinthepark.setBackgroundResource(R.drawable.img_btn_hunt_active);
 			btn_walkinthepark.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View arg0) {
-					Intent intent = new Intent(getApplicationContext(), WalkInTheParkActivity.class);
+					Intent intent = new Intent(getApplicationContext(), WalkInTheParkRecordActivity.class);
 					startActivity(intent);
 				}
 			});
@@ -41,31 +49,34 @@ public class NoiseHuntActivity extends Activity {
 		 * BLITZKRIEG
 		 */
 		Button btn_blitzkrieg = (Button) findViewById(R.id.btn_blitzkrieg);
-		if(!((NoiseHuntState) this.getApplication()).isWalkInTheParkDone())
+		if(lastFinishedNoiseHunt < Constants.WALKINTHEPARK_ID)
 			btn_blitzkrieg.setBackgroundResource(R.drawable.img_btn_hunt_inactive);
-		else if(((NoiseHuntState) this.getApplication()).isWalkInTheParkDone() && !((NoiseHuntState) this.getApplication()).isBlitzkriegDone()){
+		else if(lastFinishedNoiseHunt < Constants.BLITZKRIEG_ID){
 			btn_blitzkrieg.setBackgroundResource(R.drawable.img_btn_hunt_active);
 			btn_blitzkrieg.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
-				
+				Intent intent = new Intent(getApplicationContext(), BlitzkriegRecordActivity.class);
+				startActivity(intent);
 			}
 		});
 		}
 		else 
-			btn_walkinthepark.setBackgroundResource(R.drawable.img_btn_hunt_done);
+			btn_blitzkrieg.setBackgroundResource(R.drawable.img_btn_hunt_done);
 		
 		/**
 		 * Party Time
 		 */
 		Button btn_partytime = (Button) findViewById(R.id.btn_partytime);
-		if(!((NoiseHuntState) this.getApplication()).isBlitzkriegDone())
+		if(lastFinishedNoiseHunt < Constants.BLITZKRIEG_ID)
 			btn_partytime.setBackgroundResource(R.drawable.img_btn_hunt_inactive);
-		else if(((NoiseHuntState) this.getApplication()).isBlitzkriegDone() && !((NoiseHuntState) this.getApplication()).isPartyTimeDone()){
+		else if(lastFinishedNoiseHunt < Constants.PARTYTIME_ID){
 			btn_partytime.setBackgroundResource(R.drawable.img_btn_hunt_active);
 			btn_partytime.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View arg0) {
+					Intent intent = new Intent(getApplicationContext(), PartyTimeRecordActivity.class);
+					startActivity(intent);
 				}
 			});
 		}
@@ -76,13 +87,15 @@ public class NoiseHuntActivity extends Activity {
 		 * Riverside
 		 */
 		Button btn_riverside = (Button) findViewById(R.id.btn_riverside);
-		if(!((NoiseHuntState) this.getApplication()).isPartyTimeDone())
+		if(lastFinishedNoiseHunt < Constants.PARTYTIME_ID)
 			btn_riverside.setBackgroundResource(R.drawable.img_btn_hunt_inactive);
-		else if(((NoiseHuntState) this.getApplication()).isPartyTimeDone() && !((NoiseHuntState) this.getApplication()).isRiversideDone()){
+		else if(lastFinishedNoiseHunt < Constants.RIVERSIDE_ID){
 			btn_riverside.setBackgroundResource(R.drawable.img_btn_hunt_active);
 			btn_riverside.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View arg0) {
+					Intent intent = new Intent(getApplicationContext(), RiversideRecordActivity.class);
+					startActivity(intent);
 				}
 			});
 		}
@@ -93,13 +106,14 @@ public class NoiseHuntActivity extends Activity {
 		 * Trainspotting
 		 */
 		Button btn_trainspotting = (Button) findViewById(R.id.btn_trainspotting);
-		if(!((NoiseHuntState) this.getApplication()).isRiversideDone())
+		if(lastFinishedNoiseHunt < Constants.RIVERSIDE_ID)
 			btn_trainspotting.setBackgroundResource(R.drawable.img_btn_hunt_inactive);
-		else if(((NoiseHuntState) this.getApplication()).isRiversideDone() && !((NoiseHuntState) this.getApplication()).isTrainspottingDone()){
+		else if(lastFinishedNoiseHunt < Constants.TRAINSPOTTING_ID){
 			btn_trainspotting.setBackgroundResource(R.drawable.img_btn_hunt_active);
 			btn_trainspotting.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View arg0) {
+					Toast.makeText(getApplicationContext(), "This will become available soon!", Toast.LENGTH_LONG).show();
 				}
 			});
 		}
@@ -110,13 +124,14 @@ public class NoiseHuntActivity extends Activity {
 		 * Morning Glory
 		 */
 		Button btn_morningglory = (Button) findViewById(R.id.btn_morningglory);
-		if(!((NoiseHuntState) this.getApplication()).isRiversideDone())
+		if(lastFinishedNoiseHunt < Constants.TRAINSPOTTING_ID)
 			btn_morningglory.setBackgroundResource(R.drawable.img_btn_hunt_inactive);
-		else if(((NoiseHuntState) this.getApplication()).isRiversideDone() && !((NoiseHuntState) this.getApplication()).isTrainspottingDone()){
+		else if(lastFinishedNoiseHunt < Constants.MORNINGGLORY_ID){
 			btn_morningglory.setBackgroundResource(R.drawable.img_btn_hunt_active);
 			btn_morningglory.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View arg0) {
+					Toast.makeText(getApplicationContext(), "This will become available soon!", Toast.LENGTH_LONG).show();
 				}
 			});
 		}

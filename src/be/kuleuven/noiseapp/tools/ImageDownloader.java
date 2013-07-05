@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -15,10 +16,10 @@ import be.kuleuven.noiseapp.MainActivity;
 
 public class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 
-	MainActivity mActivity;
+	Activity mActivity;
 	private String fileName;
 	
-	public ImageDownloader(MainActivity activity, String fileName) {
+	public ImageDownloader(Activity activity, String fileName) {
 		this.mActivity = activity;
 		this.fileName = fileName;
 	  }

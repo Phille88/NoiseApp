@@ -32,16 +32,15 @@ public class SaveSoundBattleRecordingTask extends AsyncTask<NoiseRecording, Void
 		// Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("userID", Long.toString(nr.getUserID())));
-        params.add(new BasicNameValuePair("noiseRecordingID", Long.toString(nr.getID())));
         params.add(new BasicNameValuePair("soundBattleLocationID", Long.toString(sbl.getSoundBattleLocationID())));
+        params.add(new BasicNameValuePair("noiseRecordingID", Long.toString(nr.getID())));
 
         // getting JSON Object
         // Note that create product url accepts POST method
         JSONObject json = jsonParser.makeHttpRequest(url_create_soundbattlerecording,
                 "POST", params);
-        //TODO create the php scrpt!
         // check log cat fro response
-        Log.d("SaveNoiseRecording Response", json.toString());
+        Log.d("SaveSoundBattleRecording Response", json.toString());
 
         // check for success tag
         try {

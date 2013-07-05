@@ -32,7 +32,7 @@ public class RandomRecordActivity extends RecordActivity {
 
 			if(isProviderFixed()){
 				RandomRecordTask rt = new RandomRecordTask(v, r);
-				rt.execute(currentLocation);
+				rt.execute(getCurrentLocation());
 			}
 			else
 				Toast.makeText(getApplicationContext(), "Wait for the GPS to have a fixed location", Toast.LENGTH_SHORT).show();

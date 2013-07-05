@@ -54,14 +54,14 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	protected LocationManager locationManager;
 	private static String provider;
 	private boolean providerFixed;
-	protected Location currentLocation;
+	private Location currentLocation;
 	
 	private Date lastTouchTime = new Date(System.currentTimeMillis()-15000);
 	
 	protected Button btn_record;
 	
 	//fields for progress bar
-	ProgressDialog progressBar;
+	private ProgressDialog progressBar;
 	protected int progressBarStatus = 0;
 	protected Handler progressBarHandler = new Handler();
 	
@@ -72,7 +72,7 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	private boolean gpsFixedMessageShown = false;
 	 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setView();
 		LEUVEN_CENTER = new Location("GPS");
@@ -104,10 +104,10 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
         provider = LocationManager.GPS_PROVIDER;
 //        Location location = locationManager.getLastKnownLocation(provider);
 //        zoomTo(location);
-        currentLocation = locationManager.getLastKnownLocation(provider);
-        if(currentLocation == null)
-        	currentLocation = LEUVEN_CENTER;
-        zoomTo(currentLocation);
+        setCurrentLocation(locationManager.getLastKnownLocation(provider));
+        if(getCurrentLocation() == null)
+        	setCurrentLocation(LEUVEN_CENTER);
+        zoomTo(getCurrentLocation());
 	}
 	
 	protected void setView() {
@@ -354,12 +354,12 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	 */
 	@Override
 	public void onLocationChanged(Location location) {
-		if(isBetterLocation(location,currentLocation)){
+		if(isBetterLocation(location,getCurrentLocation())){
 			setProviderFixed(true);
-			currentLocation = location;
+			setCurrentLocation(location);
 			
 			if(timeout()){
-				zoomTo(currentLocation);
+				zoomTo(getCurrentLocation());
 			}
 		}
 	}
@@ -517,4 +517,26 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	protected abstract int getActivityTitle();
 	protected abstract int getPopupExplanation();
 	protected abstract String getPopupDontShowAgainName();
+
+	/**
+	 * @return the progressBar
+	 */
+	protected ProgressDialog getProgressBar() {
+		return progressBar;
+	}
+	
+	/**
+	 * @return the progressBar
+	 */
+	protected void setProgressBar(ProgressDialog pd) {
+		this.progressBar = pd;
+	}
+
+	protected void setCurrentLocation(Location currentLocation) {
+		this.currentLocation = currentLocation;
+	}
+
+	protected Location getCurrentLocation() {
+		return currentLocation;
+	}
 }
