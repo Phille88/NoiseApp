@@ -12,13 +12,12 @@ import android.os.AsyncTask;
 import android.util.Log;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.JSONParser;
+import be.kuleuven.noiseapp.tools.JSONTags;
 
 public class GetAllNoiseRecordingsTask extends AsyncTask<Void, Void, ArrayList<NoiseRecording>> {
 	
 	private JSONParser jsonParser = new JSONParser();
 	private static String url_get_all_noiserecordings = Constants.BASE_URL_MYSQL + "get_all_noiserecordings.php";
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_NOISERECORDINGS = "noiserecordings";
 	
     @Override
 	protected ArrayList<NoiseRecording> doInBackground(Void... args) {	
@@ -36,13 +35,13 @@ public class GetAllNoiseRecordingsTask extends AsyncTask<Void, Void, ArrayList<N
 
         // check for success tag
         try {
-            int success = json.getInt(TAG_SUCCESS);
+            int success = json.getInt(JSONTags.SUCCESS);
             if (success == 1) {
             	ArrayList<NoiseRecording> noiseRecordingsToReturn = new ArrayList<NoiseRecording>();
-            	JSONArray noiseRecordings = json.getJSONArray(TAG_NOISERECORDINGS);
+            	JSONArray noiseRecordings = json.getJSONArray(JSONTags.NOISERECORDINGS);
             	for (int i = 0; i<noiseRecordings.length();i++){
                 	JSONObject nr = (JSONObject) noiseRecordings.get(i);
-                	noiseRecordingsToReturn.add(new NoiseRecording(nr.getLong("userID"), nr.getDouble("latitude"), nr.getDouble("longitude"), nr.getDouble("dB"), nr.getDouble("accuracy"), nr.getDouble("quality")));
+                	noiseRecordingsToReturn.add(new NoiseRecording(nr.getLong(JSONTags.USERID), nr.getDouble(JSONTags.LATITUDE), nr.getDouble(JSONTags.LONGITUDE), nr.getDouble(JSONTags.DB), nr.getDouble(JSONTags.ACCURACY), nr.getDouble(JSONTags.QUALITY)));
             	}
             	return noiseRecordingsToReturn;
             } else {

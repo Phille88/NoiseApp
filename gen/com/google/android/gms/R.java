@@ -18,10 +18,10 @@ public final class R {
 		public static final int common_google_play_services_install_button = 0x7f050003;
 		public static final int common_google_play_services_install_title = 0x7f050000;
 		public static final int common_google_play_services_install_text_phone = 0x7f050001;
-		public static final int common_google_play_services_update_button = 0x7f05000a;
+		public static final int common_google_play_services_update_button = 0x7f050009;
 		public static final int common_google_play_services_enable_title = 0x7f050004;
 		public static final int common_google_play_services_install_text_tablet = 0x7f050002;
-		public static final int common_google_play_services_unknown_issue = 0x7f050009;
+		public static final int common_google_play_services_unknown_issue = 0x7f05000a;
 		public static final int common_google_play_services_enable_button = 0x7f050006;
 		public static final int common_google_play_services_update_title = 0x7f050007;
 		public static final int common_google_play_services_enable_text = 0x7f050005;

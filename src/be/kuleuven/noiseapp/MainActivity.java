@@ -16,8 +16,15 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import be.kuleuven.noiseapp.auth.GetInfoInForeground;
+import be.kuleuven.noiseapp.friends.UpdateFriendsListLocalTask;
 import be.kuleuven.noiseapp.noisehunt.GetNoiseHuntStateTask;
 import be.kuleuven.noiseapp.noisehunt.NoiseHuntActivity;
+import be.kuleuven.noiseapp.places.SoundCheckinActivity;
+import be.kuleuven.noiseapp.profile.ViewProfileTabActivity;
+import be.kuleuven.noiseapp.soundbattle.SoundBattleActivity;
+import be.kuleuven.noiseapp.tools.MemoryFileNames;
+import be.kuleuven.noiseapp.tools.ObjectSerializer;
+import be.kuleuven.noiseapp.tools.UserDetails;
 
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -27,29 +34,25 @@ public class MainActivity extends Activity {
     private static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1002;
     private SharedPreferences sp;
     private TextView txt_userName;
-    
-	public MainActivity() {
-	}
+//    private GetInfoInForeground getInfoTask;
+  
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		sp = PreferenceManager.getDefaultSharedPreferences(this);
-		
+		//TODO check for internet connection and GPS.
 		getAccountInfo();
 		getNoiseHuntState();
+		getFriendsList();
 		
 		ImageButton btn_RandomRecord = (ImageButton) findViewById(R.id.btn_random_record);
 		btn_RandomRecord.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				// onPause();
-				Intent i = new Intent(getApplicationContext(),
-						RandomRecordActivity.class);
-//				Intent i = new Intent(getApplicationContext(),
-//						TestRecordActivity.class);
+				Intent i = new Intent(getApplicationContext(), RandomRecordActivity.class);
 				startActivity(i);
 			}
 		});
@@ -59,9 +62,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// onPause();
-				Intent i = new Intent(getApplicationContext(),
-						SoundBattleActivity.class);
+				Intent i = new Intent(getApplicationContext(), SoundBattleActivity.class);
 				startActivity(i);
 			}
 		});
@@ -81,9 +82,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// onPause();
-				Intent i = new Intent(getApplicationContext(),
-						NoiseHuntActivity.class);
+				Intent i = new Intent(getApplicationContext(), NoiseHuntActivity.class);
 				startActivity(i);
 			}
 		});
@@ -93,9 +92,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// onPause();
-				Intent i = new Intent(getApplicationContext(),
-						ViewProfileTabActivity.class);
+				Intent i = new Intent(getApplicationContext(), ViewProfileTabActivity.class);
 				startActivity(i);
 			}
 		});
@@ -105,37 +102,38 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// onPause();
-				Intent i = new Intent(getApplicationContext(),
-						ShowMapActivity.class);
+				Intent i = new Intent(getApplicationContext(), ShowMapActivity.class);
 				startActivity(i);
 			}
 		});
 	}
 
+	private void getFriendsList() {
+		//TODO do this somewhere else! first be sure you have obtained all personal information!
+		new UpdateFriendsListLocalTask(this).execute();
+	}
+
 	private void getNoiseHuntState() {
+		//TODO do this somewhere else! first be sure you have obtained all personal information!
 		new GetNoiseHuntStateTask(this).execute();
 	}
 
 	private void getAccountInfo() {
 		//TODO Check for every record, otherwise sync!
-		String firstName = sp.getString("firstName", null);
-		String lastName = sp.getString("lastName", null);
-		String googleID = sp.getString("googleID", null);
-		String email = sp.getString("email", null);
-		String pictureURL = sp.getString("pictureURL", null);
-		long id = sp.getLong("userID", 0L);
-		if(firstName == null || lastName == null || googleID == null || email == null || pictureURL == null || id == 0){
+		long userID = sp.getLong(MemoryFileNames.USERID, 0L);
+		UserDetails userDetails = (UserDetails) ObjectSerializer.deserialize(sp.getString(MemoryFileNames.USERDETAILS, null));
+		if(userDetails == null || userID == 0L){
 			//Account Manager for Google Login
-			AccountManager am = AccountManager.get(this); // "this" references the current Context
+			AccountManager am = AccountManager.get(this);
 			Account[] accounts = am.getAccountsByType("com.google");
 	
-			new GetInfoInForeground(MainActivity.this, accounts[0].name, SCOPE, REQUEST_CODE_RECOVER_FROM_AUTH_ERROR)
-	        .execute();
+			new GetInfoInForeground(MainActivity.this, accounts[0].name, SCOPE, REQUEST_CODE_RECOVER_FROM_AUTH_ERROR).execute();
+			
 		}
 		else {
+			new UpdateLocalProfileDetailsTask(this).execute();
 			TextView txt_userName = (TextView) this.findViewById(R.id.txt_userName);
-			txt_userName.setText("Hello, " + firstName);
+			txt_userName.setText("Hello, " + userDetails.getFName());
 		}
 	}
 

@@ -8,6 +8,11 @@ public class RecordingPoints implements Serializable {
 	private static final long serialVersionUID = -4139367393544449851L;	
 	private ArrayList<Point> points = new ArrayList<Point>();
 	private ArrayList<Badge> badges = new ArrayList<Badge>();
+	
+	public RecordingPoints(ArrayList<Point> points, ArrayList<Badge> badges){
+		this.points = points;
+		this.badges = badges;
+	}
 
 	public void setPoints(ArrayList<Point> points){
 		this.points = points;

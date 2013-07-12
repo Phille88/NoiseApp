@@ -32,158 +32,184 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import be.kuleuven.noiseapp.MainActivity;
-import be.kuleuven.noiseapp.tools.Constants;
-import be.kuleuven.noiseapp.tools.ImageDownloader;
-import be.kuleuven.noiseapp.tools.JSONParser;
+import be.kuleuven.noiseapp.tools.ImageDownloaderTask;
+import be.kuleuven.noiseapp.tools.MemoryFileNames;
+import be.kuleuven.noiseapp.tools.ObjectSerializer;
+import be.kuleuven.noiseapp.tools.UserDetails;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
 
 /**
- * Display personalized greeting. This class contains boilerplate code to consume the token but
- * isn't integral to getting the tokens.
+ * Display personalized greeting. This class contains boilerplate code to
+ * consume the token but isn't integral to getting the tokens.
  */
-public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, Void>{
-    private static final String TAG = "TokenInfoTask";
+public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDetails> {
+	private static final String TAG = "TokenInfoTask";
 	private static final String GOOGLEID_KEY = "id";
-    private static final String NAME_KEY = "given_name";
-    private static final String FAMILY_NAME_KEY = "family_name";
+	private static final String NAME_KEY = "given_name";
+	private static final String FAMILY_NAME_KEY = "family_name";
 	private static final String PICTURE_KEY = "picture";
-	private static final int PICTURE_SIZE = 200;
-    
-    JSONParser jsonParser = new JSONParser();
-    
-    protected MainActivity mActivity;
 
-    protected String mScope;
-    protected String mEmail;
-    protected int mRequestCode;
-    
-    //private UserProfileDataSource datasource;
+	protected MainActivity mActivity;
+	protected String mScope;
+	protected String mEmail;
+	protected int mRequestCode;
 
-    AbstractGetInfoTask(MainActivity activity, String email, String scope, int requestCode) {
-    	//initializeUserProfileDatabase(activity);
-        this.mActivity = activity;
-        this.mScope = scope;
-        this.mEmail = email;
-        this.mRequestCode = requestCode;
-    }
+	AbstractGetInfoTask(MainActivity activity, String email, String scope, int requestCode) {
+		this.mActivity = activity;
+		this.mScope = scope;
+		this.mEmail = email;
+		this.mRequestCode = requestCode;
+	}
 
-    @Override
-    protected Void doInBackground(Void... params) {
-      try {
-        fetchInfoFromGoogleServer();
-      } catch (IOException ex) {
-        onError("Following Error occured, please try again. " + ex.getMessage(), ex);
-      } catch (JSONException e) {
-        onError("Bad response: " + e.getMessage(), e);
-      }
-      return null;
-    }
+	@Override
+	protected UserDetails doInBackground(Void... params) {
+    	//TODO delete debugger
+    	//android.os.Debug.waitForDebugger();
+		try {
+			return fetchInfoFromGoogleServer();
+		} catch (IOException ex) {
+			onError("Following Error occured, please try again. " + ex.getMessage(), ex);
+		} catch (JSONException e) {
+			onError("Bad response: " + e.getMessage(), e);
+		}
+		return null;
+	}
 
-    protected void onError(String msg, Exception e) {
-        if (e != null) {
-          Log.e(TAG, "Exception: ", e);
-        }
-        //mActivity.show(msg);  // will be run in UI thread
-    }
+	@Override
+	protected void onPostExecute(UserDetails userDetails) {
+		saveUserProfile(userDetails);
+	}
 
-    /**
-     * Get a authentication token if one is not available. If the error is not recoverable then
-     * it displays the error message on parent activity.
-     */
-    protected abstract String fetchToken() throws IOException;
-
-    /**
-     * Contacts the user info server to get the profile of the user and extracts the first name
-     * of the user from the profile. In order to authenticate with the user info server the method
-     * first fetches an access token from Google Play services.
-     * @throws IOException if communication with user info server failed.
-     * @throws JSONException if the response from the server could not be parsed.
-     */
-    private void fetchInfoFromGoogleServer() throws IOException, JSONException {
-        String token = fetchToken();
-        if (token == null) {
-          // error has already been handled in fetchToken()
-          return;
-        }
-        URL url = new URL("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + token);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        int sc = con.getResponseCode();
-        if (sc == 200) {
-          InputStream is = con.getInputStream();
-          String response = readResponse(is);
-          JSONObject profile = new JSONObject(response);
-          BigInteger googleID = getGoogleID(profile);
-          String firstName = getFirstName(profile);
-          String lastName = getLastName(profile);
-          mActivity.showFirstName(firstName);
-          String pictureURL = getPicture(profile);
-          saveUserProfileServer(googleID, firstName, lastName, mEmail, pictureURL);
-          saveUserProfileLocal(googleID, firstName, lastName, mEmail, pictureURL);
-          is.close();
-          return;
-        } else if (sc == 401) {
-            GoogleAuthUtil.invalidateToken(mActivity, token);
-            onError("Server auth error, please try again.", null);
-            Log.i(TAG, "Server auth error: " + readResponse(con.getErrorStream()));
-            return;
-        } else {
-          onError("Server returned the following error code: " + sc, null);
-          return;
-        }
-    }
+	protected void onError(String msg, Exception e) {
+		if (e != null) {
+			Log.e(TAG, "Exception: ", e);
+		}
+	}
 
 	/**
-     * Reads the response from the input stream and returns it as a string.
-     */
-    private static String readResponse(InputStream is) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] data = new byte[2048];
-        int len = 0;
-        while ((len = is.read(data, 0, data.length)) >= 0) {
-            bos.write(data, 0, len);
-        }
-        return new String(bos.toByteArray(), "UTF-8");
-    }
-    
-    private void saveUserProfileLocal(BigInteger googleID, String firstName, String lastName, String email, String pictureURL){
-    	SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
-		Editor edit = sp.edit();
-		edit.putString("googleID",googleID.toString());
-		edit.putString("firstName", firstName);
-		edit.putString("lastName", lastName);
-		edit.putString("email", email);
-		edit.putString("pictureURL", pictureURL);
-		edit.commit();
-		new ImageDownloader(mActivity, Constants.FILENAME_PROFILE_PICTURE).execute(pictureURL + "?size=" + PICTURE_SIZE);
-    }
-    
-    private void saveUserProfileServer(BigInteger googleID, String firstName, String lastName, String email, String pictureURL){
-    	new CreateUserProfile(googleID, firstName, lastName, email, pictureURL, mActivity).execute();
-    }
+	 * Get a authentication token if one is not available. If the error is not
+	 * recoverable then it displays the error message on parent activity.
+	 */
+	protected abstract String fetchToken() throws IOException;
 
-    private BigInteger getGoogleID(JSONObject profile) throws JSONException {
-    	String toReturnString = profile.getString(GOOGLEID_KEY);
-    	BigInteger toReturn = new BigInteger(toReturnString);
+	/**
+	 * Contacts the user info server to get the profile of the user and extracts
+	 * the first name of the user from the profile. In order to authenticate
+	 * with the user info server the method first fetches an access token from
+	 * Google Play services.
+	 * 
+	 * @throws IOException
+	 *             if communication with user info server failed.
+	 * @throws JSONException
+	 *             if the response from the server could not be parsed.
+	 */
+	private UserDetails fetchInfoFromGoogleServer() throws IOException, JSONException {
+		String token = fetchToken();
+		if (token == null) {
+			// error has already been handled in fetchToken()
+			return null;
+		}
+		URL url = new URL("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + token);
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		int sc = con.getResponseCode();
+		if (sc == 200) {
+			InputStream is = con.getInputStream();
+			String response = readResponse(is);
+			JSONObject profile = new JSONObject(response);
+			BigInteger googleID = getGoogleID(profile);
+			String firstName = getFirstName(profile);
+			String lastName = getLastName(profile);
+			mActivity.showFirstName(firstName);
+			String pictureURL = getPicture(profile);
+			is.close();
+			return new UserDetails(0L, googleID, firstName, lastName, mEmail, 0, pictureURL);
+		} else if (sc == 401) {
+			GoogleAuthUtil.invalidateToken(mActivity, token);
+			onError("Server auth error, please try again.", null);
+			Log.i(TAG, "Server auth error: " + readResponse(con.getErrorStream()));
+			return null;
+		} else {
+			onError("Server returned the following error code: " + sc, null);
+			return null;
+		}
+	}
+
+	private void saveUserProfile(UserDetails userDetails) {
+		saveUserProfileLocal(userDetails);
+		saveUserProfileServer(userDetails); 
+	}
+
+	/**
+	 * Reads the response from the input stream and returns it as a string.
+	 */
+	private static String readResponse(InputStream is) throws IOException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		byte[] data = new byte[2048];
+		int len = 0;
+		while ((len = is.read(data, 0, data.length)) >= 0) {
+			bos.write(data, 0, len);
+		}
+		return new String(bos.toByteArray(), "UTF-8");
+	}
+
+	private void saveUserProfileLocal(UserDetails userDetails) {
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
+		Editor edit = sp.edit();
+		// edit.putString("googleID",googleID.toString());
+		// edit.putString("firstName", firstName);
+		// edit.putString("lastName", lastName);
+		// edit.putString("email", email);
+		// edit.putString("pictureURL", pictureURL);
+		// userID is nog niet bekend hier!
+		edit.putString(MemoryFileNames.USERDETAILS, ObjectSerializer.serialize(userDetails));
+		edit.commit();
+		// TODO size bij de foto er terug bijzetten!
+		new ImageDownloaderTask(mActivity, MemoryFileNames.PROFILE_PICTURE).execute(userDetails.getPictureURL());
+	}
+
+	private void saveUserProfileServer(UserDetails userDetails) {
+		new CreateUserProfileTask(mActivity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, userDetails);
+	}
+
+	private BigInteger getGoogleID(JSONObject profile) throws JSONException {
+		String toReturnString = profile.getString(GOOGLEID_KEY);
+		BigInteger toReturn = new BigInteger(toReturnString);
 		return toReturn;
 	}
 
-    /**
-     * Parses the response and returns the first name of the user.
-     * @throws JSONException if the response is not JSON or if first name does not exist in response
-     */
-    private String getFirstName(JSONObject profile) throws JSONException {
-      return profile.getString(NAME_KEY);
-    }
-    
-    /**
-     * Parses the response and returns the last name of the user.
-     * @throws JSONException if the response is not JSON or if first name does not exist in response
-     */
-    private String getLastName(JSONObject profile) throws JSONException {
-      return profile.getString(FAMILY_NAME_KEY);
-    }
-    
+	/**
+	 * Parses the response and returns the first name of the user.
+	 * 
+	 * @throws JSONException
+	 *             if the response is not JSON or if first name does not exist
+	 *             in response
+	 */
+	private String getFirstName(JSONObject profile) {
+		try {
+			return profile.getString(NAME_KEY);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return "Unknown";
+		}
+	}
+
+	/**
+	 * Parses the response and returns the last name of the user.
+	 * 
+	 * @throws JSONException
+	 *             if the response is not JSON or if first name does not exist
+	 *             in response
+	 */
+	private String getLastName(JSONObject profile) {
+		try {
+			return profile.getString(FAMILY_NAME_KEY);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return "Unknown";
+		}
+	}
+
 	private String getPicture(JSONObject profile) {
 		String toReturn;
 		try {
@@ -191,7 +217,7 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, Void>{
 		} catch (JSONException e) {
 			return "http://i.stack.imgur.com/WmvM0.png";
 		}
-		
+
 		return toReturn;
 	}
 }

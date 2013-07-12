@@ -12,11 +12,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class SoundBattleLocation extends NoiseLocation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	//colors of the markers
-	//private static final BitmapDescriptor FAR = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-//	private static final BitmapDescriptor ON_THE_WAY = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
-//	private static final BitmapDescriptor CLOSE = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-//	private static final BitmapDescriptor RECORDED = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
 	private static final double TEN_METRES = 10;
 	private static final double FIFTY_METERS = 50;
 	private long sblID;
@@ -56,9 +51,7 @@ public class SoundBattleLocation extends NoiseLocation implements Serializable {
 	}
 	
 	public boolean isClose(Location l){
-//	    return getDistance(l) <= TEN_METRES && !isRecorded();
-		//TODO uncomment VALENCIA!
-	    return true;
+	    return getDistance(l) <= TEN_METRES && !isRecorded();
 	}
 	
 	public boolean isOnTheWay(Location l){

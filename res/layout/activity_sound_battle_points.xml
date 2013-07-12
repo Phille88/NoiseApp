@@ -32,11 +32,19 @@
         android:text="@string/txt_sound_quality"
         android:textSize="20sp" />
     
+    <TextView
+        android:id="@+id/txt_sound_quality_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_sound_quality"
+        android:text="@string/txt_sound_quality_help"
+        android:textSize="12sp" />
+    
     <LinearLayout 
         android:id="@+id/layout_sound_quality_scores"
 	    android:layout_width="fill_parent"
 	    android:layout_height="35dp"
-	    android:layout_below="@+id/txt_sound_quality"
+	    android:layout_below="@+id/txt_sound_quality_help"
 	    android:weightSum="1.0" >
 	    
 	    <TextView
@@ -70,13 +78,21 @@
 	    android:layout_below="@+id/layout_sound_quality_scores"
         android:layout_marginTop="20dp"
         android:text="@string/txt_location_accuracy"
-        android:textSize="20sp" />
+        android:textSize="20sp" />    
+        
+   <TextView
+        android:id="@+id/txt_location_accuracy_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_location_accuracy"
+        android:text="@string/txt_location_accuracy_help"
+        android:textSize="12sp" />
    
     <LinearLayout 
         android:id="@+id/layout_location_accuracy_scores"
 	    android:layout_width="fill_parent"
 	    android:layout_height="35dp"
-	    android:layout_below="@+id/txt_location_accuracy"
+	    android:layout_below="@+id/txt_location_accuracy_help"
 	    android:weightSum="1.0" >
 	    
 	    <TextView
@@ -110,13 +126,21 @@
         android:layout_below="@+id/layout_location_accuracy_scores"
         android:layout_marginTop="20dp"
         android:text="@string/txt_speed"
-        android:textSize="20sp" />
+        android:textSize="20sp" /> 
+        
+   <TextView
+        android:id="@+id/txt_speed_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_speed"
+        android:text="@string/txt_speed_help"
+        android:textSize="12sp" />
    
     <LinearLayout 
         android:id="@+id/layout_speed_scores"
 	    android:layout_width="fill_parent"
 	    android:layout_height="35dp"
-	    android:layout_below="@+id/txt_speed"
+	    android:layout_below="@+id/txt_speed_help"
 	    android:weightSum="1.0" >
     
 	     <TextView

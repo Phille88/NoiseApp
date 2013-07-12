@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import be.kuleuven.noiseapp.SoundBattleRecordActivity;
 import be.kuleuven.noiseapp.location.SoundBattleLocation;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.JSONParser;

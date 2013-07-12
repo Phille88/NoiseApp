@@ -21,6 +21,7 @@ import be.kuleuven.noiseapp.noisedatabase.NoiseRecording;
 import be.kuleuven.noiseapp.points.Badge;
 import be.kuleuven.noiseapp.points.Point;
 import be.kuleuven.noiseapp.points.RecordingPoints;
+import be.kuleuven.noiseapp.tools.MemoryFileNames;
 
 public class RandomRecordPointsActivity extends Activity {
 	RecordingPoints rp;
@@ -31,9 +32,11 @@ public class RandomRecordPointsActivity extends Activity {
 		setContentView(R.layout.activity_random_record_points);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		TextView txt_dblevel = (TextView) findViewById(R.id.txt_dblevel);
-		NoiseRecording nr = (NoiseRecording) getIntent().getExtras().getSerializable("noiseRecording");
+		
+		NoiseRecording nr = (NoiseRecording) getIntent().getSerializableExtra(MemoryFileNames.LAST_NOISERECORDING);
 		rp = nr.getRecordingPoints();
+		
+		TextView txt_dblevel = (TextView) findViewById(R.id.txt_dblevel);
 		String dbLevel = new DecimalFormat("#").format(nr.getDB());
 		txt_dblevel.setText(dbLevel + " dB");
 		txt_dblevel.setTextColor(nr.getLoudnessColor());
@@ -43,18 +46,14 @@ public class RandomRecordPointsActivity extends Activity {
 
 	private void createPointDescriptions() {
 		ArrayList<TableRow> tableRows = new ArrayList<TableRow>();
-//		ArrayList<TextView> descriptions = new ArrayList<TextView>();
-//		ArrayList<TextView> points = new ArrayList<TextView>();
 		for(Point p : rp.getPoints()){
 			TableRow tr = new TableRow(this);
 			TextView descriptionToAdd = new TextView(this);
 			descriptionToAdd.setText(p.getDescription());
-//			descriptions.add(descriptionToAdd);
 			
 			TextView pointToAdd = new TextView(this);
 			pointToAdd.setText("+ " + p.getPoint());
 			pointToAdd.setGravity(Gravity.RIGHT);
-//			points.add(pointToAdd);
 			
 			tr.addView(descriptionToAdd);
 			tr.addView(pointToAdd);
@@ -66,12 +65,10 @@ public class RandomRecordPointsActivity extends Activity {
 			TableRow tr = new TableRow(this);
 			TextView descriptionToAdd = new TextView(this);
 			descriptionToAdd.setText(b.getDescription());
-//			descriptions.add(descriptionToAdd);
 			
 			TextView pointToAdd = new TextView(this);
 			pointToAdd.setText("+ " + b.getPoint());
 			pointToAdd.setGravity(Gravity.RIGHT);
-//			points.add(pointToAdd);
 			
 			tr.addView(descriptionToAdd);
 			tr.addView(pointToAdd);

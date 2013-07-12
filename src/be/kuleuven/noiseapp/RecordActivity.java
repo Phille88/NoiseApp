@@ -8,6 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -33,6 +37,7 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+import be.kuleuven.noiseapp.tools.Constants;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,13 +47,24 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
-public abstract class RecordActivity extends android.support.v4.app.FragmentActivity implements LocationListener{
+public abstract class RecordActivity extends android.support.v4.app.FragmentActivity implements LocationListener, SensorEventListener{
 
 	// fields for Google Maps API
 	protected GoogleMap mMap;
 	private UiSettings mUiSettings;    
 	private float currentZoomLevel = 18;
 	private static Location LEUVEN_CENTER;
+
+	// fields for Android accelerometer
+	private SensorManager sensorManager;
+	private Sensor accelerometer;
+	private float mAccel;
+	private float mAccelCurrent;
+	private float mAccelLast;
+	private int badQualityMovements = 0;
+	private int goodQualityMovements = 0;
+	private int superQualityMovements = 0;
+	private int allMovements = 0;
 
 	// fields for Android location
 	protected LocationManager locationManager;
@@ -108,6 +124,10 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
         if(getCurrentLocation() == null)
         	setCurrentLocation(LEUVEN_CENTER);
         zoomTo(getCurrentLocation());
+        
+        //Accelerometer
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 	}
 	
 	protected void setView() {
@@ -189,12 +209,14 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 	public void onPause(){
 		super.onPause();
 		locationManager.removeUpdates(this);
+		removeAccelerometerListener();
 	}
 	
 	@Override
 	public void onStop(){
 		super.onStop();
 		locationManager.removeUpdates(this);
+		removeAccelerometerListener();
 	}
 
 	@Override
@@ -361,6 +383,45 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 			if(timeout()){
 				zoomTo(getCurrentLocation());
 			}
+		}
+	}
+	
+	public void addAccelerometerListener(){ 
+		if(!sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI))
+			Toast.makeText(getApplicationContext(), "Something wrong with the accelerometer", Toast.LENGTH_LONG).show();
+        mAccel = 0.00f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
+	}
+	
+	public void removeAccelerometerListener(){
+		sensorManager.unregisterListener(this, accelerometer);
+	}
+	
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy){
+		
+	}
+	
+	@Override
+	public void onSensorChanged(SensorEvent event){
+		if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+			float[] eventValues = event.values.clone();
+			float x = eventValues[0]; //x
+			float y = eventValues[1]; //y
+			float z = eventValues[2]; //z
+			mAccelLast = mAccelCurrent;
+			mAccelCurrent = (float) Math.sqrt(x*x + y*y + z*z);
+			float delta = mAccelCurrent - mAccelLast;
+			mAccel = mAccel * 0.9f + delta;
+			
+			if(mAccel > Constants.ACCELEROMETER_BAD_QUALITY)
+				badQualityMovements++;
+			else if(mAccel > Constants.ACCELEROMETER_GOOD_QUALITY)
+				goodQualityMovements++;
+			else
+				superQualityMovements++;
+			allMovements++;
 		}
 	}
 	
@@ -538,5 +599,9 @@ public abstract class RecordActivity extends android.support.v4.app.FragmentActi
 
 	protected Location getCurrentLocation() {
 		return currentLocation;
+	}
+
+	public double calculateQuality() {
+		return (superQualityMovements - badQualityMovements)/((float) allMovements);
 	}
 }

@@ -17,7 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import be.kuleuven.noiseapp.RecordActivity;
-import be.kuleuven.noiseapp.noisedatabase.CreateNoiseRecordingTask;
+import be.kuleuven.noiseapp.noisedatabase.SaveNoiseRecordingRemoteTask;
 import be.kuleuven.noiseapp.noisedatabase.NoiseRecording;
 
 public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRecording> {
@@ -44,7 +44,7 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		
+
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -96,6 +96,7 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 
 		//reset progress bar status
 		progressBarStatus = 0;
+		rActivity.addAccelerometerListener();
 	}
 	
 	
@@ -152,7 +153,8 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 			}
 			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(v.getContext());
 			long userID = sp.getLong("userID", 0L);
-			recordedNoise = new NoiseRecording(userID, currentLocation.getLatitude(), currentLocation.getLongitude(), avgDB, 10, 10);
+			rActivity.removeAccelerometerListener();
+			recordedNoise = new NoiseRecording(userID, currentLocation.getLatitude(), currentLocation.getLongitude(), avgDB, currentLocation.getAccuracy(), rActivity.calculateQuality());
 			
 		}
 		return recordedNoise;
@@ -166,7 +168,7 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 			mRecorder.reset();
 			mRecorder.release();
 		 }
-
+		 rActivity.removeAccelerometerListener();
 		 Toast.makeText(rActivity.getApplicationContext(), "Recording cancelled", Toast.LENGTH_SHORT).show();
 		finish();
 	}
@@ -192,11 +194,11 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 	protected void onPostExecute(NoiseRecording result) {
 		super.onPostExecute(result);
 		progressBar.dismiss();
-		
+		rActivity.removeAccelerometerListener();
 		saveNoiseRecording(result);
 	}
 	
 	protected void saveNoiseRecording(NoiseRecording nr){
-		new CreateNoiseRecordingTask().execute(nr);
+		new SaveNoiseRecordingRemoteTask().execute(nr);
 	}	
 }

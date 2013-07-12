@@ -19,13 +19,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
 
     <application
-        android:name="be.kuleuven.noiseapp.NoiseHuntState"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
@@ -53,7 +55,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="be.kuleuven.noiseapp.SoundBattleActivity"
+            android:name="be.kuleuven.noiseapp.soundbattle.SoundBattleActivity"
             android:label="@string/txt_sound_battle_name"
             android:screenOrientation="portrait" >
         </activity>
@@ -67,55 +69,46 @@
                 android:value="be.kuleuven.noiseapp.RandomRecordActivity" />
         </activity>
         <activity
-            android:name="be.kuleuven.noiseapp.SoundBattleRecordActivity"
+            android:name="be.kuleuven.noiseapp.soundbattle.SoundBattleRecordActivity"
             android:label="@string/title_activity_sound_battle_record"
-            android:parentActivityName="be.kuleuven.noiseapp.SoundBattleActivity"
+            android:parentActivityName="be.kuleuven.noiseapp.soundbattle.SoundBattleActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.kuleuven.noiseapp.SoundBattleActivity" />
         </activity>
         <activity
-            android:name="be.kuleuven.noiseapp.SoundBattlePointsActivity"
+            android:name="be.kuleuven.noiseapp.soundbattle.SoundBattlePointsActivity"
             android:label="@string/title_activity_sound_battle_points"
-            android:parentActivityName="be.kuleuven.noiseapp.SoundBattleRecordActivity"
+            android:parentActivityName="be.kuleuven.noiseapp.soundbattle.SoundBattleRecordActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.kuleuven.noiseapp.SoundBattleRecordActivity" />
         </activity>
         <activity
-            android:name="be.kuleuven.noiseapp.maps.MapsActivity"
-            android:label="@string/title_activity_maps" >
-        </activity>
-        <activity
-            android:name="be.kuleuven.noiseapp.NoiseHuntActivity"
+            android:name="be.kuleuven.noiseapp.noisehunt.NoiseHuntActivity"
             android:label="@string/title_activity_noise_hunt"
-            android:parentActivityName="be.kuleuven.noiseapp.MainActivity" >
+            android:parentActivityName="be.kuleuven.noiseapp.MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.kuleuven.noiseapp.MainActivity" />
         </activity>
         <activity
-            android:name="be.kuleuven.noiseapp.NoiseHuntExplanationActivity"
-            android:label="@string/title_activity_noise_hunt"
-            android:parentActivityName="be.kuleuven.noiseapp.NoiseHuntActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="be.kuleuven.noiseapp.NoiseHuntActivity" />
-        </activity>
-        <activity
-            android:name="be.kuleuven.noiseapp.WalkInTheParkActivity"
+            android:name="be.kuleuven.noiseapp.noisehunt.WalkInTheParkRecordActivity"
             android:label="@string/title_activity_walk_in_the_park"
-            android:parentActivityName="be.kuleuven.noiseapp.NoiseHuntActivity" >
+            android:parentActivityName="be.kuleuven.noiseapp.noisehunt.NoiseHuntActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.kuleuven.noiseapp.NoiseHuntActivity" />
         </activity>
         <activity
-            android:name="be.kuleuven.noiseapp.WalkInTheParkPointsActivity"
+            android:name="be.kuleuven.noiseapp.noisehunt.NoiseHuntPointsActivity"
             android:label="@string/title_activity_walk_in_the_park_points"
-            android:parentActivityName="be.kuleuven.noiseapp.WalkInTheParkActivity" >
+            android:parentActivityName="be.kuleuven.noiseapp.noisehunt.WalkInTheParkRecordActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.kuleuven.noiseapp.WalkInTheParkActivity" />
@@ -123,22 +116,59 @@
         <activity
             android:name="be.kuleuven.noiseapp.ShowMapActivity"
             android:label="@string/title_activity_show_map"
-            android:parentActivityName="be.kuleuven.noiseapp.MainActivity" >
+            android:parentActivityName="be.kuleuven.noiseapp.MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.kuleuven.noiseapp.MainActivity" />
         </activity>
         <activity
-            android:name="be.kuleuven.noiseapp.SoundCheckinActivity"
+            android:name="be.kuleuven.noiseapp.places.SoundCheckinActivity"
             android:label="@string/title_activity_sound_checkin" >
         </activity>
         <activity
-            android:name="be.kuleuven.noiseapp.ViewProfileTabActivity"
+            android:name="be.kuleuven.noiseapp.profile.ViewProfileTabActivity"
             android:label="@string/title_activity_view_profile_tab"
-            android:parentActivityName="be.kuleuven.noiseapp.MainActivity" >
+            android:parentActivityName="be.kuleuven.noiseapp.MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.kuleuven.noiseapp.MainActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.noisehunt.BlitzkriegRecordActivity"
+            android:label="@string/title_activity_blitz_krieg_record"
+            android:parentActivityName="be.kuleuven.noiseapp.noisehunt.NoiseHuntActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.noisehunt.NoiseHuntActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.noisehunt.PartyTimeRecordActivity"
+            android:label="@string/title_activity_party_time_record"
+            android:parentActivityName="be.kuleuven.noiseapp.noisehunt.NoiseHuntActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.noisehunt.NoiseHuntActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.noisehunt.RiversideRecordActivity"
+            android:label="@string/title_activity_riverside_record"
+            android:parentActivityName="be.kuleuven.noiseapp.noisehunt.NoiseHuntActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.kuleuven.noiseapp.noisehunt.NoiseHuntActivity" />
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.profile.ViewOtherProfileActivity"
+            android:label="@string/title_activity_view_other_profile" >
+        </activity>
+        <activity
+            android:name="be.kuleuven.noiseapp.SoundBattleWaitActivity"
+            android:label="@string/title_activity_sound_battle_wait" >
         </activity>
     </application>
 

@@ -86,6 +86,7 @@
     <string name="txt_total">Total</string>
     <string name="txt_total_score_player">340</string>
     <string name="txt_total_score_opponent">260</string>
+    <string name="txt_sound_battle_no_points">Your opponent is still playing.\nYou might have to wait a while for the results...\nWhy not play yet another battle?</string>
 
     <!-- NOISE HUNT -->
     <string name="title_activity_noise_hunt">Noise Hunt</string>
@@ -109,6 +110,7 @@
     <string name="title_activity_sound_checkin">Sound Check-in</string>
     <string name="txt_sound_checkin_name">Sound Checkin</string>
     <string name="txt_sound_checkin_whatplace">Where are you?</string>
+    <string name="txt_img_btn_checkin_desc">Checkin button</string>
 
     <!-- VIEW PROFILE -->
     <string name="title_activity_view_profile_tab">Profile</string>
@@ -124,18 +126,22 @@
     <string name="txt_mayorships_amount_username">2</string>
     <string name="txt_mayorships_username">Andreas Vesaliusstraat\nParkstraat</string>
     <string name="txt_badges_earned">Badges earned:</string>
-    <!-- - FRIENDS -->
+    <!-- - OTHER -->
+    <string name="txt_view_other_profile_name">Profile</string>
+    <string name="txt_desc_img_other_profile_picture">Profile picture</string>
+    <string name="txt_other_username">Philippe De Croock</string>
+    <string name="txt_other_points_earned">Points earned:</string>
+    <string name="txt_other_points_earned_username">62</string>
+    <string name="txt_other_battles_won">Battles won:</string>
+    <string name="txt_other_battles_won_username">1</string>
+    <string name="txt_other_mayorships">Mayorships:</string>
+    <string name="txt_other_mayorships_amount_username">2</string>
+    <string name="txt_other_mayorships_username">Andreas Vesaliusstraat\nParkstraat</string>
+    <string name="txt_other_badges_earned">Badges earned:</string>
+    <!-- - LEADERBOARD -->
+    <string name="txt_img_friend_item_profile_picure_desc">Profile picture</string>
     <string name="title_section2">Friends</string>
     <string name="txt_leaderboard">Leaderboard</string>
-    <string name="txt_points_username">62</string>
-    <string name="txt_name1">Mieke Janssens</string>
-    <string name="txt_points_name1">93</string>
-    <string name="txt_name2">Charlotte Schoetters</string>
-    <string name="txt_points_name2">59</string>
-    <string name="txt_name3">Jan Desmedt</string>
-    <string name="txt_points_name3">17</string>
-    <string name="txt_name4">Guust Truyens</string>
-    <string name="txt_points_name4">3</string>
 
     <!-- SHOW MAP -->
     <string name="txt_show_map_name">All Recorded Noise</string>
@@ -154,5 +160,7 @@
     <string name="title_activity_blitz_krieg_record">Blitzkrieg</string>
     <string name="title_activity_party_time_record">Party Time!</string>
     <string name="title_activity_riverside_record">Riverside</string>
+    <string name="title_activity_view_other_profile">ViewOtherProfileActivity</string>
+    <string name="title_activity_sound_battle_wait">SoundBattleWaitActivity</string>
 
 </resources>

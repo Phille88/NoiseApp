@@ -2,30 +2,30 @@ package be.kuleuven.noiseapp.soundbattle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import be.kuleuven.noiseapp.SoundBattleActivity;
-import be.kuleuven.noiseapp.SoundBattleRecordActivity;
 import be.kuleuven.noiseapp.tools.Constants;
-import be.kuleuven.noiseapp.tools.ImageDownloader;
+import be.kuleuven.noiseapp.tools.ImageDownloaderTask;
 import be.kuleuven.noiseapp.tools.JSONParser;
+import be.kuleuven.noiseapp.tools.JSONTags;
+import be.kuleuven.noiseapp.tools.MemoryFileNames;
+import be.kuleuven.noiseapp.tools.MySQLTags;
+import be.kuleuven.noiseapp.tools.ObjectSerializer;
+import be.kuleuven.noiseapp.tools.UserDetails;
 
 public class CreateSoundBattleTask extends AsyncTask<Long, Void, JSONObject> {
 
 	private SoundBattleActivity sba;
 	private JSONParser jsonParser = new JSONParser();
-	private static final String TAG_SUCCESS = "success";
-	private static final String TAG_SOUNDBATTLE_ID = "soundBattleID";
 	private static final String url_create_soundbattle = Constants.BASE_URL_MYSQL + "create_soundbattle.php";
-	private static final String TAG_OPPONENT_PROFILE = "opponentDetails";
 	
 	public CreateSoundBattleTask(SoundBattleActivity sba){
 		this.sba = sba;
@@ -38,8 +38,8 @@ public class CreateSoundBattleTask extends AsyncTask<Long, Void, JSONObject> {
 		
 		// Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("userID1", Long.toString(userID)));
-        params.add(new BasicNameValuePair("userID2", Long.toString(opponentID)));
+        params.add(new BasicNameValuePair(MySQLTags.USERID1, Long.toString(userID)));
+        params.add(new BasicNameValuePair(MySQLTags.USERID2, Long.toString(opponentID)));
 
         // getting JSON Object
         // Note that create product url accepts POST method
@@ -51,7 +51,7 @@ public class CreateSoundBattleTask extends AsyncTask<Long, Void, JSONObject> {
 
         // check for success tag
         try {
-            int success = json.getInt(TAG_SUCCESS);
+            int success = json.getInt(JSONTags.SUCCESS);
 
             if (success == 1) {
             	return json;
@@ -66,26 +66,29 @@ public class CreateSoundBattleTask extends AsyncTask<Long, Void, JSONObject> {
 	
 	@Override
 	protected void onPostExecute(JSONObject jso){
-		String fName = "";
-		String lName = "";
-		String pictureURL = "";
-		Long soundBattleID = null;
+		UserDetails opponentUserDetails = null;
+		Long soundBattleID = 0L;
 		try {
-			fName = jso.getJSONArray(TAG_OPPONENT_PROFILE).getJSONObject(0).getString("firstName");
-			lName = jso.getJSONArray(TAG_OPPONENT_PROFILE).getJSONObject(0).getString("lastName");
-			pictureURL = jso.getJSONArray(TAG_OPPONENT_PROFILE).getJSONObject(0).getString("pictureURL");
-			soundBattleID = jso.getLong(TAG_SOUNDBATTLE_ID);
+			long opponentID = jso.getJSONArray(JSONTags.OPPONENT_DETAILS).getJSONObject(0).getLong("opponentID");
+			String fName = jso.getJSONArray(JSONTags.OPPONENT_DETAILS).getJSONObject(0).getString("firstName");
+			String lName = jso.getJSONArray(JSONTags.OPPONENT_DETAILS).getJSONObject(0).getString("lastName");
+			String pictureURL = jso.getJSONArray(JSONTags.OPPONENT_DETAILS).getJSONObject(0).getString("pictureURL");
+			opponentUserDetails = new UserDetails(opponentID, null, fName, lName, null, 0L, pictureURL);
+			soundBattleID = jso.getLong(JSONTags.SOUNDBATTLE_ID);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Intent i = new Intent(sba.getApplicationContext(),SoundBattleRecordActivity.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		i.putExtra("soundBattleID", soundBattleID);
-		i.putExtra("opponentFirstName", fName);
-		i.putExtra("opponentLastName", lName);
-		new ImageDownloader(sba, Constants.FILENAME_OPPONENT_PROFILE_PICTURE).execute(pictureURL);// + "?size=" + Constants.SIZE_OPPONENT_PRROFILE_PICTURE);
-		//TODO add opponentinfo!
+		i.putExtra(MemoryFileNames.OPPONENTDETAILS, ObjectSerializer.serialize(opponentUserDetails));
+		try {
+			new ImageDownloaderTask(sba, MemoryFileNames.PROFILE_PICTURE + "_" + opponentUserDetails.getUserID()).execute(opponentUserDetails.getPictureURL()).get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}// + "?size=" + Constants.SIZE_OPPONENT_PRROFILE_PICTURE);
 		sba.startActivity(i);
 	}
 }
