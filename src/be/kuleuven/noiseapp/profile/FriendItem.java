@@ -1,6 +1,6 @@
 package be.kuleuven.noiseapp.profile;
 
-import be.kuleuven.noiseapp.tools.UserDetails;
+import be.kuleuven.noiseapp.auth.UserDetails;
 
 public class FriendItem {
 	

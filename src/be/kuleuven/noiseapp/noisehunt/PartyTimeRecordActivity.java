@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 import be.kuleuven.noiseapp.R;
-import be.kuleuven.noiseapp.RecordActivity;
-import be.kuleuven.noiseapp.location.NoiseLocation;
+import be.kuleuven.noiseapp.recording.RecordActivity;
+import be.kuleuven.noiseapp.soundbattle.NoiseLocation;
 import be.kuleuven.noiseapp.tools.Constants;
 
 import com.google.android.gms.maps.model.LatLng;

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <ImageView
@@ -19,9 +22,17 @@
         android:text="@string/txt_other_username"
         android:textSize="@dimen/size_txt_username"
         android:textStyle="bold" />
+    
+    <Button
+        android:id="@+id/btn_delete_other_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/txt_other_username"
+        android:layout_below="@+id/txt_other_username"
+        android:text="@string/txt_btn_delete_friend" />
 
     <TableLayout
-        android:id="@+id/tbl_other_points"
+        android:id="@+id/tbl_other_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/img_other_profile_picture"
@@ -76,164 +87,39 @@
                 android:text="@string/txt_other_battles_won_username"
                 android:textSize="@dimen/size_txt_normal" />
         </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow3_other"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
-
-            <TextView
-                android:id="@+id/txt_mayorships"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_other_mayorships"
-                android:textSize="@dimen/size_txt_normal" />
-
-            <TextView
-                android:id="@+id/txt_other_mayorships_amount_username"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@string/txt_other_mayorships_amount_username"
-                android:textSize="@dimen/size_txt_normal" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow4_other"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" >
-
-            <TextView
-                android:id="@+id/txt_other_mayorships_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_other_mayorships_username" />
-        </TableRow>
         
         <TableRow
-            android:id="@+id/tableRow5_other"
+            android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp" >
 
             <TextView
-                android:id="@+id/txt_other_badges_earned"
+                android:id="@+id/txt_other_last_sound_checkin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_other_badges_earned"
+                android:text="@string/txt_last_sound_checkin"
+                android:textSize="@dimen/size_txt_normal" />
+
+            <TextView
+                android:id="@+id/txt_other_last_sound_checkin_username"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="@string/txt_last_sound_checkin_username"
                 android:textSize="@dimen/size_txt_normal" />
         </TableRow>
-        
-        <TableRow
-            android:id="@+id/tbl_other_badges_row1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp" >
-       		<ImageView
-                android:id="@+id/img_other_badge_newbie"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:contentDescription="@string/txt_content_badge_newbie"
-                android:src="@drawable/img_badge_newbie" />
-
-            <ImageView
-                android:id="@+id/img_other_badge_first_sound_battle"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:contentDescription="@string/txt_content_badge_first_sound_battle"
-                android:src="@drawable/img_badge_first_sound_battle" />
-            </TableRow>
     </TableLayout>
-            <!--
     <TableLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_alignParentLeft="true"
-	    android:layout_alignParentTop="true"
-	    android:layout_margin="10dp"
-	    android:gravity="center_horizontal|center_vertical"
-	    android:stretchColumns="2" >
-
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="100" >
-
-            <RelativeLayout 
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="50"
-	            android:gravity="center"
-	            android:layout_margin="10dp" >
-
-	            <TextView
-	                android:id="@+id/txt_stats"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentLeft="true"
-	                android:layout_below="@+id/btn_stats"
-	                android:background="@android:color/white"
-	                android:gravity="center"
-	                android:text="@string/txt_btn_stats"
-	                android:textColor="#000000"
-	                android:textSize="@dimen/size_txt_btn_main"
-	                android:textStyle="bold" />
-
-	            <ImageButton
-	                android:id="@+id/btn_stats"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentLeft="true"
-	                android:layout_alignParentTop="true"
-	                android:gravity="center"
-	                android:background="@drawable/img_btn_stats_states"
-	                android:contentDescription="@string/txt_btn_content_stats"
-	                android:textColor="#000000"
-	                android:textSize="@dimen/size_txt_btn_main"
-	                android:textStyle="bold" />
-	         </RelativeLayout>
-	         <RelativeLayout 
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="50"
-	            android:gravity="center"
-	            android:layout_margin="10dp" >
-
-	            <TextView
-	                android:id="@+id/txt_badges"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentLeft="true"
-	                android:layout_below="@+id/btn_badges"
-	                android:background="@android:color/white"
-	                android:gravity="center"
-	                android:text="@string/txt_btn_badges"
-	                android:textColor="#000000"
-	                android:textSize="@dimen/size_txt_btn_main"
-	                android:textStyle="bold" />
-
-	            <ImageButton
-	                android:id="@+id/btn_badges"
-	                android:layout_width="fill_parent"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentLeft="true"
-	                android:layout_alignParentTop="true"
-	                android:gravity="center"
-	                android:background="@drawable/img_btn_badges_states"
-	                android:contentDescription="@string/txt_btn_content_badges"
-	                android:textColor="#000000"
-	                android:textSize="@dimen/size_txt_btn_main"
-	                android:textStyle="bold" />
-	         </RelativeLayout>
-        </TableRow>
+        android:id="@+id/tbl_other_badges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tbl_other_profile"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_horizontal"
+        android:weightSum="1">
     </TableLayout>
-            -->
-
 </RelativeLayout>
+</ScrollView>

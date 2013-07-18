@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import be.kuleuven.noiseapp.auth.UserDetails;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.ImageDownloaderTask;
 import be.kuleuven.noiseapp.tools.JSONParser;
@@ -22,7 +23,6 @@ import be.kuleuven.noiseapp.tools.JSONTags;
 import be.kuleuven.noiseapp.tools.MemoryFileNames;
 import be.kuleuven.noiseapp.tools.MySQLTags;
 import be.kuleuven.noiseapp.tools.ObjectSerializer;
-import be.kuleuven.noiseapp.tools.UserDetails;
 
 public class LoadSoundBattleTask extends AsyncTask<Long, Void, JSONArray[]> {
 	
@@ -44,6 +44,7 @@ public class LoadSoundBattleTask extends AsyncTask<Long, Void, JSONArray[]> {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(MySQLTags.USERID, Long.toString(userID)));
         params.add(new BasicNameValuePair(MySQLTags.SOUNDBATTLEID, Long.toString(this.soundBattleID)));
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
 
 
         JSONObject json = jsonParser .makeHttpRequest(url_get_sound_battle_state , "POST", params);
@@ -101,7 +102,7 @@ public class LoadSoundBattleTask extends AsyncTask<Long, Void, JSONArray[]> {
 			String fName = jsa[1].getJSONObject(0).getString(JSONTags.FIRSTNAME);
 			String lName = jsa[1].getJSONObject(0).getString(JSONTags.LASTNAME);
 			String pictureURL = jsa[1].getJSONObject(0).getString(JSONTags.PICTUREURL);
-			opponentUserDetails = new UserDetails(opponentID, null, fName, lName, null, 0L, pictureURL);
+			opponentUserDetails = new UserDetails(opponentID, null, fName, lName, null, 0L, 0L, new ArrayList<Integer>(), null, pictureURL);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

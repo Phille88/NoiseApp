@@ -8,10 +8,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import be.kuleuven.noiseapp.location.SoundBattleLocation;
-import be.kuleuven.noiseapp.noisedatabase.NoiseRecording;
+import be.kuleuven.noiseapp.recording.NoiseRecording;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.JSONParser;
+import be.kuleuven.noiseapp.tools.MySQLTags;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -34,6 +34,7 @@ public class SaveSoundBattleRecordingTask extends AsyncTask<NoiseRecording, Void
         params.add(new BasicNameValuePair("userID", Long.toString(nr.getUserID())));
         params.add(new BasicNameValuePair("soundBattleLocationID", Long.toString(sbl.getSoundBattleLocationID())));
         params.add(new BasicNameValuePair("noiseRecordingID", Long.toString(nr.getID())));
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
 
         // getting JSON Object
         // Note that create product url accepts POST method

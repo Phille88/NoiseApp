@@ -20,7 +20,6 @@ import be.kuleuven.noiseapp.tools.JSONTags;
 import be.kuleuven.noiseapp.tools.MemoryFileNames;
 import be.kuleuven.noiseapp.tools.MySQLTags;
 import be.kuleuven.noiseapp.tools.ObjectSerializer;
-import be.kuleuven.noiseapp.tools.UserDetails;
 
 public class CreateUserProfileTask extends AsyncTask<UserDetails, Void, Long> {
 	private JSONParser jsonParser = new JSONParser();
@@ -36,8 +35,6 @@ public class CreateUserProfileTask extends AsyncTask<UserDetails, Void, Long> {
      * */
 	@Override
     protected Long doInBackground(UserDetails... uds) {
-    	//TODO delete debugger
-    	//android.os.Debug.waitForDebugger();
     	UserDetails userDetails = uds[0];
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(MySQLTags.GOOGLEID, userDetails.getGoogleID().toString()));
@@ -45,6 +42,7 @@ public class CreateUserProfileTask extends AsyncTask<UserDetails, Void, Long> {
         params.add(new BasicNameValuePair(MySQLTags.LASTNAME, userDetails.getLName()));
         params.add(new BasicNameValuePair(MySQLTags.EMAIL, userDetails.getEmail()));
         params.add(new BasicNameValuePair(MySQLTags.PICTUREURL, userDetails.getPictureURL()));
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
 
         JSONObject json = jsonParser.makeHttpRequest(url_create_userprofile, "POST", params);
 

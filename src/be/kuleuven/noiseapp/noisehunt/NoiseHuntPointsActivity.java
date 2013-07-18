@@ -9,10 +9,16 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -28,29 +34,61 @@ public class NoiseHuntPointsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_random_record_points);
-		// Show the Up button in the action bar.
+		setContentView(R.layout.activity_points);
 		setupActionBar();
 		
 		rp = (RecordingPoints) getIntent().getSerializableExtra(MemoryFileNames.NOISEHUNT_POINTS);
 		
+		if(!rp.getBadges().isEmpty())
+			showBadgePopup();
+		
 		createPointDescriptions();
+	}
+
+	private void showBadgePopup() {
+		LayoutInflater layoutInflater  = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);  
+	    View popupView = layoutInflater.inflate(R.layout.popup_badge, null);
+	    
+	    final PopupWindow popupWindow = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);  
+	    
+	    TextView txt_badge_desc = (TextView) popupView.findViewById(R.id.txt_badge_description);
+	    txt_badge_desc.setText(rp.getBadges().get(0).getDescription());
+
+	    TextView txt_badge = (TextView) popupView.findViewById(R.id.txt_badge);
+	    txt_badge.setText(rp.getBadges().get(0).getName());
+
+	    ImageView img_badge = (ImageView) popupView.findViewById(R.id.img_badge);
+	    img_badge.setBackgroundResource(rp.getBadges().get(0).getImage());
+	    
+	    ImageButton btnDismiss = (ImageButton)popupView.findViewById(R.id.btn_popup_ok);
+	    btnDismiss.setOnClickListener(new ImageButton.OnClickListener(){
+	     @Override
+	     public void onClick(View v) {
+	    	 popupWindow.dismiss();
+	     }
+	     });
+	    DisplayMetrics metrics = getApplicationContext().getResources().getDisplayMetrics();
+	    popupWindow.setHeight(metrics.heightPixels);
+	    popupWindow.setWidth(metrics.widthPixels);
+	    findViewById(R.id.layout_randomrecord_points).post(new Runnable() {
+	    	   @Override
+			public void run() {
+	    		    popupWindow.showAtLocation(findViewById(R.id.layout_randomrecord_points), Gravity.CENTER_HORIZONTAL, 0, 0);
+	    	   }
+	    	});
 	}
 
 	private void createPointDescriptions() {
 		ArrayList<TableRow> tableRows = new ArrayList<TableRow>();
-//		ArrayList<TextView> descriptions = new ArrayList<TextView>();
-//		ArrayList<TextView> points = new ArrayList<TextView>();
 		for(Point p : rp.getPoints()){
 			TableRow tr = new TableRow(this);
 			TextView descriptionToAdd = new TextView(this);
 			descriptionToAdd.setText(p.getDescription());
-//			descriptions.add(descriptionToAdd);
+			descriptionToAdd.setWidth(0);
 			
 			TextView pointToAdd = new TextView(this);
 			pointToAdd.setText("+ " + p.getPoint());
 			pointToAdd.setGravity(Gravity.RIGHT);
-//			points.add(pointToAdd);
 			
 			tr.addView(descriptionToAdd);
 			tr.addView(pointToAdd);
@@ -62,6 +100,7 @@ public class NoiseHuntPointsActivity extends Activity {
 			TableRow tr = new TableRow(this);
 			TextView descriptionToAdd = new TextView(this);
 			descriptionToAdd.setText(b.getDescription());
+			descriptionToAdd.setWidth(0);
 //			descriptions.add(descriptionToAdd);
 			
 			TextView pointToAdd = new TextView(this);

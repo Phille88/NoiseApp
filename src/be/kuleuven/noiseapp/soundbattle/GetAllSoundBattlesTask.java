@@ -39,6 +39,7 @@ public class GetAllSoundBattlesTask extends AsyncTask<Void, Void, JSONObject> {
 		  // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(MySQLTags.USERID, Long.toString(userID)));
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
 
         // getting JSON Object
         // Note that create product url accepts POST method
@@ -72,7 +73,7 @@ public class GetAllSoundBattlesTask extends AsyncTask<Void, Void, JSONObject> {
 					soundBattleItems.add(new SoundBattleItemHeader("Finish these battles:"));
 				long soundBattleID = openSoundBattles.getJSONObject(i).getLong(JSONTags.SOUNDBATTLE_ID);
 				String oppName = openSoundBattles.getJSONObject(i).getString(JSONTags.OPPONENT_NAME);
-				int amount = openSoundBattles.getJSONObject(i).getInt(JSONTags.AMOUNT);
+				int amount = openSoundBattles.getJSONObject(i).getInt(JSONTags.AMOUNTNRS);
 				soundBattleItems.add(new SoundBattleItem(soundBattleID, oppName, amount, RowType.LIST_OPEN_ITEM.ordinal()));
 			}
 			//sba.listOpenBattles();
@@ -89,7 +90,7 @@ public class GetAllSoundBattlesTask extends AsyncTask<Void, Void, JSONObject> {
 					soundBattleItems.add(new SoundBattleItemHeader("Waiting for opponent:"));
 				long soundBattleID = pendingSoundBattles.getJSONObject(i).getLong(JSONTags.SOUNDBATTLE_ID);
 				String oppName = pendingSoundBattles.getJSONObject(i).getString(JSONTags.OPPONENT_NAME);
-				int amount = pendingSoundBattles.getJSONObject(i).getInt(JSONTags.AMOUNT);
+				int amount = pendingSoundBattles.getJSONObject(i).getInt(JSONTags.AMOUNTNRS);
 				soundBattleItems.add(new SoundBattleItem(soundBattleID, oppName, amount, RowType.LIST_PENDING_ITEM.ordinal()));
 			}
 		} catch (JSONException e) {
@@ -105,7 +106,7 @@ public class GetAllSoundBattlesTask extends AsyncTask<Void, Void, JSONObject> {
 					soundBattleItems.add(new SoundBattleItemHeader("Done battles:"));
 				long soundBattleID = finishedSoundBattles.getJSONObject(i).getLong(JSONTags.SOUNDBATTLE_ID);
 				String oppName = finishedSoundBattles.getJSONObject(i).getString(JSONTags.OPPONENT_NAME);
-				int amount = finishedSoundBattles.getJSONObject(i).getInt(JSONTags.AMOUNT);
+				int amount = finishedSoundBattles.getJSONObject(i).getInt(JSONTags.AMOUNTNRS);
 				soundBattleItems.add(new SoundBattleItem(soundBattleID, oppName, amount, RowType.LIST_FINISHED_ITEM.ordinal()));
 			}
 			//sba.listFinishedBattles();

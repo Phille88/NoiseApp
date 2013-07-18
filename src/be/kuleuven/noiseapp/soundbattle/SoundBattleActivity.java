@@ -21,8 +21,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import be.kuleuven.noiseapp.MainActivity;
 import be.kuleuven.noiseapp.R;
-import be.kuleuven.noiseapp.recording.CalculateSoundBattlePoints;
-import be.kuleuven.noiseapp.recording.SoundBattleRecordingPoints;
 import be.kuleuven.noiseapp.soundbattle.SoundBattleItemAdapter.RowType;
 import be.kuleuven.noiseapp.tools.MemoryFileNames;
 
@@ -39,7 +37,7 @@ public class SoundBattleActivity extends Activity {
 		
 		performSearch();
 		
-		Button btn_new_game = (Button) findViewById(R.id.btn_new_game); //TODO GUI: make a nice button
+		Button btn_new_game = (Button) findViewById(R.id.btn_new_game);
 		btn_new_game.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {

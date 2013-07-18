@@ -1,12 +1,9 @@
 package be.kuleuven.noiseapp.soundbattle;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import be.kuleuven.noiseapp.R;
-import be.kuleuven.noiseapp.soundbattle.SoundBattleItemAdapter.RowType;
 
 public class SoundBattleItem implements iSoundBattleListItem {
 	
@@ -17,9 +14,8 @@ public class SoundBattleItem implements iSoundBattleListItem {
 	private int viewType;
 	
 	public SoundBattleItem(long soundBattleID, String opponentName, int finishedLocations, int viewType){
-
 		this.soundBattleID = soundBattleID;
-		this.opponentName = opponentName + " (SBID: " + soundBattleID + ")"; //TODO terug mooi maken
+		this.opponentName = opponentName;
 		this.finishedLocations = finishedLocations;
 		this.viewType = viewType;
 	}

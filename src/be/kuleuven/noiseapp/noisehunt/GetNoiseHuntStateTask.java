@@ -38,6 +38,7 @@ public class GetNoiseHuntStateTask extends AsyncTask<Void, Void, Integer> {
 		}
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(MySQLTags.USERID, Long.toString(sp.getLong(MemoryFileNames.USERID, 0L))));
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
 
         JSONObject json = jsonParser.makeHttpRequest(url_get_noise_hunt_state, "POST", params);
 

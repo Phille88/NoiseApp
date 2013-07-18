@@ -10,9 +10,9 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import be.kuleuven.noiseapp.location.SoundBattleLocation;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.JSONParser;
+import be.kuleuven.noiseapp.tools.MySQLTags;
 
 public class SaveSoundBattleLocations extends AsyncTask<ArrayList<SoundBattleLocation>, Void, Void> {
 
@@ -39,6 +39,7 @@ public class SaveSoundBattleLocations extends AsyncTask<ArrayList<SoundBattleLoc
         	params.add(new BasicNameValuePair("longitude" + (i+1), Double.toString(sbls.get(i).getLatLng().longitude)));
         	params.add(new BasicNameValuePair("latitude" + (i+1), Double.toString(sbls.get(i).getLatLng().latitude)));
         }
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
         // getting JSON Object
         // Note that create product url accepts POST method
         JSONObject json = jsonParser.makeHttpRequest(url_create_soundbattlelocation,

@@ -1,9 +1,9 @@
 package be.kuleuven.noiseapp.noisehunt;
 
 import android.view.View;
-import be.kuleuven.noiseapp.location.NoiseLocation;
-import be.kuleuven.noiseapp.noisedatabase.NoiseRecording;
+import be.kuleuven.noiseapp.recording.NoiseRecording;
 import be.kuleuven.noiseapp.recording.RecordingTask;
+import be.kuleuven.noiseapp.soundbattle.NoiseLocation;
 
 public class BlitzkriegRecordTask extends RecordingTask {
 	BlitzkriegRecordActivity rActivity;

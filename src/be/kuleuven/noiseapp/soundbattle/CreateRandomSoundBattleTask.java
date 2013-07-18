@@ -16,6 +16,7 @@ import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.JSONParser;
 import be.kuleuven.noiseapp.tools.JSONTags;
 import be.kuleuven.noiseapp.tools.MemoryFileNames;
+import be.kuleuven.noiseapp.tools.MySQLTags;
 
 public class CreateRandomSoundBattleTask extends AsyncTask<Void, Void, Long> {
 	private SoundBattleActivity sba;
@@ -37,6 +38,7 @@ public class CreateRandomSoundBattleTask extends AsyncTask<Void, Void, Long> {
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("userID", Long.toString(userID)));
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
 
         // getting JSON Object
         // Note that create product url accepts POST method

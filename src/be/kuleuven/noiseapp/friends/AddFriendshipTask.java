@@ -36,6 +36,7 @@ public class AddFriendshipTask extends AsyncTask<Long, Void, Long> {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 	    params.add(new BasicNameValuePair(MySQLTags.USERID1, Long.toString(sp.getLong(MemoryFileNames.USERID, 0L))));
 	    params.add(new BasicNameValuePair(MySQLTags.USERID2, Long.toString(friendID[0])));
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
 	    
         JSONObject json = jsonParser.makeHttpRequest(url_create_friendship, "POST", params);
         
@@ -58,5 +59,4 @@ public class AddFriendshipTask extends AsyncTask<Long, Void, Long> {
 	protected void onPostExecute(Long friendID){
 		new UpdateFriendsListLocalTask(rActivity).execute();
 	}
-
 }

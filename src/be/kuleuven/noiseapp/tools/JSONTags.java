@@ -32,7 +32,7 @@ public class JSONTags {
 	public static final String PENDING_SOUNDBATTLES = "pendingsoundbattles";
 	public static final String FINISHED_SOUNDBATTLES = "finishedsoundbattles";
 	public static final String OPPONENT_NAME = "oppFirstName";
-	public static final String AMOUNT = "ownAmountNRs";
+	public static final String AMOUNTNRS = "ownAmountNRs";
 	public static final String SOUNDBATTLES = "soundbattles";
 	
 
@@ -45,6 +45,7 @@ public class JSONTags {
 	public static final String RECORDED = "recorded";
 	public static final String OPPONENT_DETAILS = "opponentDetails";
 	public static final String SOUNDBATTLELOCATIONS = "soundbattlelocations";
+	public static final String SOUNDBATTLESWON = "amountSBWon";
 	
 	/**
 	 * Noise recordings
@@ -65,6 +66,21 @@ public class JSONTags {
 	public static final String POINT_AMOUNT = "amount";
 	public static final String OPPONENT_POINTS = "opp_points";
 	public static final String SPEED = "speed";
+	public static final String DESCRIPTION = "description";
+	public static final String AMOUNT = "amount";
+
+
+	/**
+	 * Badges
+	 */
+	public static final String BADGES = "badges";
+	public static final String BADGEID = "badgeID";
+
+	/**
+	 * Sound Checkin
+	 */
+	public static final String LASTSOUNDCHECKIN = "lastSoundCheckin";
+	public static final String PLACENAME = "placeName";
 
 
 }

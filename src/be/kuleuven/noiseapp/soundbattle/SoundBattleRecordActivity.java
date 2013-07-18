@@ -26,18 +26,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import be.kuleuven.noiseapp.MainActivity;
 import be.kuleuven.noiseapp.R;
-import be.kuleuven.noiseapp.RecordActivity;
+import be.kuleuven.noiseapp.auth.UserDetails;
 import be.kuleuven.noiseapp.exception.NotInLeuvenException;
 import be.kuleuven.noiseapp.friends.AddFriendshipTask;
-import be.kuleuven.noiseapp.location.NoiseLocation;
-import be.kuleuven.noiseapp.location.SoundBattleLocation;
-import be.kuleuven.noiseapp.location.SoundBattleLocationGenerator;
-import be.kuleuven.noiseapp.recording.SoundBattleRecordTask;
+import be.kuleuven.noiseapp.recording.RecordActivity;
 import be.kuleuven.noiseapp.tools.BitmapScaler;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.MemoryFileNames;
 import be.kuleuven.noiseapp.tools.ObjectSerializer;
-import be.kuleuven.noiseapp.tools.UserDetails;
 
 public class SoundBattleRecordActivity extends RecordActivity {
 	
@@ -53,7 +49,7 @@ public class SoundBattleRecordActivity extends RecordActivity {
 		super.onCreate(savedInstanceState);
 		sbra = this;
 		
-		setSoundBattleID(getIntent().getLongExtra("soundBattleID", 0L));
+		setSoundBattleID(getIntent().getLongExtra(MemoryFileNames.SOUNDBATTLEID, 0L));
 		setOpponentDetails((UserDetails) ObjectSerializer.deserialize(getIntent().getStringExtra(MemoryFileNames.OPPONENTDETAILS)));
 		
 		showOpponentBox();
@@ -186,7 +182,7 @@ public class SoundBattleRecordActivity extends RecordActivity {
 			} catch (NotInLeuvenException e) {
 				e.printStackTrace();
 				Toast.makeText(getApplicationContext(),
-						"You are not near Leuven. Restart the application when you are in Leuven.",
+						"You are not in Leuven. Restart the application when you are in Leuven.",
 						Toast.LENGTH_LONG).show();
 				try {
 					Thread.sleep(8000);//TODO testen in Antwerpen!
@@ -209,13 +205,6 @@ public class SoundBattleRecordActivity extends RecordActivity {
 				SBLocations.add(toAdd);
 			}
 			new SaveSoundBattleLocations(getSoundBattleID()).execute(SBLocations);
-
-//TODO if not in Leuven, uncomment following lines
-//		else {
-//			SBLocations.add(new SoundBattleLocation(4.39004, 51.20543)); //coordinaten antwerpen
-//			SBLocations.add(new SoundBattleLocation(4.39017, 51.20545));
-//			SBLocations.add(new SoundBattleLocation(4.39018, 51.20536));
-//		}
 		updateMarkers();
 	}
 	

@@ -5,13 +5,12 @@
     
     <TextView
         android:id="@+id/txt_soundbattles_header"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:layout_marginTop="20dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:background="#808080"
+        android:layout_marginTop="20dp"
+        android:background="#323232"
         android:textColor="#FFFFFF"
         android:textSize="@dimen/size_txt_title" />
 

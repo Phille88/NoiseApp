@@ -29,7 +29,6 @@ public class SoundBattleItemAdapter extends ArrayAdapter<iSoundBattleListItem> {
 	@Override
     public int getViewTypeCount() {
         return RowType.values().length;
-
     } 
 	
 	@Override

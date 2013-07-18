@@ -17,4 +17,5 @@ public class MemoryFileNames {
 	public static final String NOISEHUNT_POINTS = "noiseHuntPoints";
 	public static final String NOISEHUNT_TITLE = "noiseHuntTitle";
 	public static final String SOUNDBATTLE_POINTS = "soundBattlePoints";
+	public static final String COMINGFROMSOUNDCHECKIN = "comingfromsoundcheckin";
 }

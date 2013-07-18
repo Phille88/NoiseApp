@@ -16,6 +16,8 @@ import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import be.kuleuven.noiseapp.auth.UserDetails;
+import be.kuleuven.noiseapp.soundcheckin.SoundCheckinDetails;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.ImageDownloaderTask;
 import be.kuleuven.noiseapp.tools.JSONParser;
@@ -23,7 +25,6 @@ import be.kuleuven.noiseapp.tools.JSONTags;
 import be.kuleuven.noiseapp.tools.MemoryFileNames;
 import be.kuleuven.noiseapp.tools.MySQLTags;
 import be.kuleuven.noiseapp.tools.ObjectSerializer;
-import be.kuleuven.noiseapp.tools.UserDetails;
 
 public class UpdateFriendsListLocalTask extends AsyncTask<Void, Void, ArrayList<UserDetails>> {
 	
@@ -39,13 +40,12 @@ public class UpdateFriendsListLocalTask extends AsyncTask<Void, Void, ArrayList<
 
 	@Override
 	protected ArrayList<UserDetails> doInBackground(Void... arg0) {
-    	//TODO delete debugger
-    	//android.os.Debug.waitForDebugger();
 		while(sp.getLong(MemoryFileNames.USERID, 0L) == 0L){
 			//wait
 		}
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 	    params.add(new BasicNameValuePair(MySQLTags.USERID, Long.toString(sp.getLong(MemoryFileNames.USERID, 0L))));
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
 	    
         JSONObject json = jsonParser.makeHttpRequest(url_get_friend_details, "POST", params);
         
@@ -59,7 +59,18 @@ public class UpdateFriendsListLocalTask extends AsyncTask<Void, Void, ArrayList<
                 JSONArray friends = json.getJSONArray(JSONTags.FRIENDS);
                 for(int i = 0; i < friends.length(); i++){
                 	JSONObject friend = friends.getJSONObject(i);
-                	friendsList.add(new UserDetails(friend.getLong(JSONTags.USERID), new BigInteger(friend.getString(JSONTags.GOOGLEID)), friend.getString(JSONTags.FIRSTNAME), friend.getString(JSONTags.LASTNAME), null, friend.getLong(JSONTags.TOTALPOINTS), friend.getString(JSONTags.PICTUREURL)));
+        			JSONArray badges = friend.getJSONArray(JSONTags.BADGES);
+        			ArrayList<Integer> badgeIDs = new ArrayList<Integer>();
+        			for(int j = 0; j < badges.length(); j++){
+        				badgeIDs.add(badges.getInt(j));
+        			}
+        			JSONObject lastSoundCheckin = friend.getJSONObject(JSONTags.LASTSOUNDCHECKIN);
+        			String lastSoundCheckinName = lastSoundCheckin.getString(JSONTags.PLACENAME);
+        			double lastSoundCheckinDB = lastSoundCheckin.getDouble(JSONTags.DB);
+        			SoundCheckinDetails lastSoundCheckinDetails = new SoundCheckinDetails(lastSoundCheckinName, lastSoundCheckinDB);
+        			if(lastSoundCheckinName.equals("null") || lastSoundCheckinDB == 0)
+        				lastSoundCheckinDetails = null;
+                	friendsList.add(new UserDetails(friend.getLong(JSONTags.USERID), new BigInteger(friend.getString(JSONTags.GOOGLEID)), friend.getString(JSONTags.FIRSTNAME), friend.getString(JSONTags.LASTNAME), null, friend.getLong(JSONTags.TOTALPOINTS), friend.getLong(JSONTags.SOUNDBATTLESWON), badgeIDs, lastSoundCheckinDetails, friend.getString(JSONTags.PICTUREURL)));
                 }
                 return friendsList;
             } else {

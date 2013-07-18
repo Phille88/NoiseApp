@@ -19,5 +19,9 @@ public class MySQLTags {
 	public static final String ACCURACY = "accuracy";
 	
 	public static final String NOISEHUNT_ID = "noiseHuntID";
+	public static final String PLACENAME = "placeName";
+	public static final String NOISERECORDINGID = "noiseRecordingID";
+	
+	public static final String REQUESTKEY = "requestKey";
 
 }

@@ -3,6 +3,7 @@ package be.kuleuven.noiseapp.profile;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -21,6 +23,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,16 +34,21 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import be.kuleuven.noiseapp.R;
-import be.kuleuven.noiseapp.UpdateLocalProfileDetailsTask;
+import be.kuleuven.noiseapp.auth.UpdateLocalProfileDetailsTask;
+import be.kuleuven.noiseapp.auth.UserDetails;
 import be.kuleuven.noiseapp.friends.UpdateFriendsListLocalTask;
+import be.kuleuven.noiseapp.points.Badges;
 import be.kuleuven.noiseapp.tools.BitmapScaler;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.MemoryFileNames;
 import be.kuleuven.noiseapp.tools.ObjectSerializer;
 import be.kuleuven.noiseapp.tools.QuickSort;
-import be.kuleuven.noiseapp.tools.UserDetails;
 
 public class ViewProfileTabActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -202,8 +210,8 @@ public class ViewProfileTabActivity extends FragmentActivity implements ActionBa
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			RelativeLayout rootView = (RelativeLayout) inflater.inflate(R.layout.tab1_view_profile_me, container, false);
-
+			//RelativeLayout rootView = (RelativeLayout) inflater.inflate(R.layout.tab1_view_profile_me, container, false);
+			ScrollView rootView = (ScrollView) inflater.inflate(R.layout.tab1_view_profile_me, container, false);
 			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
 			try {
 				updateProfileTask.get();
@@ -219,6 +227,61 @@ public class ViewProfileTabActivity extends FragmentActivity implements ActionBa
 
 			TextView txt_totalPoints = (TextView) rootView.findViewById(R.id.txt_points_earned_username);
 			txt_totalPoints.setText(Long.toString(userDetails.getTotalPoints()));
+			
+			TextView txt_soundBattlesWon = (TextView) rootView.findViewById(R.id.txt_battles_won_username);
+			txt_soundBattlesWon.setText(Long.toString(userDetails.getSoundBattlesWon()));
+			
+			if(userDetails.getLastSoundCheckin() != null){
+				TextView txt_lastSoundCheckin = (TextView) rootView.findViewById(R.id.txt_last_sound_checkin_username);
+				txt_lastSoundCheckin.setText(userDetails.getLastSoundCheckin().getPlaceName() + " (" + new DecimalFormat("#").format(userDetails.getLastSoundCheckin().getDB()) + " dB)");
+			}
+				
+			TableLayout tbl_layout = (TableLayout) rootView.findViewById(R.id.tbl_badges);
+			ArrayList<Integer> badgeIDs = userDetails.getBadgeIDs();
+			TableRow badgeRow = null;
+			TableRow badgeNameRow = null;
+			for(int i = 0; i < badgeIDs.size(); i++){
+				if(i % 3 == 0){
+					badgeRow = new TableRow(getActivity());
+					badgeRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+					badgeNameRow = new TableRow(getActivity());
+					badgeNameRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+				}
+				ImageView badge = new ImageView(getActivity());
+				badge.setImageResource(Badges.getBadgeImage(badgeIDs.get(i)));
+				badge.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1/3f));
+				badgeRow.addView(badge);
+				
+				TextView badgeName = new TextView(getActivity());
+				badgeName.setText(Badges.getBadgeName(badgeIDs.get(i)));
+				badgeName.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1/3f));
+				badgeName.setTypeface(null,Typeface.BOLD);
+				badgeName.setGravity(Gravity.CENTER_HORIZONTAL);
+				badgeNameRow.addView(badgeName);
+				
+				if(i % 3 == 0){
+					tbl_layout.addView(badgeRow);
+					tbl_layout.addView(badgeNameRow);
+				}
+			}
+			switch(badgeIDs.size()%3){
+			case 1 :
+				ImageView extraInvBadge1 = new ImageView(getActivity());
+				extraInvBadge1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1/3f));
+				badgeRow.addView(extraInvBadge1);
+				TextView extraInvBadgeName1 = new TextView(getActivity());
+				extraInvBadgeName1.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1/3f));
+				badgeNameRow.addView(extraInvBadgeName1);
+			case 2 :
+				ImageView extraInvBadge2 = new ImageView(getActivity());
+				extraInvBadge2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1/3f));
+				badgeRow.addView(extraInvBadge2);
+				TextView extraInvBadgeName2 = new TextView(getActivity());
+				extraInvBadgeName2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT, 1/3f));
+				badgeNameRow.addView(extraInvBadgeName2);
+				break;
+			}
+			
 
 			ImageView img_profilePicture = (ImageView) rootView.findViewById(R.id.img_profile_picture);
 			Bitmap bm = null;
@@ -237,7 +300,6 @@ public class ViewProfileTabActivity extends FragmentActivity implements ActionBa
 				img_profilePicture.setMaxHeight(Constants.PROFILEPICTUREHEIGHT);
 				img_profilePicture.setMaxWidth(Constants.PROFILEPICTUREWIDTH);
 			}
-
 			return rootView;
 		}
 	}
@@ -249,6 +311,7 @@ public class ViewProfileTabActivity extends FragmentActivity implements ActionBa
 	public static class FriendsFragment extends Fragment {
 
 		private ArrayList<FriendItem> friendItems = new ArrayList<FriendItem>();
+		private ArrayList<UserDetails> friends = new ArrayList<UserDetails>();
 		private ListView listView;
 		
 		public FriendsFragment() {
@@ -276,15 +339,12 @@ public class ViewProfileTabActivity extends FragmentActivity implements ActionBa
 
 		private void getFriendDetails() {
 			friendItems.clear();
-			ArrayList<UserDetails> friends = new ArrayList<UserDetails>();
+			friends = new ArrayList<UserDetails>();
 			try {
 				friends = updateFriendsListTask.get();
 				if (!friends.isEmpty()) {
 					SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 					friends.add((UserDetails) ObjectSerializer.deserialize(sp.getString(MemoryFileNames.USERDETAILS, null)));
-				}
-				else{
-					//TODO write something about: Add friends during soundBattles to see a leaderboard
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -295,6 +355,14 @@ public class ViewProfileTabActivity extends FragmentActivity implements ActionBa
 			qs.sort(friends);
 			for (UserDetails friend : friends) {
 				friendItems.add(new FriendItem(friend));
+			}
+		}
+		
+		@Override
+		public void setUserVisibleHint(boolean isVisibleToUser){
+			super.setUserVisibleHint(isVisibleToUser);
+			if(isVisibleToUser && friends != null && friends.isEmpty()){
+				Toast.makeText(getActivity(), "Add friends during Sound Battles to compare results!", Toast.LENGTH_LONG).show();
 			}
 		}
 	}

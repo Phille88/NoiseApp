@@ -37,6 +37,7 @@ public class SaveFinishedNoiseHuntTask extends AsyncTask<Integer, Void, Void> {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 	    params.add(new BasicNameValuePair(MySQLTags.USERID, Long.toString(sp.getLong(MemoryFileNames.USERID, 0L))));
 	    params.add(new BasicNameValuePair(MySQLTags.NOISEHUNT_ID, Integer.toString(noiseHuntID[0])));
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
 	
         JSONObject json = jsonParser .makeHttpRequest(url_update_noisehuntstate, "POST", params);
 

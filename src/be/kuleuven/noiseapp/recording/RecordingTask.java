@@ -2,6 +2,7 @@ package be.kuleuven.noiseapp.recording;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -16,9 +17,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
-import be.kuleuven.noiseapp.RecordActivity;
-import be.kuleuven.noiseapp.noisedatabase.SaveNoiseRecordingRemoteTask;
-import be.kuleuven.noiseapp.noisedatabase.NoiseRecording;
+import be.kuleuven.noiseapp.tools.MemoryFileNames;
 
 public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRecording> {
 	
@@ -152,7 +151,7 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 				e.printStackTrace();
 			}
 			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(v.getContext());
-			long userID = sp.getLong("userID", 0L);
+			long userID = sp.getLong(MemoryFileNames.USERID, 0L);
 			rActivity.removeAccelerometerListener();
 			recordedNoise = new NoiseRecording(userID, currentLocation.getLatitude(), currentLocation.getLongitude(), avgDB, currentLocation.getAccuracy(), rActivity.calculateQuality());
 			
@@ -199,6 +198,12 @@ public abstract class RecordingTask extends AsyncTask<Location, Integer, NoiseRe
 	}
 	
 	protected void saveNoiseRecording(NoiseRecording nr){
-		new SaveNoiseRecordingRemoteTask().execute(nr);
+		try {
+			new SaveNoiseRecordingRemoteTask().execute(nr).get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		};
 	}	
 }

@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +36,6 @@ import be.kuleuven.noiseapp.MainActivity;
 import be.kuleuven.noiseapp.tools.ImageDownloaderTask;
 import be.kuleuven.noiseapp.tools.MemoryFileNames;
 import be.kuleuven.noiseapp.tools.ObjectSerializer;
-import be.kuleuven.noiseapp.tools.UserDetails;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
 
@@ -64,8 +64,6 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDeta
 
 	@Override
 	protected UserDetails doInBackground(Void... params) {
-    	//TODO delete debugger
-    	//android.os.Debug.waitForDebugger();
 		try {
 			return fetchInfoFromGoogleServer();
 		} catch (IOException ex) {
@@ -120,10 +118,9 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDeta
 			BigInteger googleID = getGoogleID(profile);
 			String firstName = getFirstName(profile);
 			String lastName = getLastName(profile);
-			mActivity.showFirstName(firstName);
 			String pictureURL = getPicture(profile);
 			is.close();
-			return new UserDetails(0L, googleID, firstName, lastName, mEmail, 0, pictureURL);
+			return new UserDetails(0L, googleID, firstName, lastName, mEmail, 0L, 0L, new ArrayList<Integer>(), null, pictureURL);
 		} else if (sc == 401) {
 			GoogleAuthUtil.invalidateToken(mActivity, token);
 			onError("Server auth error, please try again.", null);
@@ -156,15 +153,8 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDeta
 	private void saveUserProfileLocal(UserDetails userDetails) {
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		Editor edit = sp.edit();
-		// edit.putString("googleID",googleID.toString());
-		// edit.putString("firstName", firstName);
-		// edit.putString("lastName", lastName);
-		// edit.putString("email", email);
-		// edit.putString("pictureURL", pictureURL);
-		// userID is nog niet bekend hier!
 		edit.putString(MemoryFileNames.USERDETAILS, ObjectSerializer.serialize(userDetails));
 		edit.commit();
-		// TODO size bij de foto er terug bijzetten!
 		new ImageDownloaderTask(mActivity, MemoryFileNames.PROFILE_PICTURE).execute(userDetails.getPictureURL());
 	}
 

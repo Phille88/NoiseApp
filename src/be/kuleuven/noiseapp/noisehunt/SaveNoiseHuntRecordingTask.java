@@ -10,13 +10,14 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import be.kuleuven.noiseapp.noisedatabase.NoiseRecording;
+import be.kuleuven.noiseapp.recording.NoiseRecording;
 import be.kuleuven.noiseapp.tools.Constants;
 import be.kuleuven.noiseapp.tools.JSONParser;
+import be.kuleuven.noiseapp.tools.JSONTags;
+import be.kuleuven.noiseapp.tools.MySQLTags;
 
 public class SaveNoiseHuntRecordingTask extends AsyncTask<NoiseRecording, Void, Void> {
 	private static final String url_create_noisehuntrecording = Constants.BASE_URL_MYSQL + "create_noisehuntrecording.php";
-	private static final String TAG_SUCCESS = "success";
 	private JSONParser jsonParser = new JSONParser();
 	private int noiseHuntID;
 	
@@ -33,6 +34,7 @@ public class SaveNoiseHuntRecordingTask extends AsyncTask<NoiseRecording, Void, 
         params.add(new BasicNameValuePair("userID", Long.toString(nr.getUserID())));
         params.add(new BasicNameValuePair("noiseHuntID", Long.toString(noiseHuntID)));
         params.add(new BasicNameValuePair("noiseRecordingID", Long.toString(nr.getID())));
+        params.add(new BasicNameValuePair(MySQLTags.REQUESTKEY, Constants.REQUESTKEY));
 
         // getting JSON Object
         // Note that create product url accepts POST method
@@ -43,7 +45,7 @@ public class SaveNoiseHuntRecordingTask extends AsyncTask<NoiseRecording, Void, 
 
         // check for success tag
         try {
-            int success = json.getInt(TAG_SUCCESS);
+            int success = json.getInt(JSONTags.SUCCESS);
 
             if (success == 1) {
             	

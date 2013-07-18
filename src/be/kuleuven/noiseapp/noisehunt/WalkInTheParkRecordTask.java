@@ -4,11 +4,10 @@ import java.util.concurrent.ExecutionException;
 
 import android.content.Intent;
 import android.view.View;
-import be.kuleuven.noiseapp.location.NoiseLocation;
-import be.kuleuven.noiseapp.noisedatabase.NoiseRecording;
-import be.kuleuven.noiseapp.points.CalculateNoiseHuntPoints;
 import be.kuleuven.noiseapp.points.RecordingPoints;
+import be.kuleuven.noiseapp.recording.NoiseRecording;
 import be.kuleuven.noiseapp.recording.RecordingTask;
+import be.kuleuven.noiseapp.soundbattle.NoiseLocation;
 import be.kuleuven.noiseapp.tools.MemoryFileNames;
 
 public class WalkInTheParkRecordTask extends RecordingTask {

@@ -2,28 +2,29 @@ package be.kuleuven.noiseapp.points;
 
 import java.io.Serializable;
 
+
 public class Badge implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private String name;
+	private int badgeID;
 	private String description;
 	private int point;
 	
-	public Badge(String name, String description, int point){
-		this.name = name;
-		this.description = description;
-		this.point = point;
+	public Badge(int badgeID, String description, int point){
+		setBadgeID(badgeID);
+		setDescription(description);
+		setPoint(point);
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	private void setBadgeID(int badgeID) {
+		this.badgeID = badgeID;
 	}
 
-	public String getName() {
-		return name;
+	public int getBadgeID() {
+		return badgeID;
 	}
 
-	public void setDescription(String description) {
+	private void setDescription(String description) {
 		this.description = description;
 	}
 
@@ -31,11 +32,19 @@ public class Badge implements Serializable{
 		return description;
 	}
 
-	public void setPoint(int point) {
+	private void setPoint(int point) {
 		this.point = point;
 	}
 
 	public int getPoint() {
 		return point;
+	}
+	
+	public int getImage(){
+		return Badges.getBadgeImage(getBadgeID());	
+	}
+	
+	public String getName(){
+		return Badges.getBadgeName(getBadgeID());
 	}
 }
