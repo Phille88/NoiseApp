@@ -71,6 +71,8 @@ public class ShowMapActivity extends RecordActivity {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e){
+			
 		}
 	}
 

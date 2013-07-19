@@ -12,19 +12,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 import be.kuleuven.noiseapp.auth.GetInfoInForeground;
 import be.kuleuven.noiseapp.auth.UpdateLocalProfileDetailsTask;
@@ -51,8 +59,6 @@ public class MainActivity extends Activity {
     private AsyncTask<Void, Void, Void> mRegisterTask;
 	static long userID;
 	static String email;
-  
-    //TODO About button?
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,6 +85,8 @@ public class MainActivity extends Activity {
 			finish();
 		}
 		else{
+			if(!isLoadingEnded())
+				new WaitForLoadingTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
 			getAccountInfo();
 			getNoiseHuntState();
 			getFriendsList();
@@ -203,6 +211,7 @@ public class MainActivity extends Activity {
                 mRegisterTask.execute(null, null, null);
             }
         }
+        setLoadingEnded(true);
 	}
 	
 	 /**
@@ -258,6 +267,48 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.activity_main, menu);
+		super.onCreateOptionsMenu(menu);
+		MenuItem profile = menu.add(0, 1, 0, "About"); // groupID,itemID,order,title
+		profile.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		profile.setIcon(R.drawable.about);
+		profile.setOnMenuItemClickListener(new OnMenuItemClickListener(){
+
+			@Override
+			public boolean onMenuItemClick(MenuItem arg0) {
+				LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+				View popupView = layoutInflater.inflate(R.layout.popup_explanation, null);
+
+				final PopupWindow popupWindow = new PopupWindow(popupView,
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		
+				TextView txt_title = (TextView) popupView.findViewById(R.id.txt_explanation_title);
+				txt_title.setText(R.string.aboutTitle);
+				TextView txt_desc = (TextView) popupView.findViewById(R.id.txt_explanation);
+				txt_desc.setText(R.string.aboutExplanation);
+
+				ImageButton btnDismiss = (ImageButton) popupView.findViewById(R.id.btn_popup_explanation_ok);
+				btnDismiss.setOnClickListener(new ImageButton.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						popupWindow.dismiss();
+					}
+				});
+				
+				DisplayMetrics metrics = getApplicationContext().getResources().getDisplayMetrics();
+				popupWindow.setHeight(metrics.heightPixels);
+				popupWindow.setWidth(metrics.widthPixels);
+				findViewById(R.id.main_activity_screen).post(new Runnable() {
+					@Override
+					public void run() {
+						popupWindow.showAtLocation(
+								findViewById(R.id.main_activity_screen),
+								Gravity.CENTER_HORIZONTAL, 0, 0);
+					}
+				});
+				return true;
+			}
+			
+		});
 		return true;
 	}
 	
@@ -301,6 +352,18 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             Log.e("UnRegister Receiver Error", "> " + e.getMessage());
         }
+        Editor edit = sp.edit();
+        edit.commit();
         super.onDestroy();
     }
+
+	private void setLoadingEnded(boolean loadingEnded) {
+		Editor edit = sp.edit();
+		edit.putBoolean(MemoryFileNames.LOADINGENDED, loadingEnded);
+		edit.commit();
+	}
+
+	public boolean isLoadingEnded() {
+		return sp.getBoolean(MemoryFileNames.LOADINGENDED, false);
+	}
 }

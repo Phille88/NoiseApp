@@ -67,6 +67,7 @@
     <!-- - SOUND BATTE RECORD -->
     <string name="title_activity_sound_battle_record">Sound Battle</string>
     <string name="txt_btn_add_friend">Add Friend</string>
+    <string name="img_opponent_profile_picture_desc">Profile picture of opponent.</string>
     <!-- - SOUND BATTLE POINTS -->
     <string name="title_activity_sound_battle_points">Sound Battle Points</string>
     <string name="txt_youve_won">You\'ve won!</string>
@@ -178,5 +179,10 @@
     <string name="options_unregister">Unregister</string>
     <string name="options_clear">Clear</string>
     <string name="options_exit">Exit</string>
+    
+    <!-- About -->
+    <string name="aboutTitle">About</string>
+    <string name="aboutExplanation">Hi, I\'m Philippe De Croock and I have developed this app for my master thesis: \"Generating Sound Level Maps through Gamification\".\n\nBy using this app, you help me with providing test results!\n\nIf you have any questions, please email me at philippe.decroock@student.kuleuven.be.\n\nThanks! </string>
+    
 
 </resources>

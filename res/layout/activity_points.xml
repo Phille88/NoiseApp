@@ -39,7 +39,8 @@
         android:gravity="center_horizontal"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:stretchColumns="*" >
+        android:stretchColumns="*"
+        android:shrinkColumns="0" >
 
        	<TableRow
             android:id="@+id/tableRow4"

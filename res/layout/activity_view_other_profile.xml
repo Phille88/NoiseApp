@@ -53,6 +53,7 @@
                 android:id="@+id/txt_other_points_earned"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:width="0dp"
                 android:text="@string/txt_other_points_earned"
                 android:textSize="@dimen/size_txt_normal" />
 
@@ -77,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_other_battles_won"
+                android:width="0dp"
                 android:textSize="@dimen/size_txt_normal" />
 
             <TextView
@@ -100,6 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_last_sound_checkin"
+                android:width="0dp"
                 android:textSize="@dimen/size_txt_normal" />
 
             <TextView

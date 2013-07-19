@@ -84,11 +84,12 @@ public class NoiseHuntPointsActivity extends Activity {
 			TableRow tr = new TableRow(this);
 			TextView descriptionToAdd = new TextView(this);
 			descriptionToAdd.setText(p.getDescription());
-			descriptionToAdd.setWidth(0);
+			descriptionToAdd.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT));
 			
 			TextView pointToAdd = new TextView(this);
 			pointToAdd.setText("+ " + p.getPoint());
 			pointToAdd.setGravity(Gravity.RIGHT);
+			pointToAdd.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.WRAP_CONTENT,1));
 			
 			tr.addView(descriptionToAdd);
 			tr.addView(pointToAdd);
@@ -99,14 +100,13 @@ public class NoiseHuntPointsActivity extends Activity {
 		for(Badge b : rp.getBadges()){
 			TableRow tr = new TableRow(this);
 			TextView descriptionToAdd = new TextView(this);
-			descriptionToAdd.setText(b.getDescription());
-			descriptionToAdd.setWidth(0);
-//			descriptions.add(descriptionToAdd);
+			descriptionToAdd.setText(b.getDescription());descriptionToAdd.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT));
+			
 			
 			TextView pointToAdd = new TextView(this);
 			pointToAdd.setText("+ " + b.getPoint());
 			pointToAdd.setGravity(Gravity.RIGHT);
-//			points.add(pointToAdd);
+			pointToAdd.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.WRAP_CONTENT,1));
 			
 			tr.addView(descriptionToAdd);
 			tr.addView(pointToAdd);
@@ -123,12 +123,14 @@ public class NoiseHuntPointsActivity extends Activity {
 		descriptionToAdd.setText("Total:");
 		descriptionToAdd.setTextSize(20);
 		descriptionToAdd.setTypeface(null, Typeface.BOLD);
+		descriptionToAdd.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.WRAP_CONTENT));
 		
 		TextView pointToAdd = new TextView(this);
 		pointToAdd.setText("+ " + rp.getTotalPoints());
 		pointToAdd.setTextSize(20);
 		pointToAdd.setTypeface(null, Typeface.BOLD);
 		pointToAdd.setGravity(Gravity.RIGHT);
+		pointToAdd.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.WRAP_CONTENT,1));
 		
 		totalRow.addView(descriptionToAdd);
 		totalRow.addView(pointToAdd);

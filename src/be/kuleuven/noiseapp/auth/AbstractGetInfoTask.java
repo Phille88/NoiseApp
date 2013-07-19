@@ -64,6 +64,7 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDeta
 
 	@Override
 	protected UserDetails doInBackground(Void... params) {
+		android.os.Debug.waitForDebugger();
 		try {
 			return fetchInfoFromGoogleServer();
 		} catch (IOException ex) {
@@ -133,8 +134,10 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDeta
 	}
 
 	private void saveUserProfile(UserDetails userDetails) {
-		saveUserProfileLocal(userDetails);
-		saveUserProfileServer(userDetails); 
+		if(userDetails != null){ //TODO check
+			saveUserProfileLocal(userDetails);
+			saveUserProfileServer(userDetails); 
+		}
 	}
 
 	/**
@@ -151,11 +154,13 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDeta
 	}
 
 	private void saveUserProfileLocal(UserDetails userDetails) {
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
-		Editor edit = sp.edit();
-		edit.putString(MemoryFileNames.USERDETAILS, ObjectSerializer.serialize(userDetails));
-		edit.commit();
-		new ImageDownloaderTask(mActivity, MemoryFileNames.PROFILE_PICTURE).execute(userDetails.getPictureURL());
+		if (userDetails != null){ //TODO check!
+			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
+			Editor edit = sp.edit();
+			edit.putString(MemoryFileNames.USERDETAILS, ObjectSerializer.serialize(userDetails));
+			edit.commit();
+			new ImageDownloaderTask(mActivity, MemoryFileNames.PROFILE_PICTURE).execute(userDetails.getPictureURL());
+		}
 	}
 
 	private void saveUserProfileServer(UserDetails userDetails) {
@@ -201,13 +206,11 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDeta
 	}
 
 	private String getPicture(JSONObject profile) {
-		String toReturn;
 		try {
-			toReturn = profile.getString(PICTURE_KEY);
+			return profile.getString(PICTURE_KEY);
 		} catch (JSONException e) {
 			return "http://i.stack.imgur.com/WmvM0.png";
 		}
-
-		return toReturn;
+		
 	}
 }
