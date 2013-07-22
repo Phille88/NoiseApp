@@ -19,6 +19,8 @@ public class WaitForLoadingTask extends AsyncTask<Void, Void, Void> {
         progressDialog.setMessage("Loading...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setProgress(0);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 	}
 

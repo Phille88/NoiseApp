@@ -352,8 +352,6 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             Log.e("UnRegister Receiver Error", "> " + e.getMessage());
         }
-        Editor edit = sp.edit();
-        edit.commit();
         super.onDestroy();
     }
 

@@ -182,7 +182,7 @@ public class SoundBattleRecordActivity extends RecordActivity {
 			} catch (NotInLeuvenException e) {
 				e.printStackTrace();
 				Toast.makeText(getApplicationContext(),
-						"You are not in Leuven. Restart the application when you are in Leuven.",
+						"You are not in Leuven. Play the battle when you are in Leuven.",
 						Toast.LENGTH_LONG).show();
 				try {
 					Thread.sleep(8000);//TODO testen in Antwerpen!

@@ -64,7 +64,6 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDeta
 
 	@Override
 	protected UserDetails doInBackground(Void... params) {
-		android.os.Debug.waitForDebugger();
 		try {
 			return fetchInfoFromGoogleServer();
 		} catch (IOException ex) {
@@ -78,6 +77,7 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDeta
 	@Override
 	protected void onPostExecute(UserDetails userDetails) {
 		saveUserProfile(userDetails);
+		//TODO zeggen dat de rest mag?
 	}
 
 	protected void onError(String msg, Exception e) {
@@ -154,11 +154,11 @@ public abstract class AbstractGetInfoTask extends AsyncTask<Void, Void, UserDeta
 	}
 
 	private void saveUserProfileLocal(UserDetails userDetails) {
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
+		Editor edit = sp.edit();
+		edit.putString(MemoryFileNames.USERDETAILS, ObjectSerializer.serialize(userDetails));
+		edit.commit();
 		if (userDetails != null){ //TODO check!
-			SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mActivity);
-			Editor edit = sp.edit();
-			edit.putString(MemoryFileNames.USERDETAILS, ObjectSerializer.serialize(userDetails));
-			edit.commit();
 			new ImageDownloaderTask(mActivity, MemoryFileNames.PROFILE_PICTURE).execute(userDetails.getPictureURL());
 		}
 	}
